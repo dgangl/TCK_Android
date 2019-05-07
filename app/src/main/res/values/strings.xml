@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TCK_Android</string>
+    <string name="hint_telephoneNumber">Telefonnummer</string>
+    <string name="hint_name">Name</string>
 </resources>

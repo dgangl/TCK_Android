@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "149043099155",
+    "firebase_url": "https://tck-app-a1572.firebaseio.com",
+    "project_id": "tck-app-a1572",
+    "storage_bucket": "tck-app-a1572.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:149043099155:android:94321660d4df7fe4",
+        "android_client_info": {
+          "package_name": "lab.tck"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "149043099155-fhftlf4c8tcmhrc9v4p15g5g313i2kb3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "lab.tck",
+            "certificate_hash": "12e7a8f875dd7eca218dcda53828464623895794"
+          }
+        },
+        {
+          "client_id": "149043099155-cth6hh00kvm036cn6tkkkkag4vf5pugm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyD1ssnR0KKRiG10GjhvVJwZPvJVVZXcI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "149043099155-cth6hh00kvm036cn6tkkkkag4vf5pugm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "149043099155-e6ij2sk7ubtu6cilgapom39q1uk80e9n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "lab73.TCK"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:149043099155:android:eaedb94740e4eb12",
+        "android_client_info": {
+          "package_name": "lab73.tck"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "149043099155-b6ekflilimr4v6s3h3hb5vrbbch89ril.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "lab73.tck",
+            "certificate_hash": "12e7a8f875dd7eca218dcda53828464623895794"
+          }
+        },
+        {
+          "client_id": "149043099155-cth6hh00kvm036cn6tkkkkag4vf5pugm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyD1ssnR0KKRiG10GjhvVJwZPvJVVZXcI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "149043099155-cth6hh00kvm036cn6tkkkkag4vf5pugm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "149043099155-e6ij2sk7ubtu6cilgapom39q1uk80e9n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "lab73.TCK"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
