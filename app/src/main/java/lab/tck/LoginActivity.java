@@ -29,18 +29,18 @@ import java.util.concurrent.TimeUnit;
 public class LoginActivity extends AppCompatActivity {
     //UI
     private Button loginButton;
-    private EditText phoneNumberEditText;
+    private EditText phoneCodeFirstnameEditText;
     private EditText nameEditText;
 
     //Firebase
-    private FirebaseAuth mAuth;
     FirebaseFirestore db;
     private String codeSent;
     private static String TAG = "PhoneAuth";
     private String phoneVerificationId;
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks verificationCallbacks;
-    private PhoneAuthProvider.ForceResendingToken resendToken;
-    private FirebaseUser user;
+    private PhoneAuthProvider.ForceResendingToken token;
+
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,47 +53,44 @@ public class LoginActivity extends AppCompatActivity {
 
         //UI
         loginButton = (Button) findViewById(R.id.login_button);
-        phoneNumberEditText = (EditText) findViewById(R.id.phoneNumber_editText);
+        phoneCodeFirstnameEditText = (EditText) findViewById(R.id.phoneNumber_editText);
         nameEditText = (EditText) findViewById(R.id.name_editText);
+        nameEditText.setVisibility(View.GONE);
 
         //Login User
-        mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+
+                if (phoneCodeFirstnameEditText.getHint().toString().equals("Telefonnummer")) {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
+                    finish();
+                    /*(PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                            phoneCodeFirstnameEditText.getText().toString(),        // Phone number to verify
+                            60,                 // Timeout duration
+                            TimeUnit.SECONDS,   // Unit of timeout
+                            LoginActivity.this,               // Activity (for callback binding)
+                            mCallbacks);        // OnVerificationStateChangedCallbacks
+                    phoneCodeFirstnameEditText.setHint("Code");
+                    loginButton.setText("Verify Code");*/
+                } else if (phoneCodeFirstnameEditText.getHint().toString().equals("Code")) {
 
+                    phoneCodeFirstnameEditText.setHint("Vorname");
+                    nameEditText.setVisibility(View.VISIBLE);
+                    loginButton.setText("Login");
+                } else {
+                    //send user to db
 
-                /*
-                if(loginButton.getText().toString().toLowerCase() == "login") {
-                    loginButton.setText("code");
-                    sendCode();
-                }else{
-                    verifyCode();
-                }*/
+                }
             }
         });
 
-    }
-
-    public void sendCode(){
-        String phoneNumber = phoneNumberEditText.getText().toString();
-        setUpVerificatonCallbacks();
-
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                phoneNumber,        // Phone number to verify
-                60,                 // Timeout duration
-                TimeUnit.SECONDS,   // Unit of timeout
-                this,               // Activity (for callback binding)
-                verificationCallbacks);
-    }
-
-    private void setUpVerificatonCallbacks(){
-        verificationCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+        mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
                 signInWithPhoneAuthCredential(phoneAuthCredential);
@@ -102,63 +99,42 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onVerificationFailed(FirebaseException e) {
 
-                if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                    // Invalid request
-                    Log.d(TAG, "Invalid credential: " + e.getLocalizedMessage());
-                } else if (e instanceof FirebaseTooManyRequestsException) {
-                    // SMS quota exceeded
-                    Log.d(TAG, "SMS Quota exceeded.");
-                }
-                resendCode();
             }
 
             @Override
-            public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken token) {
+            public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken resendingToken) {
+                super.onCodeSent(verificationId, resendingToken);
+
                 phoneVerificationId = verificationId;
-                resendToken = token;
+                token = resendingToken;
+
             }
         };
     }
 
-    public void verifyCode() {
-
-        String code = phoneNumberEditText.getText().toString();
-
-        PhoneAuthCredential credential =
-                PhoneAuthProvider.getCredential(phoneVerificationId, code);
-        signInWithPhoneAuthCredential(credential);
-    }
-
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+                            FirebaseUser user = task.getResult().getUser();
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                            // ...
+                        } else {
+                            // Sign in failed, display a message and update the UI
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                                // The verification code entered was invalid
+                                loginButton.setText("Error");
+                            }
+                        }
                     }
                 });
-    }
-
-    public void resendCode() {
-
-        String phoneNumber = phoneNumberEditText.getText().toString();
-
-        setUpVerificatonCallbacks();
-
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                phoneNumber,
-                60,
-                TimeUnit.SECONDS,
-                this,
-                verificationCallbacks,
-                resendToken);
     }
 
 
