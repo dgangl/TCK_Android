@@ -141,7 +141,6 @@ public class LoginActivity extends AppCompatActivity {
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // The verification code entered was invalid
                                 loginButton.setText("Error");
-                                System.out.println("test");
                             }
                         }
                     }
