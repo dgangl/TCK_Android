@@ -13,6 +13,9 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
 public class MainActivity extends AppCompatActivity {
     private FirebaseUser user;
     private FirebaseAuth mAuth;
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+
         /*user = mAuth.getCurrentUser();
 
         if(user == null){
@@ -73,4 +77,8 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }*/
     }
+
+
+
+
 }

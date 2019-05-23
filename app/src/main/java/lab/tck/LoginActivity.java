@@ -24,7 +24,12 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
 import java.util.concurrent.TimeUnit;
+
+import Backend.LocalStorage;
+import Backend.Person;
 
 public class LoginActivity extends AppCompatActivity {
     //UI
@@ -46,6 +51,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        saveTestUser();
 
         //Hide TitleBar & StatusBar
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
@@ -121,6 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = task.getResult().getUser();
+                            saveUserLocal();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
@@ -135,6 +143,27 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void saveUserLocal(){
+
+        System.out.println("Saving User");
+        Person p = new Person(nameEditText.getText().toString(), "Nachname", phoneCodeFirstnameEditText.getText().toString(), false, null);
+
+        LocalStorage.saveUser(p);
+        try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("user.csv",MODE_PRIVATE)))){
+            bw.write(p.createCsvString());
+        }catch (Exception x){}
+    }
+
+    private void saveTestUser(){
+        System.err.println("DELETE THIS METHOD");
+        Person p = new Person("Vorname", "Nachname", "+4367761043479", false, null);
+
+        LocalStorage.saveUser(p);
+        try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("user.csv",MODE_PRIVATE)))){
+            bw.write(p.createCsvString());
+        }catch (Exception x){}
     }
 
 
