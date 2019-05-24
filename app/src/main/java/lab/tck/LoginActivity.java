@@ -66,13 +66,16 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String phoneNumber = phoneCodeFirstnameEditText.getText().toString();
                 if (loginButton.getText().equals("Login")) {
-                    sendCode();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    //sendCode();
                 } else if (phoneCodeFirstnameEditText.getHint().toString().equals("okay")) {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 }else{
-                    mCallbacks.onVerificationCompleted();
+
                 }
             }
         });
