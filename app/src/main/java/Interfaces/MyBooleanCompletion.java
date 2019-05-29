@@ -1,5 +1,5 @@
 package Interfaces;
 
-public interface MyBooleanInterface {
+public interface MyBooleanCompletion {
     void onCallback(boolean bool);
 }

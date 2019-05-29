@@ -3,10 +3,12 @@ package Backend;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -16,8 +18,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
-import Interfaces.MyBooleanInterface;
+import Interfaces.MyBooleanCompletion;
 
 public class Entry {
     private Date datum;
@@ -52,7 +55,7 @@ public class Entry {
         teilnemer.add(person);
     }
 
-    public void loadTeilnehmer(final MyBooleanInterface callback){
+    public void loadTeilnehmer(final MyBooleanCompletion callback){
         if(teilnemer != null){
             callback.onCallback(true);
             return;
@@ -89,29 +92,184 @@ public class Entry {
         }
     }
 
-    private void editInState(int isIn, MyBooleanInterface completion){
+    private void editInState(final int isIn, final MyBooleanCompletion completion){
         userIsIn = isIn;
 
         if(id == null || LocalStorage.loadUser() == null){
             return;
         }
 
-        Person user = LocalStorage.loadUser();
+        final Person user = LocalStorage.loadUser();
         addEventToUser(db.collection("Entrys").document(id), user, isIn);
 
-        CollectionReference teilnehmerReference = db.collection("Entrys").document(id).collection("teilnehmer");
+        final CollectionReference teilnehmerReference = db.collection("Entrys").document(id).collection("teilnehmer");
 
         Query personReference = teilnehmerReference.whereEqualTo("number", user.nummer);
 
         personReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                
+            public void onSuccess(QuerySnapshot snapshot) {
+                if (snapshot != null){
+                    if(snapshot.getDocuments().size() < 0){
+
+                        Map<String, Object> map =  new TreeMap<String, Object>();
+                        map.put("isIn", isIn);
+                        map.put("Comment", "");
+                        map.put("isAdmin", true);
+                        map.put("vorname", user.vorname);
+                        map.put("nachname", user.nachname);
+                        map.put("number", user.nummer);
+
+
+                        teilnehmerReference.add(map)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        completion.onCallback(true);
+                                    }
+                                });
+                    }
+
+                    for (DocumentSnapshot doc : snapshot.getDocuments()){
+
+                        doc.getReference().update("isIn", isIn)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                completion.onCallback(true);
+                            }
+                        });
+                    }
+
+
+                }
+                completion.onCallback(false);
             }
         });
 
     }
 
+    public void joinThisEvent(MyBooleanCompletion completion){
+        editInState(1, completion);
+    }
+
+    public void leaveThisEvent(MyBooleanCompletion completion){
+        editInState(-1, completion);
+    }
+
+    public void thinkAboutThisEvent(MyBooleanCompletion completion){
+        editInState(0, completion);
+    }
+
+    public void uploadToDatabase(final MyBooleanCompletion completion){
+
+         db.collection("Entrys")
+                .add(createDictionary())
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        extendedUploadToDatabase(documentReference);
+                        completion.onCallback(true);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        completion.onCallback(false);
+                    }
+                });
+
+
+
+        //Todo: look in the Swift file!
+
+
+
+
+
+    }
+
+    private void extendedUploadToDatabase(DocumentReference ref){
+        Person currentUser = LocalStorage.loadUser();
+
+        //Add the Admin
+        Map<String, Object> teilnehmerMap = new TreeMap<>();
+        teilnehmerMap.put("isIn", 1);
+        teilnehmerMap.put("Comment", "");
+        teilnehmerMap.put("isAdmin", true);
+        teilnehmerMap.put("vorname", currentUser.vorname);
+        teilnehmerMap.put("nachname", currentUser.nachname);
+        teilnehmerMap.put("number", currentUser.nummer);
+
+        ref.collection("teilnehmer").add(teilnehmerMap);
+
+        if(currentUser != null){
+            addEventToUser(ref, currentUser, 1);
+        }
+
+        if(teilnemer == null){
+            teilnemer = new ArrayList<>();
+        }
+        //Add all the Others
+        for (Person person : teilnemer){
+
+            Map<String, Object> othersMap = new TreeMap<>();
+            teilnehmerMap.put("isIn", 0);
+            teilnehmerMap.put("Comment", "");
+            teilnehmerMap.put("isAdmin", false);
+            teilnehmerMap.put("vorname", currentUser.vorname);
+            teilnehmerMap.put("nachname", currentUser.nachname);
+            teilnehmerMap.put("number", currentUser.nummer);
+
+            ref.collection("teilnehmer").add(othersMap);
+
+            addEventToUser(ref, person, 0);
+        }
+    }
+
+    private void addEventToUser(final DocumentReference ref, final Person person, final int isIn){
+        db.collection("Users")
+                .document(person.nummer)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot != null && documentSnapshot.getData() != null){
+                            Map<String, Object> dat = documentSnapshot.getData();
+
+                            if(dat.containsKey("particingEvents")){
+                                Map<String, Integer> partEventsMap = new TreeMap<>();
+                                partEventsMap.put(ref.getId(), isIn);
+                                db.collection("Users").document(person.nummer).update("particingEvents", partEventsMap);
+                            }else{
+                                Map<String, Integer> partEvents = (Map<String, Integer>) dat.get("particingEvents");
+                                partEvents.remove(ref.getId());
+                                partEvents.put(ref.getId(), isIn);
+
+                                db.collection("Users")
+                                        .document(person.nummer)
+                                        .update("particingEvents", partEvents);
+                            }
+                        }
+                    }
+                });
+    }
+
+
+    private Map<String, Object> createDictionary(){
+        Map<String, Object> map = new TreeMap<>();
+
+        map.put("beschreibung", beschreibung);
+        map.put("datum", datum);
+        map.put("dauer", dauer);
+        map.put("privat", privat );
+        map.put("platz", platz);
+        map.put("type", type);
+
+        return map;
+
+
+    }
 
     /////////////////////
     //ANDROID FUNCTIONS//

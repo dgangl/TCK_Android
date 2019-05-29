@@ -2,21 +2,16 @@ package lab.tck;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.Arrays;
+import java.util.Date;
 
+import Backend.Entry;
 import Backend.LocalStorage;
 import Backend.Person;
+import Interfaces.MyBooleanCompletion;
 
 public class Start_Activity extends AppCompatActivity {
 
@@ -28,15 +23,21 @@ public class Start_Activity extends AppCompatActivity {
 
         Person p = readCSV();
 
+        /*Entry entry = new Entry(new Date(), "", null, 2, true, 3, null, "PRIVATSPIEL");
+
+        entry.uploadToDatabase(new MyBooleanCompletion() {
+            @Override
+            public void onCallback(boolean bool) {
+                System.out.println("AAC: " + bool);
+            }
+        });*/
+
         if(p != null){
             LocalStorage.saveUser(p);
             startActivity(new Intent(Start_Activity.this, MainActivity.class));
         }else{
             startActivity(new Intent(Start_Activity.this, LoginActivity.class));
         }
-
-
-
 
 
     }
