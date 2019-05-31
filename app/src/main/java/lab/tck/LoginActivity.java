@@ -71,27 +71,17 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                if (phoneCodeFirstnameEditText.getHint().toString().equals("Telefonnummer")) {
+                String phoneNumber = phoneCodeFirstnameEditText.getText().toString();
+                if (loginButton.getText().equals("Login")) {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
-                    /*(PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                            phoneCodeFirstnameEditText.getText().toString(),        // Phone number to verify
-                            60,                 // Timeout duration
-                            TimeUnit.SECONDS,   // Unit of timeout
-                            LoginActivity.this,               // Activity (for callback binding)
-                            mCallbacks);        // OnVerificationStateChangedCallbacks
-                    phoneCodeFirstnameEditText.setHint("Code");
-                    loginButton.setText("Verify Code");*/
-                } else if (phoneCodeFirstnameEditText.getHint().toString().equals("Code")) {
-
-                    phoneCodeFirstnameEditText.setHint("Vorname");
-                    nameEditText.setVisibility(View.VISIBLE);
-                    loginButton.setText("Login");
-                } else {
-                    //send user to db
+                    //sendCode();
+                } else if (phoneCodeFirstnameEditText.getHint().toString().equals("okay")) {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else{
 
                 }
             }
@@ -100,12 +90,18 @@ public class LoginActivity extends AppCompatActivity {
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
+                // This callback will be invoked in two situations:
+                // 1 - Instant verification. In some cases the phone number can be instantly
+                //     verified without needing to send or enter a verification code.
+                // 2 - Auto-retrieval. On some devices Google Play services can automatically
+                //     detect the incoming verification SMS and perform verification without
+                //     user action.
                 signInWithPhoneAuthCredential(phoneAuthCredential);
             }
 
             @Override
             public void onVerificationFailed(FirebaseException e) {
-
+                loginButton.setText("Error");
             }
 
             @Override
@@ -115,8 +111,23 @@ public class LoginActivity extends AppCompatActivity {
                 phoneVerificationId = verificationId;
                 token = resendingToken;
 
+
+                phoneCodeFirstnameEditText.setText("");
+                phoneCodeFirstnameEditText.setHint("Code");
+                loginButton.setText("Verify Code");
+
             }
         };
+    }
+
+
+    public void sendCode(){
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                phoneCodeFirstnameEditText.getText().toString(),     // Phone number to verify
+                60,                                              // Timeout duration
+                TimeUnit.SECONDS,                                  // Unit of timeout
+                LoginActivity.this,                       // Activity (for callback binding)
+                mCallbacks);                                     // OnVerificationStateChangedCallbacks
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
@@ -128,10 +139,11 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = task.getResult().getUser();
-                            saveUserLocal();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            phoneCodeFirstnameEditText.setText("");
+                            phoneCodeFirstnameEditText.setHint("Vorname");
+                            nameEditText.setVisibility(View.VISIBLE);
+                            loginButton.setText("okay");
+
                             // ...
                         } else {
                             // Sign in failed, display a message and update the UI
