@@ -12,9 +12,18 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import Backend.BackendFeedDatabase;
+import Backend.Entry;
+import Interfaces.MyBooleanCompletion;
+import Interfaces.MyEntryArrayInterface;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseUser user;
@@ -27,16 +36,29 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+
+        BackendFeedDatabase be = new BackendFeedDatabase();
+        be.loadAllEvents(new MyEntryArrayInterface() {
+            @Override
+            public void onCallback(List<Entry> entryList) {
+                entryList.size();
+            }
+        });
+
+
+
         //Hide TitleBar & StatusBar
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         getSupportActionBar().hide();
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
+        BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
         navigation.setOnNavigationItemSelectedListener(navListener);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_container, new FeedFragment())
                 .commit();
+
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =

@@ -23,6 +23,9 @@ public class Start_Activity extends AppCompatActivity {
 
         Person p = readCSV();
 
+        p.loginUser();
+
+
         /*Entry entry = new Entry(new Date(), "", null, 2, true, 3, null, "PRIVATSPIEL");
 
         entry.uploadToDatabase(new MyBooleanCompletion() {
@@ -31,6 +34,8 @@ public class Start_Activity extends AppCompatActivity {
                 System.out.println("AAC: " + bool);
             }
         });*/
+
+
 
         if(p != null){
             LocalStorage.saveUser(p);

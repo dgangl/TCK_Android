@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
 
 import Interfaces.MyBooleanCompletion;
@@ -28,23 +29,33 @@ public class Entry {
     private List<Person> teilnemer;//teilnehmer
     private double dauer;//dauer
     private boolean privat;
-    private int platz;
+    private List<Integer> platz;
     private String id;
     private String type;
 
-    private int userIsIn = -1;
+    public int userIsIn = -1;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    public Entry(Date datum, String beschreibung, List<Person> teilnemer, double dauer, boolean privat, int platz, String id, String type) {
+    public Entry(Date datum, String beschreibung, List<Person> teilnemer, double dauer, boolean privat, List<Long> platz, String id, String type) {
         this.datum = datum;
         this.beschreibung = beschreibung;
         this.teilnemer = teilnemer;
         this.dauer = dauer;
         this.privat = privat;
-        this.platz = platz;
+
+        List<Integer> intList = new ArrayList<>();
+        for (Long l : platz){
+            intList.add(l.intValue());
+        }
+
+        this.platz = intList;
         this.id = id;
         this.type = type;
+    }
+
+    public Entry(String id){
+        this.id = id;
     }
 
     public void addTeilnehmer(Person person){
@@ -163,6 +174,7 @@ public class Entry {
 
     public void uploadToDatabase(final MyBooleanCompletion completion){
 
+
          db.collection("Entrys")
                 .add(createDictionary())
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -178,15 +190,6 @@ public class Entry {
                         completion.onCallback(false);
                     }
                 });
-
-
-
-        //Todo: look in the Swift file!
-
-
-
-
-
     }
 
     private void extendedUploadToDatabase(DocumentReference ref){
@@ -225,6 +228,21 @@ public class Entry {
 
             addEventToUser(ref, person, 0);
         }
+
+        ReservationReturn values = BackendFeedDatabase.createValuesForReservation(datum, (int) dauer);
+        Map<String, List<Integer>> data = new TreeMap<>();
+
+        for (String hour : values.hourStrings){
+            data.remove(hour);
+            data.put(hour, platz);
+        }
+
+        Map<String, Object> temp = new TreeMap<String, Object>();
+        temp.put("Reserviert", data);
+        //TODO: It will overwrite the others!
+        db.collection("Reservations").document(values.dayString).set(temp);
+
+
     }
 
     private void addEventToUser(final DocumentReference ref, final Person person, final int isIn){
@@ -237,7 +255,7 @@ public class Entry {
                         if(documentSnapshot != null && documentSnapshot.getData() != null){
                             Map<String, Object> dat = documentSnapshot.getData();
 
-                            if(dat.containsKey("particingEvents")){
+                            if(dat.containsKey("particingEvents") != true){
                                 Map<String, Integer> partEventsMap = new TreeMap<>();
                                 partEventsMap.put(ref.getId(), isIn);
                                 db.collection("Users").document(person.nummer).update("particingEvents", partEventsMap);
@@ -283,5 +301,19 @@ public class Entry {
                 true,
                 null
         );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Entry entry = (Entry) o;
+        return Objects.equals(id, entry.id);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
     }
 }

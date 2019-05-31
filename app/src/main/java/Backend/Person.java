@@ -1,5 +1,8 @@
 package Backend;
 
+import android.support.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -34,7 +37,8 @@ public class Person {
     }
 
 
-    public void loadAll(final MyPersonArrayCompletion completion){
+    static public void loadAll(final MyPersonArrayCompletion completion){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Useres")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -75,15 +79,20 @@ public class Person {
         });
     }
 
-    
+
     public void loginUser(){
         this.reference = db.collection("Users").document(nummer);
 
-        Map<String, Object> map = new TreeMap<>();
+        final Map<String, Object> map = new TreeMap<>();
         map.put("vorname", vorname);
         map.put("nachname", nachname);
 
-        reference.update(map);
+        reference.update(map).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                reference.set(map);
+            }
+        });
 
         LocalStorage.saveUser(this);
     }
