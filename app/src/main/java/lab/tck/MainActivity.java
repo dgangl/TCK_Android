@@ -51,13 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        BackendFeedDatabase be = new BackendFeedDatabase();
-        be.loadAllEvents(new MyEntryArrayInterface() {
-            @Override
-            public void onCallback(List<Entry> entryList) {
-                System.out.println("AAC" +entryList.size());
-            }
-        });
+
 
 
 

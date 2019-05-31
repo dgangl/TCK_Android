@@ -42,11 +42,22 @@ private FirebaseFirestore db;
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_feed, null);
         feedList = root.findViewById(R.id.feeds);
 
+        System.out.println("Test2 Startet");
         eventArrayList = new ArrayList<>();
+
+        BackendFeedDatabase be = new BackendFeedDatabase();
+        be.loadAllEvents(new MyEntryArrayInterface() {
+            @Override
+            public void onCallback(List<Entry> entryList) {
+                System.out.println("Test3" +entryList.size());
+            }
+        });
+
         BackendFeedDatabase bfd = new BackendFeedDatabase();
         bfd.loadAllEvents(new MyEntryArrayInterface() {
             @Override
             public void onCallback(List<Entry> entryList) {
+                System.out.println("Test2 " + entryList.size());
                 eventArrayList =  entryList;
             }
         });
