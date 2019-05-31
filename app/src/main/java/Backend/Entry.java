@@ -16,6 +16,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -229,18 +230,30 @@ public class Entry {
             addEventToUser(ref, person, 0);
         }
 
-        ReservationReturn values = BackendFeedDatabase.createValuesForReservation(datum, (int) dauer);
-        Map<String, List<Integer>> data = new TreeMap<>();
+        final ReservationReturn values = BackendFeedDatabase.createValuesForReservation(datum, (int) dauer);
+        final Map<String, List<Integer>> data = new TreeMap<>();
 
         for (String hour : values.hourStrings){
             data.remove(hour);
             data.put(hour, platz);
         }
 
-        Map<String, Object> temp = new TreeMap<String, Object>();
-        temp.put("Reserviert", data);
-        //TODO: It will overwrite the others!
-        db.collection("Reservations").document(values.dayString).set(temp);
+        db.collection("Reservations").document(values.dayString).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Map<String, Object> map = documentSnapshot.getData();
+
+                Map<String, List<Integer>> reservated = (Map<String, List<Integer>>) map.get("Reserviert");
+                reservated.putAll(data);
+
+                Map<String, Object> temp = new TreeMap<String, Object>();
+                temp.put("Reserviert", reservated);
+
+                db.collection("Reservations").document(values.dayString).set(temp);
+            }
+        });
+
+
 
 
     }

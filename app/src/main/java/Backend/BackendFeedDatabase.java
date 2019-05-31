@@ -78,6 +78,8 @@ public class BackendFeedDatabase {
                             }
                             completion.onCallback(allEvents);
 
+                        }else{
+                            completion.onCallback(privateEvents);
                         }
                     }
                 })
@@ -129,6 +131,7 @@ public class BackendFeedDatabase {
 
                                 if(counter == events.size()){
                                     completion.onCallback(entries);
+                                    return;
                                 }
                             }
                         });

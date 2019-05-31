@@ -52,16 +52,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        saveTestUser();
+        //saveTestUser();
 
         //Hide TitleBar & StatusBar
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         getSupportActionBar().hide();
 
         //UI
-        loginButton = (Button) findViewById(R.id.login_button);
-        phoneCodeFirstnameEditText = (EditText) findViewById(R.id.phoneNumber_editText);
-        nameEditText = (EditText) findViewById(R.id.name_editText);
+        loginButton = findViewById(R.id.login_button);
+        phoneCodeFirstnameEditText = findViewById(R.id.phoneNumber_editText);
+        nameEditText = findViewById(R.id.name_editText);
         nameEditText.setVisibility(View.GONE);
 
         //Login User
@@ -78,11 +78,11 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
                     //sendCode();
                 } else if (phoneCodeFirstnameEditText.getHint().toString().equals("okay")) {
+                    saveUserLocal();
+
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
-                }else{
-
                 }
             }
         });
@@ -162,6 +162,7 @@ public class LoginActivity extends AppCompatActivity {
         System.out.println("Saving User");
         Person p = new Person(nameEditText.getText().toString(), "Nachname", phoneCodeFirstnameEditText.getText().toString(), false, null);
 
+        p.loginUser();
         LocalStorage.saveUser(p);
         try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("user.csv",MODE_PRIVATE)))){
             bw.write(p.createCsvString());
