@@ -36,12 +36,26 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        List<Long> temp = new ArrayList<>();
+        temp.add(1l);
+        temp.add(2l);
+
+
+        /*Entry entry = new Entry(new Date(), "Erstes Entry", null, 2, true, temp, null, "PRIVATSPIEL");
+        entry.uploadToDatabase(new MyBooleanCompletion() {
+            @Override
+            public void onCallback(boolean bool) {
+                System.out.println("AAC" + bool);
+            }
+        });*/
+
+
 
         BackendFeedDatabase be = new BackendFeedDatabase();
         be.loadAllEvents(new MyEntryArrayInterface() {
             @Override
             public void onCallback(List<Entry> entryList) {
-                entryList.size();
+                System.out.println("AAC" +entryList.size());
             }
         });
 

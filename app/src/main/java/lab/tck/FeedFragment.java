@@ -25,10 +25,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import Backend.Entry;
+
 public class FeedFragment extends Fragment {
 private ListView feedList;
 private FeedListAdapter feedListAdapter;
-private ArrayList<Event> eventArrayList;
+private ArrayList<Entry> eventArrayList;
 private FirebaseFirestore db;
 
     @Nullable

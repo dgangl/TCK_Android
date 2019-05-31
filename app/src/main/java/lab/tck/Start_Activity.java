@@ -23,7 +23,7 @@ public class Start_Activity extends AppCompatActivity {
 
         Person p = readCSV();
 
-        p.loginUser();
+
 
 
         /*Entry entry = new Entry(new Date(), "", null, 2, true, 3, null, "PRIVATSPIEL");
@@ -39,6 +39,7 @@ public class Start_Activity extends AppCompatActivity {
 
         if(p != null){
             LocalStorage.saveUser(p);
+            p.loginUser();
             startActivity(new Intent(Start_Activity.this, MainActivity.class));
         }else{
             startActivity(new Intent(Start_Activity.this, LoginActivity.class));

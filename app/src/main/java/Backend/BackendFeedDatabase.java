@@ -78,6 +78,8 @@ public class BackendFeedDatabase {
                             }
                             completion.onCallback(allEvents);
 
+                        }else{
+                            completion.onCallback(privateEvents);
                         }
                     }
                 })
@@ -107,8 +109,9 @@ public class BackendFeedDatabase {
                     final Map<String, Long> events = (Map<String, Long>) map.get("particingEvents");
                     final List<Entry> entries = new ArrayList<>();
 
-                    if(events.isEmpty()){
+                    if(events == null || events.isEmpty()){
                         completion.onCallback(new ArrayList<Entry>());
+                        return;
                     }
 
 
@@ -128,6 +131,7 @@ public class BackendFeedDatabase {
 
                                 if(counter == events.size()){
                                     completion.onCallback(entries);
+                                    return;
                                 }
                             }
                         });
