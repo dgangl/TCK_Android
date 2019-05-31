@@ -24,11 +24,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import Backend.BackendFeedDatabase;
+import Backend.Entry;
+import Interfaces.MyEntryArrayInterface;
 
 public class FeedFragment extends Fragment {
 private ListView feedList;
 private FeedListAdapter feedListAdapter;
-private ArrayList<Event> eventArrayList;
+private List<Entry> eventArrayList;
 private FirebaseFirestore db;
 
     @Nullable
@@ -37,8 +42,15 @@ private FirebaseFirestore db;
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_feed, null);
         feedList = root.findViewById(R.id.feeds);
 
-
         eventArrayList = new ArrayList<>();
+        BackendFeedDatabase bfd = new BackendFeedDatabase();
+        bfd.loadAllEvents(new MyEntryArrayInterface() {
+            @Override
+            public void onCallback(List<Entry> entryList) {
+                eventArrayList =  entryList;
+            }
+        });
+
         feedListAdapter = new FeedListAdapter(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, eventArrayList);
         feedList.setAdapter(feedListAdapter);
         return root;

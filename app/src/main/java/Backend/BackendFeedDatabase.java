@@ -107,8 +107,9 @@ public class BackendFeedDatabase {
                     final Map<String, Long> events = (Map<String, Long>) map.get("particingEvents");
                     final List<Entry> entries = new ArrayList<>();
 
-                    if(events.isEmpty()){
+                    if(events == null || events.isEmpty()){
                         completion.onCallback(new ArrayList<Entry>());
+                        return;
                     }
 
 

@@ -10,13 +10,16 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class FeedListAdapter extends ArrayAdapter<Event> {
+import Backend.Entry;
+
+public class FeedListAdapter extends ArrayAdapter<Entry> {
     private final LayoutInflater inflater;
     private int resource;
-    private ArrayList<Event> eventArrayList;
+    private List<Entry> eventArrayList;
 
-    public FeedListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Event> object) {
+    public FeedListAdapter(@NonNull Context context, int resource, @NonNull List<Entry> object) {
         super(context, resource, object);
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.resource = resource;
@@ -26,7 +29,7 @@ public class FeedListAdapter extends ArrayAdapter<Event> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        final Event currentEvent = eventArrayList.get(position);
+        final Entry currentEvent = eventArrayList.get(position);
         View listItem = inflater.inflate(R.layout.adapter_feedlist, parent, false);
 
         //((TextView) listItem.findViewById(R.id.feed_title)).setText(currentEvent.getTitle());
