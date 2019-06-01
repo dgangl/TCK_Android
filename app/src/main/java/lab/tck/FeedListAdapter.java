@@ -39,25 +39,14 @@ public class FeedListAdapter extends ArrayAdapter<Entry> {
         super(context, resource, object);
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.resource = resource;
-<<<<<<< HEAD
         this.eventArrayList = object;
-=======
-        this.EntryArrayList = object;
         this.context = context;
->>>>>>> bb427663bff960c63f8a83abb1104254402f02d8
     }
 
     @NonNull
     @Override
-<<<<<<< HEAD
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        final Entry currentEvent = eventArrayList.get(position);
-        View listItem = inflater.inflate(R.layout.adapter_feedlist, parent, false);
-
-        //((TextView) listItem.findViewById(R.id.feed_title)).setText(currentEvent.getTitle());
-=======
     public View getView(int position, @Nullable final View convertView, @NonNull ViewGroup parent) {
-        final Entry currentEntry = EntryArrayList.get(position);
+        final Entry currentEntry = eventArrayList.get(position);
         final View listItem = inflater.inflate(R.layout.adapter_feedlist, parent, false);
 
         ((TextView) listItem.findViewById(R.id.feed_title)).setText(currentEntry.getBeschreibung());
@@ -106,9 +95,15 @@ public class FeedListAdapter extends ArrayAdapter<Entry> {
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    //Start Loading
+                                    final LoadingAnimation loadingAnimation = new LoadingAnimation();
+                                    loadingAnimation.startLoadingAnimation(MainActivity.cont);
                                     currentEntry.joinThisEvent(new MyBooleanCompletion() {
                                         @Override
                                         public void onCallback(boolean bool) {
+                                            notifyDataSetChanged();
+                                            //End Loading
+                                            loadingAnimation.closeLoadingAnimation();
                                             System.out.println("User added successfully");
                                         }
                                     });
@@ -118,11 +113,11 @@ public class FeedListAdapter extends ArrayAdapter<Entry> {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
-                                    dialog.dismiss();
 
                                     currentEntry.thinkAboutThisEvent(new MyBooleanCompletion() {
                                         @Override
                                         public void onCallback(boolean bool) {
+                                            notifyDataSetChanged();
                                             System.out.println("User thinking successfully");
                                         }
                                     });
@@ -134,6 +129,7 @@ public class FeedListAdapter extends ArrayAdapter<Entry> {
                                     currentEntry.leaveThisEvent(new MyBooleanCompletion() {
                                         @Override
                                         public void onCallback(boolean bool) {
+                                            notifyDataSetChanged();
                                             System.out.println("User canceled event" +bool);
                                         }
                                     });
@@ -159,7 +155,6 @@ public class FeedListAdapter extends ArrayAdapter<Entry> {
 
 
 
->>>>>>> bb427663bff960c63f8a83abb1104254402f02d8
 
 
         return listItem;

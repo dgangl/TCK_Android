@@ -43,44 +43,22 @@ private FirebaseFirestore db;
         final ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_feed, null);
         feedList = root.findViewById(R.id.feeds);
 
-<<<<<<< HEAD
         System.out.println("Test2 Startet");
         eventArrayList = new ArrayList<>();
 
-=======
-        System.out.println("Starting Test 1");
->>>>>>> bb427663bff960c63f8a83abb1104254402f02d8
         BackendFeedDatabase be = new BackendFeedDatabase();
         be.loadAllEvents(new MyEntryArrayInterface() {
             @Override
             public void onCallback(List<Entry> entryList) {
-<<<<<<< HEAD
-                System.out.println("Test3" +entryList.size());
-            }
-        });
-
-        BackendFeedDatabase bfd = new BackendFeedDatabase();
-        bfd.loadAllEvents(new MyEntryArrayInterface() {
-            @Override
-            public void onCallback(List<Entry> entryList) {
-                System.out.println("Test2 " + entryList.size());
-                eventArrayList =  entryList;
-            }
-        });
-
-        feedListAdapter = new FeedListAdapter(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, eventArrayList);
-        feedList.setAdapter(feedListAdapter);
-=======
                 System.out.println("AAC" +entryList.size());
 
 
 
-                feedListAdapter = new FeedListAdapter(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, (ArrayList<Entry>) entryList);
+                feedListAdapter = new FeedListAdapter(MainActivity.cont, android.R.layout.simple_list_item_1, entryList);
                 feedList.setAdapter(feedListAdapter);
             }
         });
 
->>>>>>> bb427663bff960c63f8a83abb1104254402f02d8
         return root;
     }
 
