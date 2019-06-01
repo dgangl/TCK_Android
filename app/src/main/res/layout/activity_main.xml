@@ -22,6 +22,9 @@
 
     </FrameLayout>
 
+
+
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="0dp"

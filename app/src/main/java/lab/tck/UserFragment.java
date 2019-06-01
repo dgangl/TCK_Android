@@ -44,13 +44,15 @@ public class UserFragment extends Fragment {
         logout = root.findViewById(R.id.user_logout);
 
         //Set Values
-        firstname.setText(user.vorname);
-        lastname.setText(user.nachname);
+        if(user != null) {
+            firstname.setText(user.vorname);
+            lastname.setText(user.nachname);
 
-        if(user.mitglied == true){
-            member.setText("Jahresmitglied");
-        }else{
-            member.setText("Kein Mitglied");
+            if (user.mitglied == true) {
+                member.setText("Jahresmitglied");
+            } else {
+                member.setText("Kein Mitglied");
+            }
         }
 
         //Buttons
