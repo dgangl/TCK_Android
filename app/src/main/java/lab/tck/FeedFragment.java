@@ -1,5 +1,6 @@
 package lab.tck;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -39,16 +40,21 @@ private FirebaseFirestore db;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_feed, null);
+        final ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_feed, null);
         feedList = root.findViewById(R.id.feeds);
 
+<<<<<<< HEAD
         System.out.println("Test2 Startet");
         eventArrayList = new ArrayList<>();
 
+=======
+        System.out.println("Starting Test 1");
+>>>>>>> bb427663bff960c63f8a83abb1104254402f02d8
         BackendFeedDatabase be = new BackendFeedDatabase();
         be.loadAllEvents(new MyEntryArrayInterface() {
             @Override
             public void onCallback(List<Entry> entryList) {
+<<<<<<< HEAD
                 System.out.println("Test3" +entryList.size());
             }
         });
@@ -64,6 +70,17 @@ private FirebaseFirestore db;
 
         feedListAdapter = new FeedListAdapter(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, eventArrayList);
         feedList.setAdapter(feedListAdapter);
+=======
+                System.out.println("AAC" +entryList.size());
+
+
+
+                feedListAdapter = new FeedListAdapter(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, (ArrayList<Entry>) entryList);
+                feedList.setAdapter(feedListAdapter);
+            }
+        });
+
+>>>>>>> bb427663bff960c63f8a83abb1104254402f02d8
         return root;
     }
 
