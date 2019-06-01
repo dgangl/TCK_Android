@@ -14,6 +14,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -328,5 +329,50 @@ public class Entry {
     public int hashCode() {
 
         return Objects.hash(id);
+    }
+
+
+    public Date getDatum() {
+        return datum;
+    }
+
+    public String getDateString(){
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d. MMMM, HH:mm");
+
+
+        return sdf.format(datum);
+    }
+
+    public String getBeschreibung() {
+        return beschreibung;
+    }
+
+    public List<Person> getTeilnemer() {
+        return teilnemer;
+    }
+
+    public double getDauer() {
+        return dauer;
+    }
+
+    public boolean isPrivat() {
+        return privat;
+    }
+
+    public List<Integer> getPlatz() {
+        return platz;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public int getUserIsIn() {
+        return userIsIn;
     }
 }
