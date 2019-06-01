@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ public class UserFragment extends Fragment {
     private TextView member;
     private Button changeName;
     private Button logout;
+    private ImageView avatar;
 
     @Nullable
     @Override
@@ -42,6 +44,7 @@ public class UserFragment extends Fragment {
         member = root.findViewById(R.id.user_isMember);
         changeName = root.findViewById(R.id.user_changename);
         logout = root.findViewById(R.id.user_logout);
+        avatar = root.findViewById(R.id.user_avatar);
 
         //Set Values
         if(user != null) {
