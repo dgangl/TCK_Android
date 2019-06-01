@@ -1,5 +1,6 @@
 package lab.tck;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,8 +25,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import Backend.BackendFeedDatabase;
 import Backend.Entry;
+import Interfaces.MyEntryArrayInterface;
 
 public class FeedFragment extends Fragment {
 private ListView feedList;
@@ -36,13 +40,23 @@ private FirebaseFirestore db;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_feed, null);
+        final ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_feed, null);
         feedList = root.findViewById(R.id.feeds);
 
+        System.out.println("Starting Test 1");
+        BackendFeedDatabase be = new BackendFeedDatabase();
+        be.loadAllEvents(new MyEntryArrayInterface() {
+            @Override
+            public void onCallback(List<Entry> entryList) {
+                System.out.println("AAC" +entryList.size());
 
-        eventArrayList = new ArrayList<>();
-        feedListAdapter = new FeedListAdapter(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, eventArrayList);
-        feedList.setAdapter(feedListAdapter);
+
+
+                feedListAdapter = new FeedListAdapter(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, (ArrayList<Entry>) entryList);
+                feedList.setAdapter(feedListAdapter);
+            }
+        });
+
         return root;
     }
 
