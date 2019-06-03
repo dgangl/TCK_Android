@@ -3,12 +3,8 @@ package Backend;
 import android.app.usage.UsageEvents;
 import android.support.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnCanceledListener;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -30,7 +26,6 @@ public class BackendFeedDatabase {
     static private int counter = 0;
 
     public void loadAllEvents(final MyEntryArrayInterface completion){
-        counter = 0;
         loadPrivateEvents(new MyEntryArrayInterface() {
             @Override
             public void onCallback(List<Entry> entryList) {
@@ -53,26 +48,21 @@ public class BackendFeedDatabase {
     private void loadPublicEvents(final List<Entry> privateEvents, final MyEntryArrayInterface completion){
         final List<Entry> allEvents = privateEvents;
 
-        System.out.println("public called");
         db.collection("Entrys")
                 .whereEqualTo("privat", false)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        QuerySnapshot snapshot = task.getResult();
+                    public void onSuccess(QuerySnapshot snapshot) {
                         if(snapshot.getDocuments() != null && snapshot.getDocuments().size() > 0){
 
                             for (DocumentSnapshot doc : snapshot.getDocuments()){
                                 boolean contains = privateEvents.contains(new Entry(doc.getId()));
 
-                                Timestamp timestamp = doc.getTimestamp("date");
-                                java.util.Date date = timestamp.toDate();
-
                                 if(contains != true){
                                     Map<String, Object> map = doc.getData();
                                     Entry entry = new Entry(
-                                            date,
+                                            (Date) map.get("date"),
                                             (String) map.get("beschreibung"),
                                             null,
                                             (Double) map.get("dauer"),
@@ -96,22 +86,9 @@ public class BackendFeedDatabase {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        System.out.println("scheiße1");
                         completion.onCallback(allEvents);
                     }
-                })
-        .addOnCanceledListener(new OnCanceledListener() {
-            @Override
-            public void onCanceled() {
-                System.out.println("canceld1e");
-            }
-        })
-        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot snapshot) {
-                System.out.println("succ1");
-            }
-        });
+                });
     }
 
     private void loadPrivateEvents(final MyEntryArrayInterface completion){
@@ -120,14 +97,12 @@ public class BackendFeedDatabase {
             completion.onCallback(new ArrayList<Entry>());
             return;
         }
-        user.reference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        user.reference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
-                DocumentSnapshot documentSnapshot = task.getResult();
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if(documentSnapshot == null || documentSnapshot.getData() == null){
                     completion.onCallback(new ArrayList<Entry>());
-
+                    return;
                 }else{
                     Map<String, Object> map = documentSnapshot.getData();
 
@@ -136,8 +111,8 @@ public class BackendFeedDatabase {
 
                     if(events == null || events.isEmpty()){
                         completion.onCallback(new ArrayList<Entry>());
-
-                    }else{
+                        return;
+                    }
 
 
 
@@ -156,41 +131,27 @@ public class BackendFeedDatabase {
 
                                 if(counter == events.size()){
                                     completion.onCallback(entries);
-
+                                    return;
                                 }
                             }
                         });
-                    }}
+                    }
 
                 }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                System.out.println("FAIL!");
-            }
-        }).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                System.out.println("complete");
             }
         });
     }
 
     private void getit(final String key, final int value, final MyEntryCompletion completion){
         db.collection("Entrys").document(key).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        DocumentSnapshot documentSnapshot = task.getResult();
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if(documentSnapshot != null && documentSnapshot.getData().size() > 0){
                             Map<String,Object> dat = documentSnapshot.getData();
 
-                            Timestamp timestamp = documentSnapshot.getTimestamp("datum");
-                            java.util.Date date = timestamp.toDate();
-
                             Entry entry = new Entry(
-                                    date,
+                                    (Date) dat.get("date"),
                                     (String) dat.get("beschreibung"),
                                     null,
                                     (Double) dat.get("dauer"),
@@ -229,10 +190,9 @@ public class BackendFeedDatabase {
         final List<String> hourStrings = values.hourStrings;
 
         db.collection("Reservations").document(dayString).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        DocumentSnapshot documentSnapshot = task.getResult();
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if(documentSnapshot != null && documentSnapshot.getData() != null){
                             Map<String, List<Integer>> reservations = (Map<String, List<Integer>>) documentSnapshot.getData().get("Reserviert");
 
