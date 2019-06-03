@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     public static Drawable image;
     public static Context cont;
+    TextView tx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         List<Long> temp = new ArrayList<>();
         temp.add(1l);
         temp.add(2l);
+
+         tx = findViewById(R.id.headerTextView);
 
 
         /*Entry entry = new Entry(new Date(), "Erstes Entry", null, 2, true, temp, null, "PRIVATSPIEL");
@@ -96,12 +99,15 @@ public class MainActivity extends AppCompatActivity {
             Fragment selectedFragemnt = null;
             switch (item.getItemId()) {
                 case R.id.nav_feed:
+                    tx.setText("Meine Spiele");
                     selectedFragemnt = new FeedFragment();
                     break;
                 case R.id.nav_calendar:
+                    tx.setText("Platzkalender");
                     selectedFragemnt = new CalendarFragment();
                     break;
                 case R.id.nav_user:
+                    tx.setText("Benutzer");
                     selectedFragemnt = new UserFragment();
                     break;
 

@@ -3,17 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
-    android:background="@drawable/tck_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/tck_background"
     tools:context="lab.tck.MainActivity">
+
+    <TextView
+        android:id="@+id/headerTextView"
+        android:layout_width="384dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="8dp"
+        android:text="Meine Spiele"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:id="@+id/main_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="125dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
@@ -22,8 +34,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
     </FrameLayout>
-
-
 
 
     <android.support.design.widget.BottomNavigationView

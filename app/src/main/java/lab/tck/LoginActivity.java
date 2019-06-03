@@ -73,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String phoneNumber = phoneCodeFirstnameEditText.getText().toString();
                 if (loginButton.getText().equals("Login")) {
+                    saveTestUser();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -171,8 +172,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private void saveTestUser(){
         System.err.println("DELETE THIS METHOD");
-        Person p = new Person("Vorname", "Nachname", "+4367761043479", false, null);
+        Person p = new Person("Paul", "Krenn", "+4367761043479", false, null);
 
+        p.loginUser();
         LocalStorage.saveUser(p);
         try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("user.csv",MODE_PRIVATE)))){
             bw.write(p.createCsvString());

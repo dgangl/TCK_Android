@@ -46,6 +46,9 @@ private FirebaseFirestore db;
         System.out.println("Test2 Startet");
         eventArrayList = new ArrayList<>();
 
+
+        final LoadingAnimation loadingAnimation = new LoadingAnimation();
+        loadingAnimation.startLoadingAnimation(MainActivity.cont);
         BackendFeedDatabase be = new BackendFeedDatabase();
         be.loadAllEvents(new MyEntryArrayInterface() {
             @Override
@@ -56,6 +59,7 @@ private FirebaseFirestore db;
 
                 feedListAdapter = new FeedListAdapter(MainActivity.cont, android.R.layout.simple_list_item_1, entryList);
                 feedList.setAdapter(feedListAdapter);
+                loadingAnimation.closeLoadingAnimation();
             }
         });
 
