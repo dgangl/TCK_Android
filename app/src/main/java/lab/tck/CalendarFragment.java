@@ -16,15 +16,15 @@ public class CalendarFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_feed, null);
+        final ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_calendar, null);
 
         neuEntry = root.findViewById(R.id.calendar_newEntry);
 
         neuEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(., EditorDateAndDurration.class);
-                startActivity(intent);*/
+                Intent intent = new Intent(MainActivity.cont, EditorDateAndDurration.class);
+                startActivity(intent);
             }
         });
 

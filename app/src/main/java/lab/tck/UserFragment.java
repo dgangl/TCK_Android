@@ -102,7 +102,7 @@ public class UserFragment extends Fragment {
 
 
         final Button ok = new Button(context);
-        ok.setBackgroundColor(Color.parseColor("#0575E6"));
+        ok.setBackgroundColor(Color.parseColor("#021B79"));
         ok.setTextColor(Color.WHITE);
         ok.setText("Namen ändern");
         ok.setLayoutParams(buttonLayoutParams);

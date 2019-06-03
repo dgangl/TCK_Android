@@ -1,5 +1,6 @@
 package lab.tck;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,6 +29,7 @@ import Interfaces.MyEntryArrayInterface;
 public class MainActivity extends AppCompatActivity {
     private FirebaseUser user;
     private FirebaseAuth mAuth;
+    public static Context cont;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
+
+        cont = this;
 
         List<Long> temp = new ArrayList<>();
         temp.add(1l);
