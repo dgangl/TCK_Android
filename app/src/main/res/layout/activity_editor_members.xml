@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="lab.tck.EditorDateAndDurration"
+    tools:context="lab.tck.EditorMembers"
     android:background="#021B79">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar1"
+        android:id="@+id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
@@ -31,32 +31,46 @@
         android:layout_margin="10dp">
 
         <TextView
-            android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_weight="1"
+            android:text="Beschreibung" />
 
-        <Button
-            android:id="@+id/editor_datepicker"
+        <EditText
+            android:id="@+id/editor_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Datum/Uhrzeit wählen" />
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="text" />
 
         <TextView
-            android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
-
-        <NumberPicker
-            android:id="@+id/editor_durration"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_weight="1"
+            android:text="Teilnehmer" />
 
         <Button
-            android:id="@+id/editor_choosePlace"
+            android:id="@+id/editor_addMembers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Platz auswählen" />
+            android:layout_weight="1"
+            android:text="+ Teilnehmer hinzufügen" />
+
+        <ListView
+            android:id="@+id/editor_choosenMembers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10000" />
+
+        <Button
+            android:id="@+id/editor_checkEntry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Button" />
+
+
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
