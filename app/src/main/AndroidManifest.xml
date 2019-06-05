@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditorMembers"></activity>
+        <activity android:name=".EditorMembers" android:windowSoftInputMode="adjustPan" ></activity>
         <activity android:name=".EditorPlaces" />
         <activity android:name=".EditorDateAndDurration" />
         <activity
@@ -17,7 +17,7 @@
             android:label="@string/title_activity_main" />
         <activity android:name=".Start_Activity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
