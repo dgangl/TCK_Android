@@ -1,7 +1,9 @@
 package lab.tck;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -9,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,6 +20,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,16 +34,20 @@ import Interfaces.MyEntryArrayInterface;
 public class MainActivity extends AppCompatActivity {
     private FirebaseUser user;
     private FirebaseAuth mAuth;
+    public static Drawable image;
     public static Context cont;
     public static AppCompatActivity activity;
     TextView tx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+
+
+
+        super.onCreate(savedInstanceState);
         activity = this;
+        setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -48,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         temp.add(1l);
         temp.add(2l);
 
-         tx = findViewById(R.id.headerTextView);
+        tx = findViewById(R.id.headerTextView);
 
 
         /*Entry entry = new Entry(new Date(), "Erstes Entry", null, 2, true, temp, null, "PRIVATSPIEL");
@@ -63,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        try {
+            InputStream tempi = getAssets().open("questionmarkimage.jpeg");
+            image = Drawable.createFromStream(tempi, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         //Hide TitleBar & StatusBar
@@ -81,31 +96,31 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment selectedFragemnt = null;
-            switch (item.getItemId()) {
-                case R.id.nav_feed:
-                    tx.setText("Meine Spiele");
-                    selectedFragemnt = new FeedFragment();
-                    break;
-                case R.id.nav_calendar:
-                    tx.setText("Platzkalender");
-                    selectedFragemnt = new CalendarFragment();
-                    break;
-                case R.id.nav_user:
-                    tx.setText("Benutzer");
-                    selectedFragemnt = new UserFragment();
-                    break;
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    Fragment selectedFragemnt = null;
+                    switch (item.getItemId()) {
+                        case R.id.nav_feed:
+                            tx.setText("Meine Spiele");
+                            selectedFragemnt = new FeedFragment();
+                            break;
+                        case R.id.nav_calendar:
+                            tx.setText("Platzkalender");
+                            selectedFragemnt = new CalendarFragment();
+                            break;
+                        case R.id.nav_user:
+                            tx.setText("Benutzer");
+                            selectedFragemnt = new UserFragment();
+                            break;
 
-            }
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.main_container, selectedFragemnt)
-                    .commit();
+                    }
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.main_container, selectedFragemnt)
+                            .commit();
 
-            return true;
-        }
-    };
+                    return true;
+                }
+            };
 
     @Override
     protected void onStart() {
@@ -113,7 +128,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         /*user = mAuth.getCurrentUser();
-
         if(user == null){
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);

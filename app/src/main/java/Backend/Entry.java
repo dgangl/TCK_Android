@@ -14,6 +14,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -80,18 +81,18 @@ public class Entry {
                     .collection("teilnehmer")
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            teilnemer.add(documentToObject(document.getData()));
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    teilnemer.add(documentToObject(document.getData()));
+                                }
+                                callback.onCallback(true);
+                            } else {
+                                callback.onCallback(false);
+                            }
                         }
-                        callback.onCallback(true);
-                    } else {
-                        callback.onCallback(false);
-                    }
-                }
-            });
+                    });
         }
     }
 
@@ -145,12 +146,12 @@ public class Entry {
                     for (DocumentSnapshot doc : snapshot.getDocuments()){
 
                         doc.getReference().update("isIn", isIn)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                completion.onCallback(true);
-                            }
-                        });
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        completion.onCallback(true);
+                                    }
+                                });
                     }
 
 
@@ -176,7 +177,7 @@ public class Entry {
     public void uploadToDatabase(final MyBooleanCompletion completion){
 
 
-         db.collection("Entrys")
+        db.collection("Entrys")
                 .add(createDictionary())
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -328,5 +329,51 @@ public class Entry {
     public int hashCode() {
 
         return Objects.hash(id);
+    }
+
+
+    public Date getDatum() {
+        return datum;
+    }
+
+    public String getDateString(){
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d. MMMM");
+
+
+
+        return sdf.format(datum);
+    }
+
+    public String getBeschreibung() {
+        return beschreibung;
+    }
+
+    public List<Person> getTeilnemer() {
+        return teilnemer;
+    }
+
+    public double getDauer() {
+        return dauer;
+    }
+
+    public boolean isPrivat() {
+        return privat;
+    }
+
+    public List<Integer> getPlatz() {
+        return platz;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public int getUserIsIn() {
+        return userIsIn;
     }
 }

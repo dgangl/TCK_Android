@@ -8,10 +8,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.DownloadListener;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 
 public class CalendarFragment extends Fragment {
     private Button neuEntry;
+
 
     @Nullable
     @Override
@@ -20,10 +24,33 @@ public class CalendarFragment extends Fragment {
 
         neuEntry = root.findViewById(R.id.calendar_newEntry);
 
+        final LoadingAnimation la = new LoadingAnimation();
+        //la.startLoadingAnimation(root.getContext());
+
+        WebView webView = (WebView) root.findViewById(R.id.webview);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                System.out.println("Finished Loading!");
+                //la.closeLoadingAnimation();
+            }
+        });
+
+        webView.loadUrl("https://tck-app-a1572.firebaseapp.com");
+
+
+
+
+
+
         neuEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.cont, EditorDateAndDurration.class);
+                //TODO: Do this back to EditorDateAndDurration
+                Intent intent = new Intent(MainActivity.cont, DetailView.class);
                 startActivity(intent);
             }
         });

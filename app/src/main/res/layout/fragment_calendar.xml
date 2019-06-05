@@ -9,24 +9,21 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <WebView
+            android:id="@+id/webview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:background="@color/colorPrimary"
-            android:orientation="vertical">
+            android:layout_weight="2">
 
-        </LinearLayout>
+        </WebView>
 
         <Button
             android:id="@+id/calendar_newEntry"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="15dp"
-            android:layout_weight="7"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="15"
             android:background="@drawable/round"
             android:text="Neue Reservierung"
             android:textSize="24sp" />

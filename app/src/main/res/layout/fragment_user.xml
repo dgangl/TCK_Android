@@ -8,35 +8,20 @@
 
 
     <Button
-        android:id="@+id/user_changename"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="70dp"
-        android:background="@drawable/gradient_corner_button"
-        android:text="Namen ändern"
-        android:textColor="@android:color/white"
-        android:textSize="28sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-    <Button
         android:id="@+id/user_logout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="70dp"
+        android:layout_marginBottom="90dp"
         android:background="@drawable/round"
         android:text="Logout"
         android:textColor="@android:color/black"
-        android:textSize="30sp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_changename" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/user_avatar"
@@ -58,7 +43,7 @@
         android:layout_marginTop="10dp"
         android:text="firstname"
         android:textColor="@android:color/white"
-        android:textSize="40sp"
+        android:textSize="35sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/user_avatar"
         app:layout_constraintTop_toTopOf="parent" />
@@ -70,7 +55,7 @@
         android:layout_marginStart="10dp"
         android:text="lastname"
         android:textColor="@android:color/white"
-        android:textSize="45sp"
+        android:textSize="40sp"
         app:layout_constraintStart_toEndOf="@+id/user_avatar"
         app:layout_constraintTop_toBottomOf="@+id/user_firstname" />
 
@@ -82,7 +67,7 @@
         android:layout_marginTop="5dp"
         android:text="Jahresmitglied"
         android:textColor="@android:color/white"
-        android:textSize="30sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_lastname" />
 
@@ -94,7 +79,7 @@
         android:layout_marginTop="2dp"
         android:text="Team Club Krenglbach"
         android:textColor="@android:color/white"
-        android:textSize="25sp"
+        android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_isMember" />
 

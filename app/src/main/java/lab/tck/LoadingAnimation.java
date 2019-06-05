@@ -6,6 +6,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -17,8 +18,11 @@ import com.koushikdutta.ion.builder.AnimateGifMode;
 
 public class LoadingAnimation extends AppCompatActivity {
     private  AlertDialog alertDialog;
+    private Context context;
 
     public void startLoadingAnimation(Context context){
+        this.context = context;
+
         ImageView mImageViewFilling =  new ImageView(context);
         mImageViewFilling.setBackground(Drawable.createFromPath("@drawable/round.xml"));
 
@@ -49,6 +53,7 @@ public class LoadingAnimation extends AppCompatActivity {
     }
 
     public void closeLoadingAnimation(){
+
         alertDialog.dismiss();
     }
 }

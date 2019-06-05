@@ -31,7 +31,7 @@ public class UserFragment extends Fragment {
     private TextView firstname;
     private TextView lastname;
     private TextView member;
-    private Button changeName;
+
     private Button logout;
     private ImageView avatar;
 
@@ -49,7 +49,7 @@ public class UserFragment extends Fragment {
         firstname = root.findViewById(R.id.user_firstname);
         lastname = root.findViewById(R.id.user_lastname);
         member = root.findViewById(R.id.user_isMember);
-        changeName = root.findViewById(R.id.user_changename);
+
         logout = root.findViewById(R.id.user_logout);
         avatar = root.findViewById(R.id.user_avatar);
 
@@ -64,14 +64,6 @@ public class UserFragment extends Fragment {
                 member.setText("Kein Mitglied");
             }
         }
-
-        //Buttons
-        changeName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               changeNameFunction(root);
-            }
-        });
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override

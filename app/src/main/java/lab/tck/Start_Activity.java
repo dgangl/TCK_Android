@@ -40,8 +40,10 @@ public class Start_Activity extends AppCompatActivity {
         if(p != null){
             LocalStorage.saveUser(p);
             p.loginUser();
+            finish();
             startActivity(new Intent(Start_Activity.this, MainActivity.class));
         }else{
+            finish();
             startActivity(new Intent(Start_Activity.this, LoginActivity.class));
         }
 
