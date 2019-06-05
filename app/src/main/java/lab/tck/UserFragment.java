@@ -2,6 +2,7 @@ package lab.tck;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
 
 import Backend.LocalStorage;
 import Backend.Person;
@@ -29,6 +34,8 @@ public class UserFragment extends Fragment {
     private Button changeName;
     private Button logout;
     private ImageView avatar;
+
+    private AppCompatActivity activity = MainActivity.activity;
 
     @Nullable
     @Override
@@ -69,7 +76,18 @@ public class UserFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Logout the user
+                //Todo: Logout User
+
+
+
+
+                try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(activity.openFileOutput("user.csv",activity.MODE_PRIVATE)))){
+                    bw.write("");
+                    startActivity(new Intent(activity, Start_Activity.class));
+                }catch (Exception x){
+                    System.out.println("Error!");
+                }
+
             }
         });
 

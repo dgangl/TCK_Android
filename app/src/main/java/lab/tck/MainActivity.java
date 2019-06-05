@@ -30,12 +30,15 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseUser user;
     private FirebaseAuth mAuth;
     public static Context cont;
+    public static AppCompatActivity activity;
     TextView tx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        activity = this;
 
         mAuth = FirebaseAuth.getInstance();
 
