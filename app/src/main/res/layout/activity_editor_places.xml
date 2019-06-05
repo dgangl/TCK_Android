@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
-    tools:context="lab.tck.EditorDateAndDurration">
+    tools:context="lab.tck.EditorPlaces">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
         android:orientation="horizontal">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar1"
+            android:id="@+id/toolbar2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="6dp"
@@ -45,47 +45,35 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="10dp"
+            android:layout_weight="3"
+            android:text="Auf welchem Platz möchtest du spielen?"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
+
+        <ListView
+            android:id="@+id/editor_placeListview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="DATUM UND UHRZEIT"
-            android:textColor="@color/colorAccent"
-            android:textSize="25sp" />
+            android:layout_margin="10dp"
+            android:dividerHeight="20dp"
+            android:divider="@android:color/transparent"/>
 
         <Button
-            android:id="@+id/editor_datepicker"
+            android:id="@+id/editor_addMembers"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:text="Datum und Uhrzeit wählen" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:text="DAUER"
-            android:textColor="@color/colorAccent"
-            android:textSize="25sp" />
-
-        <NumberPicker
-            android:id="@+id/editor_durration"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="10" />
-
-        <Button
-            android:id="@+id/editor_choosePlace"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
+            android:layout_weight="3.1"
             android:background="@drawable/gradient_corner_button"
-            android:text="Platz auswählen"
+            android:text="Teilnehmer hinzufügen"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>
+
 </LinearLayout>

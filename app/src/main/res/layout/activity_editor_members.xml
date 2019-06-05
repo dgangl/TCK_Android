@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
-    tools:context="lab.tck.EditorDateAndDurration">
+    tools:context="lab.tck.EditorMembers">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
         android:orientation="horizontal">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar1"
+            android:id="@+id/toolbar3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="6dp"
@@ -45,47 +45,65 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:text="DATUM UND UHRZEIT"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="BESCHREIBUNG"
             android:textColor="@color/colorAccent"
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:layout_margin="10dp"/>
 
-        <Button
-            android:id="@+id/editor_datepicker"
+        <EditText
+            android:id="@+id/editor_description"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:text="Datum und Uhrzeit wählen" />
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:ems="10"
+            android:inputType="text"
+            android:layout_margin="10dp"/>
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:text="DAUER"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="TEILNEHMER"
             android:textColor="@color/colorAccent"
-            android:textSize="25sp" />
-
-        <NumberPicker
-            android:id="@+id/editor_durration"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="10" />
+            android:textSize="25sp"
+            android:layout_margin="10dp"/>
 
         <Button
-            android:id="@+id/editor_choosePlace"
+            android:id="@+id/editor_addMembers"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="+ Teilnehmer hinzufügen"
+            android:textSize="20sp"
+            android:textColor="@color/colorAccent"
+            android:elevation="10dp"
             android:layout_margin="10dp"
-            android:layout_weight="1"
+            android:background="@drawable/shadow_corner_listitem"/>
+
+        <ListView
+            android:id="@+id/editor_choosenMembers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:layout_margin="10dp"
+            android:dividerHeight="20dp"
+            android:divider="@android:color/transparent"/>
+
+        <Button
+            android:id="@+id/editor_checkEntry"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_weight="3"
             android:background="@drawable/gradient_corner_button"
-            android:text="Platz auswählen"
+            android:text="Details prüfen"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
+
+
     </LinearLayout>
+
 </LinearLayout>

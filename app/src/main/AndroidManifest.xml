@@ -11,6 +11,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".EditorDateAndDurration"
             android:screenOrientation="portrait"/>
+        <activity android:name=".EditorMembers" android:windowSoftInputMode="adjustPan" ></activity>
+        <activity android:name=".EditorPlaces" />
+        
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
@@ -19,7 +22,7 @@
         <activity android:name=".Start_Activity"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

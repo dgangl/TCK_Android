@@ -39,6 +39,10 @@ public class Entry {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    public Entry(){
+
+    }
+
     public Entry(Date datum, String beschreibung, List<Person> teilnemer, double dauer, boolean privat, List<Long> platz, String id, String type) {
         this.datum = datum;
         this.beschreibung = beschreibung;
@@ -331,7 +335,6 @@ public class Entry {
         return Objects.hash(id);
     }
 
-
     public Date getDatum() {
         return datum;
     }
@@ -344,36 +347,79 @@ public class Entry {
 
         return sdf.format(datum);
     }
+    public void setDatum(Date datum) {
+        this.datum = datum;
+    }
 
     public String getBeschreibung() {
         return beschreibung;
+    }
+
+    public void setBeschreibung(String beschreibung) {
+        this.beschreibung = beschreibung;
     }
 
     public List<Person> getTeilnemer() {
         return teilnemer;
     }
 
+    public void setTeilnemer(List<Person> teilnemer) {
+        this.teilnemer = teilnemer;
+    }
+
     public double getDauer() {
         return dauer;
+    }
+
+    public void setDauer(double dauer) {
+        this.dauer = dauer;
     }
 
     public boolean isPrivat() {
         return privat;
     }
 
+    public void setPrivat(boolean privat) {
+        this.privat = privat;
+    }
+
     public List<Integer> getPlatz() {
         return platz;
+    }
+
+    public void setPlatz(List<Integer> platz) {
+        this.platz = platz;
     }
 
     public String getId() {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getType() {
         return type;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public int getUserIsIn() {
         return userIsIn;
+    }
+
+    public void setUserIsIn(int userIsIn) {
+        this.userIsIn = userIsIn;
+    }
+
+    public FirebaseFirestore getDb() {
+        return db;
+    }
+
+    public void setDb(FirebaseFirestore db) {
+        this.db = db;
     }
 }
