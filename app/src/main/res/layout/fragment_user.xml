@@ -39,13 +39,12 @@
         app:layout_constraintTop_toBottomOf="@+id/user_changename" />
 
     <ImageView
-        android:id="@+id/user_avatar"
+        android:id="@+id/imageView"
         android:layout_width="110dp"
         android:layout_height="108dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:background="@drawable/avatar"
-        android:backgroundTint="@color/colorPrimary"
+        android:background="@android:color/holo_blue_bright"
         app:layout_constraintEnd_toStartOf="@+id/user_firstname"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -60,7 +59,7 @@
         android:textColor="@android:color/white"
         android:textSize="40sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/user_avatar"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -71,7 +70,7 @@
         android:text="lastname"
         android:textColor="@android:color/white"
         android:textSize="45sp"
-        app:layout_constraintStart_toEndOf="@+id/user_avatar"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/user_firstname" />
 
     <TextView

@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -33,7 +32,6 @@ public class UserFragment extends Fragment {
     private TextView member;
     private Button changeName;
     private Button logout;
-    private ImageView avatar;
 
     private AppCompatActivity activity = MainActivity.activity;
 
@@ -51,7 +49,6 @@ public class UserFragment extends Fragment {
         member = root.findViewById(R.id.user_isMember);
         changeName = root.findViewById(R.id.user_changename);
         logout = root.findViewById(R.id.user_logout);
-        avatar = root.findViewById(R.id.user_avatar);
 
         //Set Values
         if(user != null) {
@@ -120,7 +117,7 @@ public class UserFragment extends Fragment {
 
 
         final Button ok = new Button(context);
-        ok.setBackgroundColor(Color.parseColor("#021B79"));
+        ok.setBackgroundColor(Color.parseColor("#0575E6"));
         ok.setTextColor(Color.WHITE);
         ok.setText("Namen ändern");
         ok.setLayoutParams(buttonLayoutParams);
