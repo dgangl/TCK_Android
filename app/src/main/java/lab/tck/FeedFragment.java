@@ -24,6 +24,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -55,6 +57,12 @@ private FirebaseFirestore db;
             public void onCallback(List<Entry> entryList) {
                 System.out.println("AAC" +entryList.size());
 
+                Collections.sort(entryList, new Comparator<Entry>() {
+                    @Override
+                    public int compare(Entry o1, Entry o2) {
+                        return o1.getDatum().compareTo(o2.getDatum());
+                    }
+                });
 
 
                 feedListAdapter = new FeedListAdapter(MainActivity.cont, android.R.layout.simple_list_item_1, entryList);

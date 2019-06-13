@@ -27,7 +27,7 @@ public class CalendarFragment extends Fragment {
         final LoadingAnimation la = new LoadingAnimation();
         //la.startLoadingAnimation(root.getContext());
 
-        WebView webView = (WebView) root.findViewById(R.id.webview);
+        WebView webView = root.findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
 
@@ -50,11 +50,10 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //TODO: Do this back to EditorDateAndDurration
-                Intent intent = new Intent(MainActivity.cont, DetailView.class);
+                Intent intent = new Intent(MainActivity.cont, EditorDateAndDurration.class);
                 startActivity(intent);
             }
         });
-
         return root;
 
     }

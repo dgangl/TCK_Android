@@ -56,10 +56,11 @@
             android:id="@+id/editor_description"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="10dp"
             android:layout_weight="3"
             android:ems="10"
-            android:inputType="text"
-            android:layout_margin="10dp"/>
+            android:hint="Sonstiges"
+            android:inputType="text" />
 
         <TextView
             android:layout_width="match_parent"

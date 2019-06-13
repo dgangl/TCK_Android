@@ -58,7 +58,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:text="Datum und Uhrzeit wählen" />
+            android:text="Datum und Uhrzeit wählen"
+            android:background="@drawable/shadow_corner_listitem"
+            android:elevation="10dp"/>
 
         <TextView
             android:layout_width="match_parent"

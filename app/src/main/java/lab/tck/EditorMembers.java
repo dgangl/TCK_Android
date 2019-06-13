@@ -1,10 +1,17 @@
 package lab.tck;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -12,11 +19,13 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import Backend.LocalStorage;
 import Backend.Person;
 import Backend.Places;
 
 public class EditorMembers extends AppCompatActivity {
     private Button buttonCheckEntry;
+    private Button addMember;
     private EditText editTextDescription;
     private ListView listViewMembers;
     private List<Person> members = new ArrayList<>();
@@ -30,6 +39,12 @@ public class EditorMembers extends AppCompatActivity {
         //Actionbar
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         getSupportActionBar().hide();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.parseColor("#021B79"));
+        }
 
         //Toolbar
         Toolbar mToolbar =  findViewById(R.id.toolbar3);
@@ -47,11 +62,11 @@ public class EditorMembers extends AppCompatActivity {
         buttonCheckEntry = findViewById(R.id.editor_checkEntry);
         editTextDescription = findViewById(R.id.editor_description);
         listViewMembers = findViewById(R.id.editor_choosenMembers);
-
+        addMember = findViewById(R.id.editor_addMembers);
 
 
         //ListView
-        members.add(new Person("David", "Gangl", "123", true, null));
+        members.add(LocalStorage.loadUser());
         adapter = new ChooseMembersAdapter(EditorMembers.this, android.R.layout.simple_list_item_1, members);
         listViewMembers.setAdapter(adapter);
 
@@ -60,10 +75,27 @@ public class EditorMembers extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //:TODO detail
-                //Intent intent = new Intent(EditorMembers.this, deiklasseKren.class);
-                //startActivity(intent);
+                LocalStorage.creatingEntry.setTeilnemer(members);
+
+                if(editTextDescription.getText().toString().isEmpty()){
+                    LocalStorage.creatingEntry.setBeschreibung("Sonstiges");
+                }else{
+                    LocalStorage.creatingEntry.setBeschreibung(editTextDescription.getText().toString());
+                }
+
+
+
+                Intent intent = new Intent(EditorMembers.this, DetailView.class);
+                startActivity(intent);
+            }
+        });
+
+        addMember.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
+
 }

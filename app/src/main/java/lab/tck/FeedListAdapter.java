@@ -3,6 +3,7 @@ package lab.tck;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Backend.Entry;
+import Backend.LocalStorage;
 import Interfaces.MyBooleanCompletion;
 
 public class FeedListAdapter extends ArrayAdapter<Entry> {
@@ -49,6 +51,7 @@ public class FeedListAdapter extends ArrayAdapter<Entry> {
         final Entry currentEntry = eventArrayList.get(position);
         final View listItem = inflater.inflate(R.layout.adapter_feedlist, parent, false);
 
+
         ((TextView) listItem.findViewById(R.id.feed_title)).setText(currentEntry.getBeschreibung());
         ((TextView) listItem.findViewById(R.id.feed_description)).setText(currentEntry.getType());
         ((TextView) listItem.findViewById(R.id.feed_dateTime)).setText(currentEntry.getDateString());
@@ -69,6 +72,17 @@ public class FeedListAdapter extends ArrayAdapter<Entry> {
             plaetze = plaetze + ", " + currentEntry.getPlatz().get(i);
         }
         Button b = listItem.findViewById(R.id.button);
+
+        listItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                LocalStorage.creatingEntry = currentEntry;
+
+                Intent intent = new Intent(MainActivity.cont, DetailView.class);
+                MainActivity.cont.startActivity(intent);
+            }
+        });
 
         if(currentEntry.getUserIsIn() == 1){
 

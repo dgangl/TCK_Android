@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.DateFormat;
@@ -28,6 +29,9 @@ import Interfaces.MyIntArrayCompletion;
 public class BackendFeedDatabase {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     static private int counter = 0;
+
+    public BackendFeedDatabase(){
+    }
 
     public void loadAllEvents(final MyEntryArrayInterface completion){
         counter = 0;
@@ -66,7 +70,7 @@ public class BackendFeedDatabase {
                             for (DocumentSnapshot doc : snapshot.getDocuments()){
                                 boolean contains = privateEvents.contains(new Entry(doc.getId()));
 
-                                Timestamp timestamp = doc.getTimestamp("date");
+                                Timestamp timestamp = doc.getTimestamp("datum");
                                 java.util.Date date = timestamp.toDate();
 
                                 if(contains != true){
@@ -216,7 +220,7 @@ public class BackendFeedDatabase {
                 });
     }
 
-    private void freePlace(Date datum, int duration, final MyIntArrayCompletion completion){
+    public void freePlace(Date datum, int duration, final MyIntArrayCompletion completion){
         final Map<Integer, Boolean> freePlaces = new TreeMap<>();
         freePlaces.put(1, true);
         freePlaces.put(2, true);
@@ -234,15 +238,19 @@ public class BackendFeedDatabase {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         DocumentSnapshot documentSnapshot = task.getResult();
                         if(documentSnapshot != null && documentSnapshot.getData() != null){
-                            Map<String, List<Integer>> reservations = (Map<String, List<Integer>>) documentSnapshot.getData().get("Reserviert");
+                            Map<String, List<Long>> reservations = (Map<String, List<Long>>) documentSnapshot.getData().get("Reserviert");
 
                             for (String hour : hourStrings){
 
-                                List<Integer> reservation = reservations.get(hour);
+                                List<Long> reservation = reservations.get(hour);
 
-                                for (Integer place : reservation){
-                                    freePlaces.remove(place);
-                                    freePlaces.put(place, false);
+                                if(reservation != null){
+                                    for (Long place : reservation){
+
+
+                                        freePlaces.remove(place.intValue());
+                                        freePlaces.put(place.intValue(), false);
+                                    }
                                 }
 
 

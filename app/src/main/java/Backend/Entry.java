@@ -248,13 +248,17 @@ public class Entry {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Map<String, Object> map = documentSnapshot.getData();
 
-                Map<String, List<Integer>> reservated = (Map<String, List<Integer>>) map.get("Reserviert");
-                reservated.putAll(data);
+                if(map != null){
+                    Map<String, List<Integer>> reservated = (Map<String, List<Integer>>) map.get("Reserviert");
+                    reservated.putAll(data);
 
-                Map<String, Object> temp = new TreeMap<String, Object>();
-                temp.put("Reserviert", reservated);
+                    Map<String, Object> temp = new TreeMap<String, Object>();
+                    temp.put("Reserviert", reservated);
 
-                db.collection("Reservations").document(values.dayString).set(temp);
+                    db.collection("Reservations").document(values.dayString).set(temp);
+                }
+
+
             }
         });
 

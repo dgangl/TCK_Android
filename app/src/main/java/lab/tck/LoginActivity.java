@@ -1,11 +1,15 @@
 package lab.tck;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -57,6 +61,12 @@ public class LoginActivity extends AppCompatActivity {
         //Hide TitleBar & StatusBar
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         getSupportActionBar().hide();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.parseColor("#021B79"));
+        }
 
         //UI
         loginButton = findViewById(R.id.login_button);
@@ -172,7 +182,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void saveTestUser(){
         System.err.println("DELETE THIS METHOD");
-        Person p = new Person("Paul", "Krenn", "+4367761043479", false, null);
+        Person p = new Person("Paul", "Krenn", "+4367761043478", false, null);
 
         p.loginUser();
         LocalStorage.saveUser(p);

@@ -33,7 +33,7 @@ public class ChooseMembersAdapter extends ArrayAdapter<Person> {
         final Person currentPerson = members.get(position);
         View listItem = inflater.inflate(R.layout.adapter_choosemembers, parent, false);
 
-        ((TextView) listItem.findViewById(R.id.adapter_name)).setText(currentPerson.nachname + " " + currentPerson.nachname);
+        ((TextView) listItem.findViewById(R.id.adapter_name)).setText(currentPerson.vorname + " " + currentPerson.nachname);
 
         return listItem;
 

@@ -1,9 +1,13 @@
 package lab.tck;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -13,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 import Backend.Entry;
+import Backend.LocalStorage;
 import Interfaces.MyBooleanCompletion;
 
 public class DetailView extends AppCompatActivity {
@@ -27,15 +32,27 @@ public class DetailView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        mainEntry = LocalStorage.creatingEntry;
+        mainEntry.setType("PRIVATSPIEL");
+
         setContentView(R.layout.activity_detail_view);
 
-        //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         getSupportActionBar().hide();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.parseColor("#021B79"));
+        }
+
         List<Long> l = new ArrayList<>();
         l.add(3l);
         l.add(4l);
 
-        mainEntry = new Entry(new Date(), "FUNKTIONSSPIEL", null, 2, true, l, null, "I moch di Fertig!");
+
 
         setFields();
         updateFields();
@@ -57,7 +74,7 @@ public class DetailView extends AppCompatActivity {
             return;
         }
 
-        typeText.setText(mainEntry.getType());
+        typeText.setText(mainEntry.getBeschreibung());
         dateText.setText(mainEntry.getDateString());
 
 
@@ -113,18 +130,25 @@ public class DetailView extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
+                final LoadingAnimation loadingAnimation = new LoadingAnimation();
+                loadingAnimation.startLoadingAnimation(DetailView.this);
+
+
+
                 mainEntry.uploadToDatabase(new MyBooleanCompletion() {
                     @Override
                     public void onCallback(boolean bool) {
                         System.out.println("Uploaded successfully");
+
+                        loadingAnimation.closeLoadingAnimation();
+                        LocalStorage.creatingEntry = null;
+                        startActivity(new Intent(DetailView.this, MainActivity.class));
                     }
                 });
-                */
 
-                System.out.println("Finished Clicked");
-                finish();
-                startActivity(new Intent(DetailView.this, MainActivity.class));
+
+
+
             }
         });
     }
