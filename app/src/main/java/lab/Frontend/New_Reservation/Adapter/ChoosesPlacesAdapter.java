@@ -1,4 +1,4 @@
-package lab.tck;
+package lab.Frontend.New_Reservation.Adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -12,10 +12,9 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.Map;
 
-import Backend.Entry;
 import Backend.Places;
+import lab.tck.R;
 
 public class ChoosesPlacesAdapter extends ArrayAdapter<Places> {
     private final LayoutInflater inflater;

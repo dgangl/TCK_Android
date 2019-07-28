@@ -1,13 +1,10 @@
-package lab.tck;
+package lab.Frontend.MainView;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.AssetManager;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -16,20 +13,20 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Space;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
-import Backend.Entry;
+import Backend.Database.Entry;
 import Backend.LocalStorage;
-import Interfaces.MyBooleanCompletion;
+import Backend.CompletionTypes.MyBooleanCompletion;
+import lab.Frontend.LoadingAnimation;
+import lab.Frontend.New_Reservation.Activities.DetailView;
+import lab.tck.R;
 
 public class FeedListAdapter extends ArrayAdapter<Entry> {
     private final LayoutInflater inflater;
@@ -126,12 +123,15 @@ public class FeedListAdapter extends ArrayAdapter<Entry> {
                             .setNeutralButton("Vielleicht", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
-
+                                    //Start Loading
+                                    final LoadingAnimation loadingAnimation = new LoadingAnimation();
+                                    loadingAnimation.startLoadingAnimation(MainActivity.cont);
                                     currentEntry.thinkAboutThisEvent(new MyBooleanCompletion() {
                                         @Override
                                         public void onCallback(boolean bool) {
                                             notifyDataSetChanged();
+                                            //End Loading
+                                            loadingAnimation.closeLoadingAnimation();
                                             System.out.println("User thinking successfully");
                                         }
                                     });
@@ -140,14 +140,18 @@ public class FeedListAdapter extends ArrayAdapter<Entry> {
                             .setNegativeButton("Absagen", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    //Start Loading
+                                    final LoadingAnimation loadingAnimation = new LoadingAnimation();
+                                    loadingAnimation.startLoadingAnimation(MainActivity.cont);
                                     currentEntry.leaveThisEvent(new MyBooleanCompletion() {
                                         @Override
                                         public void onCallback(boolean bool) {
                                             notifyDataSetChanged();
-                                            System.out.println("User canceled event" +bool);
+                                            //End Loading
+                                            loadingAnimation.closeLoadingAnimation();
+                                            System.out.println("User deleted successfully");
                                         }
                                     });
-
                                 }
                             });
 

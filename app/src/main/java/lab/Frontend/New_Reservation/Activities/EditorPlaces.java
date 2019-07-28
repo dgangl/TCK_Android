@@ -1,4 +1,4 @@
-package lab.tck;
+package lab.Frontend.New_Reservation.Activities;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,10 +15,12 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import Backend.BackendFeedDatabase;
+import Backend.Database.BackendFeedDatabase;
 import Backend.LocalStorage;
 import Backend.Places;
-import Interfaces.MyIntArrayCompletion;
+import Backend.CompletionTypes.MyIntArrayCompletion;
+import lab.Frontend.New_Reservation.Adapter.ChoosesPlacesAdapter;
+import lab.tck.R;
 
 public class EditorPlaces extends AppCompatActivity {
     private ListView listViewPlaces;

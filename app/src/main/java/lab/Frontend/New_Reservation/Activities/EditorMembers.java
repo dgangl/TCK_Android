@@ -1,14 +1,11 @@
-package lab.tck;
+package lab.Frontend.New_Reservation.Activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,8 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Backend.LocalStorage;
-import Backend.Person;
-import Backend.Places;
+import Backend.Database.Person;
+import lab.Frontend.New_Reservation.Adapter.ChooseMembersAdapter;
+import lab.tck.R;
 
 public class EditorMembers extends AppCompatActivity {
     private Button buttonCheckEntry;

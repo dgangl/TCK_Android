@@ -1,10 +1,9 @@
-package lab.tck;
+package lab.Frontend.MainView.Fragments;
 
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,7 +23,10 @@ import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 
 import Backend.LocalStorage;
-import Backend.Person;
+import Backend.Database.Person;
+import lab.Frontend.MainView.MainActivity;
+import lab.Frontend.Start_Activity;
+import lab.tck.R;
 
 public class UserFragment extends Fragment {
     private Person user;
@@ -73,7 +75,7 @@ public class UserFragment extends Fragment {
 
 
 
-                try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(activity.openFileOutput("user.csv",activity.MODE_PRIVATE)))){
+                try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(activity.openFileOutput("user.csv", Context.MODE_PRIVATE)))){
                     bw.write("");
                     startActivity(new Intent(activity, Start_Activity.class));
                 }catch (Exception x){

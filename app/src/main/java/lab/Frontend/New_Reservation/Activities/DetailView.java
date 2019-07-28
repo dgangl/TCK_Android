@@ -1,4 +1,4 @@
-package lab.tck;
+package lab.Frontend.New_Reservation.Activities;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,12 +13,14 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import Backend.Entry;
+import Backend.Database.Entry;
 import Backend.LocalStorage;
-import Interfaces.MyBooleanCompletion;
+import Backend.CompletionTypes.MyBooleanCompletion;
+import lab.Frontend.MainView.MainActivity;
+import lab.Frontend.LoadingAnimation;
+import lab.tck.R;
 
 public class DetailView extends AppCompatActivity {
     TextView typeText;

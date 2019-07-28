@@ -1,4 +1,4 @@
-package Backend;
+package Backend.Database;
 
 import android.support.annotation.NonNull;
 
@@ -9,16 +9,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.io.BufferedWriter;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import Interfaces.MyPersonArrayCompletion;
-
-import static android.content.Context.MODE_PRIVATE;
+import Backend.LocalStorage;
+import Backend.CompletionTypes.MyPersonArrayCompletion;
 
 public class Person {
     public String vorname;

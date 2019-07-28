@@ -1,8 +1,6 @@
-package Interfaces;
+package Backend.CompletionTypes;
 
-import java.util.List;
-
-import Backend.Entry;
+import Backend.Database.Entry;
 
 public interface MyEntryCompletion {
     void onCallback(Entry entry);

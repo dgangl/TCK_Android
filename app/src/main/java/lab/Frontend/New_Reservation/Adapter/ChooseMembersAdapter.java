@@ -1,4 +1,4 @@
-package lab.tck;
+package lab.Frontend.New_Reservation.Adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,13 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.List;
 
-import Backend.Person;
-import Backend.Places;
+import Backend.Database.Person;
+import lab.tck.R;
 
 public class ChooseMembersAdapter extends ArrayAdapter<Person> {
     private final LayoutInflater inflater;

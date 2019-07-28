@@ -1,20 +1,16 @@
-package lab.tck;
+package lab.Frontend;
 
-import android.app.ActionBar;
 import android.content.Context;
-import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.view.WindowManager;
-import android.webkit.WebView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.AnimateGifMode;
+
+import lab.tck.R;
 
 public class LoadingAnimation extends AppCompatActivity {
     private  AlertDialog alertDialog;

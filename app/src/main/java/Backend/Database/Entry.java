@@ -1,4 +1,4 @@
-package Backend;
+package Backend.Database;
 
 import android.support.annotation.NonNull;
 
@@ -17,13 +17,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 
-import Interfaces.MyBooleanCompletion;
+import Backend.LocalStorage;
+import Backend.CompletionTypes.MyBooleanCompletion;
 
 public class Entry {
     private Date datum;

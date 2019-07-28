@@ -1,4 +1,4 @@
-package lab.tck;
+package lab.Frontend;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,12 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Date;
 
-import Backend.Entry;
 import Backend.LocalStorage;
-import Backend.Person;
-import Interfaces.MyBooleanCompletion;
+import Backend.Database.Person;
+import lab.Frontend.MainView.MainActivity;
+import lab.tck.R;
 
 public class Start_Activity extends AppCompatActivity {
 

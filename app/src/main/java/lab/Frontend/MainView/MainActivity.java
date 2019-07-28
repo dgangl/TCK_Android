@@ -1,8 +1,6 @@
-package lab.tck;
+package lab.Frontend.MainView;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -12,28 +10,22 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import Backend.BackendFeedDatabase;
-import Backend.Entry;
-import Interfaces.MyBooleanCompletion;
-import Interfaces.MyEntryArrayInterface;
+import lab.Frontend.MainView.Fragments.CalendarFragment;
+import lab.Frontend.MainView.Fragments.FeedFragment;
+import lab.Frontend.MainView.Fragments.UserFragment;
+import lab.tck.R;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseUser user;

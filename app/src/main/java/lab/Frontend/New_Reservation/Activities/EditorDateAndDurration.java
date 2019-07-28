@@ -1,4 +1,4 @@
-package lab.tck;
+package lab.Frontend.New_Reservation.Activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -19,8 +19,9 @@ import android.widget.TimePicker;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import Backend.Entry;
+import Backend.Database.Entry;
 import Backend.LocalStorage;
+import lab.tck.R;
 
 public class EditorDateAndDurration extends AppCompatActivity {
 

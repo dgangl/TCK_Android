@@ -11,18 +11,18 @@
         android:theme="@style/AppTheme">
         <activity android:name="lab73.tck.UserDialog"></activity>
         <activity
-            android:name=".EditorDateAndDurration"
+            android:name="lab.Frontend.New_Reservation.Activities.EditorDateAndDurration"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".EditorMembers"
+            android:name="lab.Frontend.New_Reservation.Activities.EditorMembers"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".EditorPlaces" />
+        <activity android:name="lab.Frontend.New_Reservation.Activities.EditorPlaces" />
         <activity
-            android:name=".MainActivity"
+            android:name="lab.Frontend.MainView.MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Start_Activity"
+            android:name="lab.Frontend.Start_Activity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,10 +31,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name="lab.Frontend.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".DetailView"
+            android:name="lab.Frontend.New_Reservation.Activities.DetailView"
             android:screenOrientation="portrait" />
     </application>
 

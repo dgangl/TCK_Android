@@ -1,6 +1,5 @@
-package Backend;
+package Backend.Database;
 
-import android.app.usage.UsageEvents;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCanceledListener;
@@ -11,10 +10,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,9 +19,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import Interfaces.MyEntryArrayInterface;
-import Interfaces.MyEntryCompletion;
-import Interfaces.MyIntArrayCompletion;
+import Backend.LocalStorage;
+import Backend.CompletionTypes.MyEntryArrayCompletion;
+import Backend.CompletionTypes.MyEntryCompletion;
+import Backend.CompletionTypes.MyIntArrayCompletion;
 
 public class BackendFeedDatabase {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -33,28 +31,33 @@ public class BackendFeedDatabase {
     public BackendFeedDatabase(){
     }
 
-    public void loadAllEvents(final MyEntryArrayInterface completion){
+    public void loadAllEvents(final MyEntryArrayCompletion completion){
         counter = 0;
-        loadPrivateEvents(new MyEntryArrayInterface() {
-            @Override
-            public void onCallback(List<Entry> entryList) {
-                loadPublicEvents(entryList, new MyEntryArrayInterface() {
-                    @Override
-                    public void onCallback(List<Entry> entryList) {
-                        for (Entry e: entryList){
-                            if(e.userIsIn == -1){
-                                entryList.remove(e);
+        try {
+            loadPrivateEvents(new MyEntryArrayCompletion() {
+                @Override
+                public void onCallback(List<Entry> entryList) {
+                    loadPublicEvents(entryList, new MyEntryArrayCompletion() {
+                        @Override
+                        public void onCallback(List<Entry> entryList) {
+                            List<Entry> deleteList = new ArrayList<>();
+                            for (Entry e : entryList) {
+                                if (e.userIsIn == -1) {
+                                    deleteList.add(e);
+                                }
                             }
+                            entryList.removeAll(deleteList);
+                            completion.onCallback(entryList);
                         }
-
-                        completion.onCallback(entryList);
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
+        }catch (Exception e) {
+            completion.onCallback(new ArrayList<Entry>());
+        }
     }
 
-    private void loadPublicEvents(final List<Entry> privateEvents, final MyEntryArrayInterface completion){
+    private void loadPublicEvents(final List<Entry> privateEvents, final MyEntryArrayCompletion completion){
         final List<Entry> allEvents = privateEvents;
 
         System.out.println("public called");
@@ -67,30 +70,30 @@ public class BackendFeedDatabase {
                         QuerySnapshot snapshot = task.getResult();
                         if(snapshot.getDocuments() != null && snapshot.getDocuments().size() > 0){
 
-                            for (DocumentSnapshot doc : snapshot.getDocuments()){
-                                boolean contains = privateEvents.contains(new Entry(doc.getId()));
+                                for (DocumentSnapshot doc : snapshot.getDocuments()) {
+                                    boolean contains = privateEvents.contains(new Entry(doc.getId()));
 
-                                Timestamp timestamp = doc.getTimestamp("datum");
-                                java.util.Date date = timestamp.toDate();
+                                    Timestamp timestamp = doc.getTimestamp("datum");
+                                    java.util.Date date = timestamp.toDate();
 
-                                if(contains != true){
-                                    Map<String, Object> map = doc.getData();
-                                    Entry entry = new Entry(
-                                            date,
-                                            (String) map.get("beschreibung"),
-                                            null,
-                                            (Double) map.get("dauer"),
-                                            false,
-                                            (List<Long>) map.get("platz"),
-                                            doc.getId(),
-                                            (String) map.get("type")
-                                    );
+                                    if (contains != true) {
+                                        Map<String, Object> map = doc.getData();
+                                        Entry entry = new Entry(
+                                                date,
+                                                (String) map.get("beschreibung"),
+                                                null,
+                                                (Double) map.get("dauer"),
+                                                false,
+                                                (List<Long>) map.get("platz"),
+                                                doc.getId(),
+                                                (String) map.get("type")
+                                        );
 
-                                    entry.userIsIn = 0;
-                                    allEvents.add(entry);
+                                        entry.userIsIn = 0;
+                                        allEvents.add(entry);
+                                    }
                                 }
-                            }
-                            completion.onCallback(allEvents);
+                                completion.onCallback(allEvents);
 
                         }else{
                             completion.onCallback(privateEvents);
@@ -118,7 +121,7 @@ public class BackendFeedDatabase {
                 });
     }
 
-    private void loadPrivateEvents(final MyEntryArrayInterface completion){
+    private void loadPrivateEvents(final MyEntryArrayCompletion completion){
         Person user = LocalStorage.loadUser();
         if(user == null || user.reference == null) {
             completion.onCallback(new ArrayList<Entry>());
@@ -232,36 +235,40 @@ public class BackendFeedDatabase {
         String dayString = values.dayString;
         final List<String> hourStrings = values.hourStrings;
 
-        db.collection("Reservations").document(dayString).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        DocumentSnapshot documentSnapshot = task.getResult();
-                        if(documentSnapshot != null && documentSnapshot.getData() != null){
-                            Map<String, List<Long>> reservations = (Map<String, List<Long>>) documentSnapshot.getData().get("Reserviert");
+        try {
+            db.collection("Reservations").document(dayString).get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            DocumentSnapshot documentSnapshot = task.getResult();
+                            if (documentSnapshot != null && documentSnapshot.getData() != null) {
+                                Map<String, List<Long>> reservations = (Map<String, List<Long>>) documentSnapshot.getData().get("Reserviert");
 
-                            for (String hour : hourStrings){
+                                for (String hour : hourStrings) {
 
-                                List<Long> reservation = reservations.get(hour);
+                                    List<Long> reservation = reservations.get(hour);
 
-                                if(reservation != null){
-                                    for (Long place : reservation){
+                                    if (reservation != null) {
+                                        for (Long place : reservation) {
 
 
-                                        freePlaces.remove(place.intValue());
-                                        freePlaces.put(place.intValue(), false);
+                                            freePlaces.remove(place.intValue());
+                                            freePlaces.put(place.intValue(), false);
+                                        }
                                     }
+
+
                                 }
 
-
+                                completion.onCallback(freePlacesMapToArray(freePlaces));
+                            } else {
+                                completion.onCallback(freePlacesMapToArray(freePlaces));
                             }
-
-                            completion.onCallback(freePlacesMapToArray(freePlaces));
-                        }else{
-                            completion.onCallback(freePlacesMapToArray(freePlaces));
                         }
-                    }
-                });
+                    });
+        }catch (Exception e){
+            completion.onCallback(freePlacesMapToArray(freePlaces));
+        }
     }
 
     public static ReservationReturn createValuesForReservation(Date date, Integer duration){

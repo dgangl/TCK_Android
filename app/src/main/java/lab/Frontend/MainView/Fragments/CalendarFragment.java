@@ -1,4 +1,4 @@
-package lab.tck;
+package lab.Frontend.MainView.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,10 +8,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.DownloadListener;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+
+import lab.Frontend.MainView.MainActivity;
+import lab.Frontend.New_Reservation.Activities.EditorDateAndDurration;
+import lab.Frontend.LoadingAnimation;
+import lab.tck.R;
 
 public class CalendarFragment extends Fragment {
     private Button neuEntry;
