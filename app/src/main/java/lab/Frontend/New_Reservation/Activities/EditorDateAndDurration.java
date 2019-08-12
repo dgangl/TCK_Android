@@ -21,13 +21,14 @@ import java.util.Calendar;
 
 import Backend.Database.Entry;
 import Backend.LocalStorage;
+import lab.Frontend.ToastMaker;
 import lab.tck.R;
 
 public class EditorDateAndDurration extends AppCompatActivity {
 
     private Button buttonDatePicker;
-    private NumberPicker pickerDurration;
-    private Button buttonCoosePlace;
+    private NumberPicker pickerDuration;
+    private Button buttonChoosePlace;
     private Calendar c;
     private double durration = 0;
     private DatePickerDialog dpd;
@@ -51,7 +52,7 @@ public class EditorDateAndDurration extends AppCompatActivity {
         }
 
         //Toolbar
-        Toolbar mToolbar =  findViewById(R.id.toolbar1);
+        Toolbar mToolbar = findViewById(R.id.toolbar1);
 
         mToolbar.setNavigationIcon(R.drawable.ic_back_arrow);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -64,17 +65,17 @@ public class EditorDateAndDurration extends AppCompatActivity {
 
         //UI
         buttonDatePicker = findViewById(R.id.editor_datepicker);
-        buttonCoosePlace = findViewById(R.id.editor_choosePlace);
-        pickerDurration = findViewById(R.id.editor_durration);
+        buttonChoosePlace = findViewById(R.id.editor_choosePlace);
+        pickerDuration = findViewById(R.id.editor_durration);
 
-        String[] durrations =  new String[20];
-        for (int i = 1; i  <= 20; i++) {
-            durrations[i-1] = i + " Stunden";
+        String[] durrations = new String[20];
+        for (int i = 1; i <= 20; i++) {
+            durrations[i - 1] = i + " Stunden";
         }
 
-        pickerDurration.setMinValue(1);
-        pickerDurration.setMaxValue(20);
-        pickerDurration.setDisplayedValues(durrations);
+        pickerDuration.setMinValue(1);
+        pickerDuration.setMaxValue(20);
+        pickerDuration.setDisplayedValues(durrations);
 
 
         //Buttons
@@ -111,12 +112,19 @@ public class EditorDateAndDurration extends AppCompatActivity {
         });
 
 
-        buttonCoosePlace.setOnClickListener(new View.OnClickListener() {
+        buttonChoosePlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LocalStorage.creatingEntry.setDauer(pickerDurration.getValue());
-                Intent intent = new Intent(EditorDateAndDurration.this, EditorPlaces.class);
-                startActivity(intent);
+                LocalStorage.creatingEntry.setDauer(pickerDuration.getValue());
+
+                if (LocalStorage.creatingEntry.getDatum() != null) {
+                    Intent intent = new Intent(EditorDateAndDurration.this, EditorPlaces.class);
+                    startActivity(intent);
+                } else {
+                    ToastMaker tm = new ToastMaker();
+
+                    tm.createToast(EditorDateAndDurration.this, "Geben Sie bitte ein Datum und eine Uhrzeit an!");
+                }
             }
         });
 
