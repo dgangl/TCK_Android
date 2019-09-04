@@ -6,6 +6,7 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,6 +21,7 @@ import Backend.LocalStorage;
 import Backend.Places;
 import Backend.CompletionTypes.MyIntArrayCompletion;
 import lab.Frontend.New_Reservation.Adapter.ChoosesPlacesAdapter;
+import lab.Frontend.ToastMaker;
 import lab.tck.R;
 
 public class EditorPlaces extends AppCompatActivity {
@@ -87,8 +89,15 @@ public class EditorPlaces extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addPlatzToEntry();
-                Intent intent = new Intent(EditorPlaces.this, EditorMembers.class);
-                startActivity(intent);
+                Log.e("??????", LocalStorage.creatingEntry.getPlatz().toString());
+                if (LocalStorage.creatingEntry.getPlatz() != null && LocalStorage.creatingEntry.getPlatz().size() > 0) {
+                    Intent intent = new Intent(EditorPlaces.this, EditorMembers.class);
+                    startActivity(intent);
+                } else {
+                    ToastMaker tm = new ToastMaker();
+
+                    tm.createToast(EditorPlaces.this, "Bitte wählen Sie einen Platz/Plätze auf welchen Sie spielen möchten!");
+                }
             }
         });
     }
@@ -101,6 +110,7 @@ public class EditorPlaces extends AppCompatActivity {
             if(p.isTake()){
                 Integer a = Integer.parseInt(p.getPlace().split(" ")[1]);
                 intList.add(a);
+                Log.e("!!!!!!!!!!", a.toString());
             }
 
         }

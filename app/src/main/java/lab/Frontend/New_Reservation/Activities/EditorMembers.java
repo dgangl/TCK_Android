@@ -82,9 +82,10 @@ public class EditorMembers extends AppCompatActivity {
                 }
 
 
+                    Intent intent = new Intent(EditorMembers.this, DetailView.class);
+                    startActivity(intent);
 
-                Intent intent = new Intent(EditorMembers.this, DetailView.class);
-                startActivity(intent);
+
             }
         });
 
