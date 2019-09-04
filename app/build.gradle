@@ -32,5 +32,4 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.koushikdutta.ion:ion:2.+'
     implementation 'org.jetbrains:annotations-java5:15.0'
-
 }

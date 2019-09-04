@@ -70,14 +70,14 @@ public class UserFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Todo: Logout User
-
-
-
-
                 try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(activity.openFileOutput("user.csv", Context.MODE_PRIVATE)))){
+                    LocalStorage.saveUser(null);
                     bw.write("");
-                    startActivity(new Intent(activity, Start_Activity.class));
+
+                    Intent i = new Intent(getActivity(), Start_Activity.class);
+                    i.setFlags(i.FLAG_ACTIVITY_NEW_TASK | i.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(i); // Launch the HomescreenActivity
+                    getActivity().finish();
                 }catch (Exception x){
                     System.out.println("Error!");
                 }
