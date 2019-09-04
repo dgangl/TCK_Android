@@ -126,8 +126,9 @@ public class Entry {
         personReference.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot snapshot) {
+                System.out.println("DDC: Onclomplete");
                 if (snapshot != null){
-                    if(snapshot.getDocuments().size() < 0){
+                    if(snapshot.getDocuments().size() == 0){
 
                         Map<String, Object> map =  new TreeMap<String, Object>();
                         map.put("isIn", isIn);

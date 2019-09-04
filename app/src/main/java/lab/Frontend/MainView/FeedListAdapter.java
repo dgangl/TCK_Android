@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Space;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -35,7 +37,10 @@ public class FeedListAdapter extends ArrayAdapter<Entry> {
     private List<Entry> eventArrayList;
 
     public FeedListAdapter(@NonNull Context context, int resource, @NonNull List<Entry> object) {
+
+
         super(context, resource, object);
+        System.out.println("Called this function!");
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.resource = resource;
         this.eventArrayList = object;
@@ -44,9 +49,17 @@ public class FeedListAdapter extends ArrayAdapter<Entry> {
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable final View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable final View convertView, @NonNull ViewGroup parent) {
         final Entry currentEntry = eventArrayList.get(position);
         final View listItem = inflater.inflate(R.layout.adapter_feedlist, parent, false);
+
+        if(currentEntry.getUserIsIn() == -1){
+            ListView.LayoutParams params = (ListView.LayoutParams) listItem.getLayoutParams();
+            params.height = 0;
+            listItem.setLayoutParams(params);
+
+            return listItem;
+        }
 
 
         ((TextView) listItem.findViewById(R.id.feed_title)).setText(currentEntry.getBeschreibung());
@@ -103,7 +116,7 @@ public class FeedListAdapter extends ArrayAdapter<Entry> {
                     System.out.println("Fundst! a");
                     AlertDialog.Builder bobsebuilder = new AlertDialog.Builder(MainActivity.cont)
                             .setTitle("Beitreten?")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            .setPositiveButton("Zusagen", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     //Start Loading
@@ -146,6 +159,7 @@ public class FeedListAdapter extends ArrayAdapter<Entry> {
                                     currentEntry.leaveThisEvent(new MyBooleanCompletion() {
                                         @Override
                                         public void onCallback(boolean bool) {
+                                            eventArrayList.remove(currentEntry);
                                             notifyDataSetChanged();
                                             //End Loading
                                             loadingAnimation.closeLoadingAnimation();

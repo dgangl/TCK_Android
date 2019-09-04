@@ -190,7 +190,7 @@ public class BackendFeedDatabase {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         DocumentSnapshot documentSnapshot = task.getResult();
-                        if(documentSnapshot != null && documentSnapshot.getData().size() > 0){
+                        if(documentSnapshot != null && documentSnapshot.getData() != null && documentSnapshot.getData().size() > 0){
                             Map<String,Object> dat = documentSnapshot.getData();
 
                             Timestamp timestamp = documentSnapshot.getTimestamp("datum");
