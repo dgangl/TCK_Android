@@ -251,11 +251,16 @@ public class Entry {
 
                 if(map != null){
                     Map<String, List<Integer>> reservated = (Map<String, List<Integer>>) map.get("Reserviert");
-                    reservated.putAll(data);
+
+                    reservated = mergeMap(reservated, data);
 
                     Map<String, Object> temp = new TreeMap<String, Object>();
                     temp.put("Reserviert", reservated);
 
+                    db.collection("Reservations").document(values.dayString).set(temp);
+                }else{
+                    Map<String, Object> temp = new TreeMap<String, Object>();
+                    temp.put("Reserviert", data);
                     db.collection("Reservations").document(values.dayString).set(temp);
                 }
 
@@ -266,6 +271,18 @@ public class Entry {
 
 
 
+    }
+
+    private Map<String, List<Integer>> mergeMap(Map<String, List<Integer>> oldMap, Map<String, List<Integer>> newMap){
+        Map<String, List<Integer>> mergeMap = new TreeMap<>();
+
+        for (String key : oldMap.keySet()) {
+            if(newMap.keySet().contains(key)) {
+                oldMap.get(key).addAll(newMap.get(key));
+            }
+            mergeMap.put(key, oldMap.get(key));
+        }
+        return mergeMap;
     }
 
     private void addEventToUser(final DocumentReference ref, final Person person, final int isIn){

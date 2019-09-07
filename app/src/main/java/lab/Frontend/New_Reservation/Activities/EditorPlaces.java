@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,32 +58,6 @@ public class EditorPlaces extends AppCompatActivity {
             }
         });
 
-
-
-
-        BackendFeedDatabase bfd = new BackendFeedDatabase();
-        bfd.freePlace(LocalStorage.creatingEntry.getDatum(), (int) LocalStorage.creatingEntry.getDauer(), new MyIntArrayCompletion() {
-            @Override
-            public void onCallback(List<Integer> intList) {
-
-                System.out.println("GGA: Loaded Places!" + intList.size());
-                //Listview
-                listViewPlaces = findViewById(R.id.editor_placeListview);
-
-                for (Integer i : intList){
-                    places.add(new Places("Platz " + i, false));
-                }
-
-                adapter = new ChoosesPlacesAdapter(EditorPlaces.this, android.R.layout.simple_list_item_1, places);
-                listViewPlaces.setAdapter(adapter);
-
-            }
-        });
-
-
-
-
-
         //Button
         buttonAddMembers = findViewById(R.id.editor_addMembers);
         buttonAddMembers.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +75,49 @@ public class EditorPlaces extends AppCompatActivity {
                 }
             }
         });
+
+
+
+        BackendFeedDatabase bfd = new BackendFeedDatabase();
+        bfd.freePlace(LocalStorage.creatingEntry.getDatum(), (int) LocalStorage.creatingEntry.getDauer(), new MyIntArrayCompletion() {
+            @Override
+            public void onCallback(List<Integer> intList) {
+
+                System.out.println("GGA: Loaded Places!" + intList.size());
+                //Listview
+                listViewPlaces = findViewById(R.id.editor_placeListview);
+
+                if(intList.size() == 0){
+                    buttonAddMembers.setText("Datum/Uhrzeit ändern");
+
+                    buttonAddMembers.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(EditorPlaces.this, EditorDateAndDurration.class);
+                            startActivity(intent);
+                        }
+                    });
+
+                    TextView headline = findViewById(R.id.editor_textView);
+                    headline.setText("Um diese Zeit ist leider kein Platz mehr frei.");
+                }
+                else {
+                    for (Integer i : intList) {
+                        places.add(new Places("Platz " + i, false));
+                    }
+                }
+                adapter = new ChoosesPlacesAdapter(EditorPlaces.this, android.R.layout.simple_list_item_1, places);
+                listViewPlaces.setAdapter(adapter);
+
+
+            }
+        });
+
+
+
+
+
+
     }
 
     private void addPlatzToEntry(){

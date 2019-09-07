@@ -36,7 +36,7 @@ public class Person {
 
     static public void loadAll(final MyPersonArrayCompletion completion){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Useres")
+        db.collection("Users")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
