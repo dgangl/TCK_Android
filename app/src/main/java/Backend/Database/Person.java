@@ -83,6 +83,7 @@ public class Person {
         final Map<String, Object> map = new TreeMap<>();
         map.put("vorname", vorname);
         map.put("nachname", nachname);
+        map.put("mitglied", mitglied);
 
         reference.update(map).addOnFailureListener(new OnFailureListener() {
             @Override

@@ -38,7 +38,7 @@ public class DetailView extends AppCompatActivity {
 
         mainEntry = LocalStorage.creatingEntry;
         mainEntry.setType("PRIVATSPIEL");
-        mainEntry.setPrivat(false);
+        mainEntry.setPrivat(true);
 
         setContentView(R.layout.activity_detail_view);
 

@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.BufferedWriter;
@@ -168,26 +169,63 @@ public class LoginActivity extends AppCompatActivity {
 
     private void saveUserLocal(){
 
-        System.out.println("Saving User");
-        Person p = new Person(nameEditText.getText().toString(), "Nachname", phoneCodeFirstnameEditText.getText().toString(), false, null);
+        System.out.println("Saving User...");
 
-        p.loginUser();
-        LocalStorage.saveUser(p);
-        try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("user.csv",MODE_PRIVATE)))){
-            bw.write(p.createCsvString());
-        }catch (Exception x){}
+        db.collection("Mitglieder").document("list").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                boolean isMitglied = false;
+
+                if(task.isSuccessful()) {
+                    String mitglieder = (String) task.getResult().getData().get("list");
+
+                    if (mitglieder.contains(phoneCodeFirstnameEditText.getText().toString())) {
+                        isMitglied = true;
+                    }
+                }
+
+                Person p = new Person(nameEditText.getText().toString(), "Nachname", phoneCodeFirstnameEditText.getText().toString(), isMitglied, null);
+
+                p.loginUser();
+                LocalStorage.saveUser(p);
+                try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("user.csv",MODE_PRIVATE)))){
+                    bw.write(p.createCsvString());
+                }catch (Exception x){}
+
+            }
+        });
     }
 
     private void saveTestUser(){
         System.err.println("DELETE THIS METHOD");
-        Person p = new Person("Paul", "Krenn", "+4367761043478", false, null);
 
-        p.loginUser();
-        LocalStorage.saveUser(p);
-        try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("user.csv",MODE_PRIVATE)))){
-            bw.write(p.createCsvString());
-        }catch (Exception x){}
+        db.collection("Mitglieder").document("list").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                boolean isMitglied = false;
+
+                if(task.isSuccessful()) {
+                    String mitglieder = (String) task.getResult().getData().get("list");
+
+                    if (mitglieder.contains(phoneCodeFirstnameEditText.getText().toString())) {
+                        isMitglied = true;
+                    }
+                }
+
+                Person p = new Person("Paul", "Krenn", "+4367761043478", isMitglied, null);
+
+                p.loginUser();
+                LocalStorage.saveUser(p);
+                try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("user.csv",MODE_PRIVATE)))){
+                    bw.write(p.createCsvString());
+                }catch (Exception x){}
+
+            }
+        });
     }
+
 
 
 }

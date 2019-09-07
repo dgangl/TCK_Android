@@ -195,12 +195,18 @@ public class BackendFeedDatabase {
 
                             Timestamp timestamp = documentSnapshot.getTimestamp("datum");
                             java.util.Date date = timestamp.toDate();
-
+                            double dauer = 0.0;
+                            try{
+                                dauer = (Double) dat.get("dauer");
+                            }catch (Exception e){
+                                Long temp = (Long) dat.get("dauer");
+                                dauer = temp.doubleValue();
+                            }
                             Entry entry = new Entry(
                                     date,
                                     (String) dat.get("beschreibung"),
                                     null,
-                                    (Double) dat.get("dauer"),
+                                    dauer,
                                     false,
                                     (List<Long>) dat.get("platz"),
                                     key,
