@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -16,10 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Backend.Database.Entry;
+import Backend.Database.Person;
 import Backend.LocalStorage;
 import Backend.CompletionTypes.MyBooleanCompletion;
+import lab.Frontend.CustomAddMembersDialog;
 import lab.Frontend.MainView.MainActivity;
 import lab.Frontend.LoadingAnimation;
+import lab.Frontend.New_Reservation.Adapter.ChooseMembersAdapter;
 import lab.tck.R;
 
 public class DetailView extends AppCompatActivity {
@@ -28,7 +32,10 @@ public class DetailView extends AppCompatActivity {
     TextView timeText;
     TextView platzText;
     Button confirm;
-
+    private Button addMember;
+    private ListView listViewMembers;
+    private List<Person> members = new ArrayList<>();
+    private ChooseMembersAdapter adapter;
     Entry mainEntry;
 
     @Override
@@ -39,6 +46,12 @@ public class DetailView extends AppCompatActivity {
         mainEntry = LocalStorage.creatingEntry;
         mainEntry.setType("PRIVATSPIEL");
         mainEntry.setPrivat(true);
+
+
+        //ListView
+        members.add(LocalStorage.loadUser());
+        adapter = new ChooseMembersAdapter(DetailView.this, android.R.layout.simple_list_item_1, members);
+        listViewMembers.setAdapter(adapter);
 
         setContentView(R.layout.activity_detail_view);
 
@@ -56,24 +69,26 @@ public class DetailView extends AppCompatActivity {
         l.add(4l);
 
 
-
         setFields();
         updateFields();
         setOnClickListeners();
 
     }
 
-    private void setFields(){
+    private void setFields() {
         typeText = findViewById(R.id.type_text);
         dateText = findViewById(R.id.date_text);
         timeText = findViewById(R.id.time_text);
         platzText = findViewById(R.id.platz_text);
         confirm = findViewById(R.id.button2);
+        addMember = findViewById(R.id.detail_addMembers);
+        listViewMembers = findViewById(R.id.detail_choosenMembers);
+
     }
 
-    private void updateFields(){
+    private void updateFields() {
 
-        if(mainEntry == null){
+        if (mainEntry == null) {
             return;
         }
 
@@ -88,7 +103,7 @@ public class DetailView extends AppCompatActivity {
 
         int end_time = start_time + d.intValue();
 
-        timeText.setText(start_time + ":00 - "+end_time + ":00 Uhr");
+        timeText.setText(start_time + ":00 - " + end_time + ":00 Uhr");
 
         //Set Places
         String plaetze = "Plätze: ";
@@ -101,7 +116,7 @@ public class DetailView extends AppCompatActivity {
         platzText.setText(plaetze);
     }
 
-    private void setOnClickListeners(){
+    private void setOnClickListeners() {
         typeText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,7 +152,6 @@ public class DetailView extends AppCompatActivity {
                 loadingAnimation.startLoadingAnimation(DetailView.this);
 
 
-
                 mainEntry.uploadToDatabase(new MyBooleanCompletion() {
                     @Override
                     public void onCallback(boolean bool) {
@@ -150,8 +164,14 @@ public class DetailView extends AppCompatActivity {
                 });
 
 
+            }
+        });
 
-
+        addMember.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomAddMembersDialog camd = new CustomAddMembersDialog(DetailView.this, members);
+                camd.show();
             }
         });
     }

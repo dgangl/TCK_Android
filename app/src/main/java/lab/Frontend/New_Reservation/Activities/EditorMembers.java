@@ -18,6 +18,7 @@ import java.util.List;
 
 import Backend.LocalStorage;
 import Backend.Database.Person;
+import lab.Frontend.CustomAddMembersDialog;
 import lab.Frontend.New_Reservation.Adapter.ChooseMembersAdapter;
 import lab.tck.R;
 
@@ -59,7 +60,7 @@ public class EditorMembers extends AppCompatActivity {
         //UI
         buttonCheckEntry = findViewById(R.id.editor_checkEntry);
         editTextDescription = findViewById(R.id.editor_description);
-        listViewMembers = findViewById(R.id.editor_choosenMembers);
+        listViewMembers = findViewById(R.id.detail_choosenMembers);
         addMember = findViewById(R.id.editor_addMembers);
 
 
@@ -92,7 +93,8 @@ public class EditorMembers extends AppCompatActivity {
         addMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                CustomAddMembersDialog camd = new CustomAddMembersDialog(EditorMembers.this, members);
+                camd.show();
             }
         });
     }

@@ -139,6 +139,27 @@
 
             !-->
 
+        <Button
+            android:id="@+id/detail_addMembers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_weight="5"
+            android:background="@drawable/shadow_corner_listitem"
+            android:elevation="10dp"
+            android:text="+ Teilnehmer hinzufügen"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp" />
+
+        <ListView
+            android:id="@+id/detail_choosenMembers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_weight="3"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="20dp" />
+
     </LinearLayout>
 
 
