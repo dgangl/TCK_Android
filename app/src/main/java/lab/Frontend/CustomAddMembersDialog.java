@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +22,16 @@ public class CustomAddMembersDialog extends Dialog implements android.view.View.
     public Context c;
     public Button cancel;
     public ListView listView;
-    public List<Person> persons = new ArrayList<>();
+    public List<Person> members = new ArrayList<>();
+    public List<Person> choosenMembers = new ArrayList<>();
     public CustomAddMembersDialogAdapter adapter;
+    public SearchView search;
 
 
-    public CustomAddMembersDialog(Context context) {
+    public CustomAddMembersDialog(Context context, List<Person> choosenMembers) {
         super(context);
         this.c = context;
+        this.choosenMembers = choosenMembers;
     }
 
     @Override
@@ -35,8 +39,33 @@ public class CustomAddMembersDialog extends Dialog implements android.view.View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_add_members_dialog);
 
+
         cancel = findViewById(R.id.custom_add_memebers_dialog_finished_button);
         listView = findViewById(R.id.custom_add_memebers_dialog_listview);
+        search = findViewById(R.id.custom_add_memebers_dialog_searchview);
+
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // do something on text submit
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // do something when text changes
+                List<Person> filtered = new ArrayList<>();
+                for (Person p:members) {
+                    if((p.vorname + " " + p.nachname).contains(newText)){
+                        filtered.add(p);
+                    }
+                }
+                adapter = new CustomAddMembersDialogAdapter(c, android.R.layout.simple_list_item_1, filtered, choosenMembers);
+                listView.setAdapter(adapter);
+                return false;
+            }
+        });
 
         Person.loadAll(new MyPersonArrayCompletion() {
             @Override
@@ -46,13 +75,13 @@ public class CustomAddMembersDialog extends Dialog implements android.view.View.
 
                 for (Person p : personList) {
                     if (!p.nummer.equals(currentUser.nummer)) {
-                        persons.add(p);
+                        members.add(p);
                         Log.e(currentUser.nummer, "!!!");
 
                     }
                 }
 
-                adapter = new CustomAddMembersDialogAdapter(c, android.R.layout.simple_list_item_1, persons);
+                adapter = new CustomAddMembersDialogAdapter(c, android.R.layout.simple_list_item_1, members, choosenMembers);
                 listView.setAdapter(adapter);
             }
         });

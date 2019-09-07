@@ -93,7 +93,7 @@ public class EditorMembers extends AppCompatActivity {
         addMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CustomAddMembersDialog camd = new CustomAddMembersDialog(EditorMembers.this);
+                CustomAddMembersDialog camd = new CustomAddMembersDialog(EditorMembers.this, members);
                 camd.show();
             }
         });

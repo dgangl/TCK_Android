@@ -34,13 +34,14 @@ public class CustomAddMembersDialogAdapter extends ArrayAdapter<Person> {
     private Context c;
 
 
-    public CustomAddMembersDialogAdapter(@NonNull Context context, int resource, @NonNull List<Person> members) {
+    public CustomAddMembersDialogAdapter(@NonNull Context context, int resource, @NonNull List<Person> members, @NonNull List<Person> choosenMembers) {
         super(context, resource, members);
         this.c = context;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.resource = resource;
         this.members = members;
-        choosenMembers.add(LocalStorage.loadUser());
+        this.choosenMembers = choosenMembers;
+
     }
 
     @NonNull
@@ -53,19 +54,23 @@ public class CustomAddMembersDialogAdapter extends ArrayAdapter<Person> {
 
         listViewMembers = (ListView) ((Activity) c).findViewById(R.id.editor_choosenMembers);
 
+        for (Person p : choosenMembers) {
+            if (p.nummer.equals(currentPerson.nummer)) {
+                Log.e("choosenMembers", p.nachname + " " + p.vorname);
+                ((CheckBox) listItem.findViewById(R.id.adapter_customDialogCheckbox)).setChecked(true);
+            }
+        }
 
         ((TextView) listItem.findViewById(R.id.adapter_customDialogTextView)).setText(currentPerson.vorname + " " + currentPerson.nachname);
 
         ((CheckBox) listItem.findViewById(R.id.adapter_customDialogCheckbox)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Log.i("" + isChecked, "!!!!important");
-                Log.i("" + currentPerson.vorname, "!!!!important");
                 if (isChecked) {
                     choosenMembers.add(currentPerson);
-                }else{
-                    for (Person p:choosenMembers) {
-                        if(p.nummer == currentPerson.nummer){
+                } else {
+                    for (Person p : choosenMembers) {
+                        if (p.nummer == currentPerson.nummer) {
                             choosenMembers.remove(p);
 
                         }
