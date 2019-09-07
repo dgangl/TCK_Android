@@ -42,6 +42,8 @@ public class DetailView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_detail_view);
+        setFields();
 
         mainEntry = LocalStorage.creatingEntry;
         mainEntry.setType("PRIVATSPIEL");
@@ -49,11 +51,11 @@ public class DetailView extends AppCompatActivity {
 
 
         //ListView
-        members.add(LocalStorage.loadUser());
+        members.addAll(mainEntry.getTeilnemer());
         adapter = new ChooseMembersAdapter(DetailView.this, android.R.layout.simple_list_item_1, members);
         listViewMembers.setAdapter(adapter);
 
-        setContentView(R.layout.activity_detail_view);
+
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         getSupportActionBar().hide();
@@ -69,7 +71,7 @@ public class DetailView extends AppCompatActivity {
         l.add(4l);
 
 
-        setFields();
+
         updateFields();
         setOnClickListeners();
 

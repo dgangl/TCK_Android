@@ -49,7 +49,7 @@ public class CustomAddMembersDialogAdapter extends ArrayAdapter<Person> {
 
         View editormembers = inflater.inflate(R.layout.activity_editor_members, parent, false);
 
-        listViewMembers = (ListView) ((Activity) c).findViewById(R.id.detail_choosenMembers);
+        listViewMembers = ((Activity) c).findViewById(R.id.detail_choosenMembers);
 
         for (Person p : choosenMembers) {
             if (p.nummer.equals(currentPerson.nummer)) {
@@ -66,12 +66,7 @@ public class CustomAddMembersDialogAdapter extends ArrayAdapter<Person> {
                 if (isChecked) {
                     choosenMembers.add(currentPerson);
                 } else {
-                    for (Person p : choosenMembers) {
-                        if (p.nummer == currentPerson.nummer) {
-                            choosenMembers.remove(p);
-
-                        }
-                    }
+                    choosenMembers.remove(currentPerson);
                 }
                 adapter = new ChooseMembersAdapter(c, android.R.layout.simple_list_item_1, choosenMembers);
                 listViewMembers.setAdapter(adapter);

@@ -13,6 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -223,13 +224,17 @@ public class Entry {
         //Add all the Others
         for (Person person : teilnemer){
 
+            if(person.nummer == currentUser.nummer){
+                continue;
+            }
+
             Map<String, Object> othersMap = new TreeMap<>();
-            teilnehmerMap.put("isIn", 0);
-            teilnehmerMap.put("Comment", "");
-            teilnehmerMap.put("isAdmin", false);
-            teilnehmerMap.put("vorname", currentUser.vorname);
-            teilnehmerMap.put("nachname", currentUser.nachname);
-            teilnehmerMap.put("number", currentUser.nummer);
+            othersMap.put("isIn", 0);
+            othersMap.put("Comment", "");
+            othersMap.put("isAdmin", false);
+            othersMap.put("vorname", person.vorname);
+            othersMap.put("nachname", person.nachname);
+            othersMap.put("number", person.nummer);
 
             ref.collection("teilnehmer").add(othersMap);
 
@@ -298,7 +303,9 @@ public class Entry {
                             if(dat.containsKey("particingEvents") != true){
                                 Map<String, Integer> partEventsMap = new TreeMap<>();
                                 partEventsMap.put(ref.getId(), isIn);
-                                db.collection("Users").document(person.nummer).update("particingEvents", partEventsMap);
+                                Map<String, Object> sendObject = new TreeMap<>();
+                                sendObject.put("particingEvents", partEventsMap);
+                                db.collection("Users").document(person.nummer).set(sendObject, SetOptions.merge());
                             }else{
                                 Map<String, Integer> partEvents = (Map<String, Integer>) dat.get("particingEvents");
                                 partEvents.remove(ref.getId());
