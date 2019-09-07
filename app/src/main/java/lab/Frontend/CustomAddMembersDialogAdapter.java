@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Backend.Database.Person;
-import Backend.LocalStorage;
-import lab.Frontend.New_Reservation.Activities.EditorMembers;
 import lab.Frontend.New_Reservation.Adapter.ChooseMembersAdapter;
 import lab.tck.R;
 
@@ -52,7 +49,7 @@ public class CustomAddMembersDialogAdapter extends ArrayAdapter<Person> {
 
         View editormembers = inflater.inflate(R.layout.activity_editor_members, parent, false);
 
-        listViewMembers = (ListView) ((Activity) c).findViewById(R.id.editor_choosenMembers);
+        listViewMembers = (ListView) ((Activity) c).findViewById(R.id.detail_choosenMembers);
 
         for (Person p : choosenMembers) {
             if (p.nummer.equals(currentPerson.nummer)) {

@@ -60,7 +60,7 @@ public class EditorMembers extends AppCompatActivity {
         //UI
         buttonCheckEntry = findViewById(R.id.editor_checkEntry);
         editTextDescription = findViewById(R.id.editor_description);
-        listViewMembers = findViewById(R.id.editor_choosenMembers);
+        listViewMembers = findViewById(R.id.detail_choosenMembers);
         addMember = findViewById(R.id.editor_addMembers);
 
 

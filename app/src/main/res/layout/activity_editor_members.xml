@@ -84,7 +84,7 @@
             android:background="@drawable/shadow_corner_listitem"/>
 
         <ListView
-            android:id="@+id/editor_choosenMembers"
+            android:id="@+id/detail_choosenMembers"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="2"

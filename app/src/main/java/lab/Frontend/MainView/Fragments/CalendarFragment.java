@@ -90,7 +90,7 @@ public class CalendarFragment extends Fragment {
         neuEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.cont, EditorMembers.class); // TODO EditorDateAndDurration
+                Intent intent = new Intent(MainActivity.cont, EditorDateAndDurration.class); // TODO EditorDateAndDurration
                 startActivity(intent);
             }
         });
