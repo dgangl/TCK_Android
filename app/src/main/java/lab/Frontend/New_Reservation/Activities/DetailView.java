@@ -51,6 +51,9 @@ public class DetailView extends AppCompatActivity {
 
 
         //ListView
+        if(mainEntry.getTeilnemer() == null){
+            mainEntry.setTeilnemer(new ArrayList<Person>());
+        }
         members.addAll(mainEntry.getTeilnemer());
         adapter = new ChooseMembersAdapter(DetailView.this, android.R.layout.simple_list_item_1, members);
         listViewMembers.setAdapter(adapter);

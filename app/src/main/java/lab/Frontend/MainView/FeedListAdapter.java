@@ -87,10 +87,20 @@ public class FeedListAdapter extends ArrayAdapter<Entry> {
             @Override
             public void onClick(View v) {
 
-                LocalStorage.creatingEntry = currentEntry;
+                final LoadingAnimation la = new LoadingAnimation();
+                la.startLoadingAnimation(MainActivity.cont);
 
-                Intent intent = new Intent(MainActivity.cont, DetailView.class);
-                MainActivity.cont.startActivity(intent);
+                currentEntry.loadTeilnehmer(new MyBooleanCompletion() {
+                    @Override
+                    public void onCallback(boolean bool) {
+                        LocalStorage.creatingEntry = currentEntry;
+
+                        la.closeLoadingAnimation();
+                        Intent intent = new Intent(MainActivity.cont, DetailView.class);
+                        MainActivity.cont.startActivity(intent);
+                    }
+                });
+
             }
         });
 
