@@ -39,6 +39,13 @@ public class CustomAddMembersDialogAdapter extends ArrayAdapter<Person> {
         this.members = members;
         this.choosenMembers = choosenMembers;
 
+        for (Person p : choosenMembers) {
+
+            Log.e(p.nummer, "CurrentChoosen!!!");
+
+
+        }
+
     }
 
     @NonNull
@@ -51,11 +58,11 @@ public class CustomAddMembersDialogAdapter extends ArrayAdapter<Person> {
 
         listViewMembers = ((Activity) c).findViewById(R.id.detail_choosenMembers);
 
-        for (Person p : choosenMembers) {
+        for (Person p:choosenMembers) {
             if (p.nummer.equals(currentPerson.nummer)) {
-                Log.e("choosenMembers", p.nachname + " " + p.vorname);
                 ((CheckBox) listItem.findViewById(R.id.adapter_customDialogCheckbox)).setChecked(true);
             }
+            Log.i("ahdfjfa", p.nachname + " " + p.vorname);
         }
 
         ((TextView) listItem.findViewById(R.id.adapter_customDialogTextView)).setText(currentPerson.vorname + " " + currentPerson.nachname);
@@ -70,6 +77,10 @@ public class CustomAddMembersDialogAdapter extends ArrayAdapter<Person> {
                 }
                 adapter = new ChooseMembersAdapter(c, android.R.layout.simple_list_item_1, choosenMembers);
                 listViewMembers.setAdapter(adapter);
+
+                for (Person p : choosenMembers) {
+                    Log.e(p.nachname + " " + p.vorname, "ChoosenMembers");
+                }
             }
         });
 

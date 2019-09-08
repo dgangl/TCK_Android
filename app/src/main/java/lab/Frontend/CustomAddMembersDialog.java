@@ -70,7 +70,6 @@ public class CustomAddMembersDialog extends Dialog implements android.view.View.
         Person.loadAll(new MyPersonArrayCompletion() {
             @Override
             public void onCallback(List<Person> personList) {
-                Log.i("test", "!!!");
                 Person currentUser = LocalStorage.loadUser();
 
                 for (Person p : personList) {

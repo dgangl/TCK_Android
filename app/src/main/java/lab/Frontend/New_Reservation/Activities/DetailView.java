@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -34,7 +35,7 @@ public class DetailView extends AppCompatActivity {
     Button confirm;
     private Button addMember;
     private ListView listViewMembers;
-    private List<Person> members = new ArrayList<>();
+    private List<Person>  members = new ArrayList<>();
     private ChooseMembersAdapter adapter;
     Entry mainEntry;
 

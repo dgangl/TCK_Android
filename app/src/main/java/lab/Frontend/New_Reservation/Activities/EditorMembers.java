@@ -81,12 +81,8 @@ public class EditorMembers extends AppCompatActivity {
                 }else{
                     LocalStorage.creatingEntry.setBeschreibung(editTextDescription.getText().toString());
                 }
-
-
                     Intent intent = new Intent(EditorMembers.this, DetailView.class);
                     startActivity(intent);
-
-
             }
         });
 
