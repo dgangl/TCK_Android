@@ -97,6 +97,7 @@ public class FeedListAdapter extends ArrayAdapter<Entry> {
 
                         la.closeLoadingAnimation();
                         Intent intent = new Intent(MainActivity.cont, DetailView.class);
+                        intent.putExtra("caller", "Ändern");
                         MainActivity.cont.startActivity(intent);
                     }
                 });

@@ -35,7 +35,7 @@ public class DetailView extends AppCompatActivity {
     Button confirm;
     private Button addMember;
     private ListView listViewMembers;
-    private List<Person>  members = new ArrayList<>();
+    private List<Person> members = new ArrayList<>();
     private ChooseMembersAdapter adapter;
     Entry mainEntry;
 
@@ -46,19 +46,23 @@ public class DetailView extends AppCompatActivity {
         setContentView(R.layout.activity_detail_view);
         setFields();
 
+        String caller = getIntent().getStringExtra("caller");
+        if(caller != null || caller.equals("Ändern")){
+            confirm.setText(caller);
+        }
+
         mainEntry = LocalStorage.creatingEntry;
         mainEntry.setType("PRIVATSPIEL");
         mainEntry.setPrivat(true);
 
 
         //ListView
-        if(mainEntry.getTeilnemer() == null){
+        if (mainEntry.getTeilnemer() == null) {
             mainEntry.setTeilnemer(new ArrayList<Person>());
         }
         members.addAll(mainEntry.getTeilnemer());
         adapter = new ChooseMembersAdapter(DetailView.this, android.R.layout.simple_list_item_1, members);
         listViewMembers.setAdapter(adapter);
-
 
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
@@ -75,18 +79,18 @@ public class DetailView extends AppCompatActivity {
         l.add(4l);
 
 
-
         updateFields();
         setOnClickListeners();
 
     }
 
     private void setFields() {
+
         typeText = findViewById(R.id.type_text);
         dateText = findViewById(R.id.date_text);
         timeText = findViewById(R.id.time_text);
         platzText = findViewById(R.id.platz_text);
-        confirm = findViewById(R.id.button2);
+        confirm = findViewById(R.id.detail_button);
         addMember = findViewById(R.id.detail_addMembers);
         listViewMembers = findViewById(R.id.detail_choosenMembers);
 
@@ -157,19 +161,24 @@ public class DetailView extends AppCompatActivity {
                 final LoadingAnimation loadingAnimation = new LoadingAnimation();
                 loadingAnimation.startLoadingAnimation(DetailView.this);
 
-
-                mainEntry.uploadToDatabase(new MyBooleanCompletion() {
-                    @Override
-                    public void onCallback(boolean bool) {
-                        System.out.println("Uploaded successfully");
-
-                        loadingAnimation.closeLoadingAnimation();
-                        LocalStorage.creatingEntry = null;
-                        startActivity(new Intent(DetailView.this, MainActivity.class));
-                    }
-                });
+                if(confirm.getText().equals("Ändern")){
+                    //Todo: Edit current Entry
 
 
+                }else {
+                    mainEntry.uploadToDatabase(new MyBooleanCompletion() {
+                        @Override
+                        public void onCallback(boolean bool) {
+                            System.out.println("Uploaded successfully");
+
+                            loadingAnimation.closeLoadingAnimation();
+                            LocalStorage.creatingEntry = null;
+                        }
+                    });
+                }
+
+
+                startActivity(new Intent(DetailView.this, MainActivity.class));
             }
         });
 
