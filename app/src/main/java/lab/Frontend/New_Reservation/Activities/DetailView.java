@@ -164,7 +164,6 @@ public class DetailView extends AppCompatActivity {
                 if(confirm.getText().equals("Ändern")){
                     //Todo: Edit current Entry
 
-
                 }else {
                     mainEntry.uploadToDatabase(new MyBooleanCompletion() {
                         @Override

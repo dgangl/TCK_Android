@@ -15,6 +15,7 @@ import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,7 +46,9 @@ public class LoginActivity extends AppCompatActivity {
     private String codeSent;
     private static String TAG = "PhoneAuth";
     private String phoneVerificationId;
+    private String phoneNumber;
     private PhoneAuthProvider.ForceResendingToken token;
+    private int loginSteps = 0;
 
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     private FirebaseAuth mAuth;
@@ -80,16 +83,14 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String phoneNumber = phoneCodeFirstnameEditText.getText().toString();
-                if (loginButton.getText().equals("Login")) {
-                    saveTestUser();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                    //sendCode();
-                } else if (phoneCodeFirstnameEditText.getHint().toString().equals("okay")) {
+                if (loginSteps == 0 && phoneCodeFirstnameEditText.getText().toString() != null) {
+                    phoneNumber = phoneCodeFirstnameEditText.getText().toString();
+                    sendVerificationCode(phoneNumber);
+                    loginSteps++;
+                } else if (loginSteps == 1 && phoneCodeFirstnameEditText.getText().toString().equals(phoneVerificationId)) {
+                    loginSteps++;
+                } else if (phoneCodeFirstnameEditText != null && nameEditText != null) {
                     saveUserLocal();
-
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -106,12 +107,18 @@ public class LoginActivity extends AppCompatActivity {
                 // 2 - Auto-retrieval. On some devices Google Play services can automatically
                 //     detect the incoming verification SMS and perform verification without
                 //     user action.
-                signInWithPhoneAuthCredential(phoneAuthCredential);
+                ToastMaker tm = new ToastMaker();
+                tm.createToast(LoginActivity.this, phoneAuthCredential.getSmsCode());
+                String code = phoneAuthCredential.getSmsCode();
+                if(code != null){
+                    verifyCode(code);
+                }
             }
 
             @Override
             public void onVerificationFailed(FirebaseException e) {
-                loginButton.setText("Error");
+               ToastMaker tm = new ToastMaker();
+               tm.createToast(LoginActivity.this, "Authentifizierung fehlgeschlagen");
             }
 
             @Override
@@ -119,24 +126,28 @@ public class LoginActivity extends AppCompatActivity {
                 super.onCodeSent(verificationId, resendingToken);
 
                 phoneVerificationId = verificationId;
-                token = resendingToken;
-
-
                 phoneCodeFirstnameEditText.setText("");
                 phoneCodeFirstnameEditText.setHint("Code");
                 loginButton.setText("Verify Code");
 
+                token = resendingToken;
             }
         };
     }
 
+    public void verifyCode(String code){
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(phoneVerificationId, code);
+        signInWithPhoneAuthCredential(credential);
+    }
 
-    public void sendCode(){
+    public void sendVerificationCode(String phoneNumber) {
+        ToastMaker tm = new ToastMaker();
+        tm.createToast(LoginActivity.this, "Send Verification Code");
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                phoneCodeFirstnameEditText.getText().toString(),     // Phone number to verify
+                phoneNumber,     // Phone number to verify
                 60,                                              // Timeout duration
                 TimeUnit.SECONDS,                                  // Unit of timeout
-                LoginActivity.this,                       // Activity (for callback binding)
+                TaskExecutors.MAIN_THREAD,                       // Activity (for callback binding)
                 mCallbacks);                                     // OnVerificationStateChangedCallbacks
     }
 
@@ -148,26 +159,28 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
+
                             FirebaseUser user = task.getResult().getUser();
                             phoneCodeFirstnameEditText.setText("");
                             phoneCodeFirstnameEditText.setHint("Vorname");
                             nameEditText.setVisibility(View.VISIBLE);
-                            loginButton.setText("okay");
-
+                            loginButton.setText("Name");
+                            loginSteps++;
                             // ...
                         } else {
                             // Sign in failed, display a message and update the UI
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 // The verification code entered was invalid
-                                loginButton.setText("Error");
+                                ToastMaker tm = new ToastMaker();
+                                tm.createToast(LoginActivity.this, "Code Authentifizierung fehlgeschlagen");
                             }
                         }
                     }
                 });
     }
 
-    private void saveUserLocal(){
+    private void saveUserLocal() {
 
         System.out.println("Saving User...");
 
@@ -177,7 +190,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 boolean isMitglied = false;
 
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     String mitglieder = (String) task.getResult().getData().get("list");
 
                     if (mitglieder.contains(phoneCodeFirstnameEditText.getText().toString())) {
@@ -185,19 +198,20 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
 
-                Person p = new Person(nameEditText.getText().toString(), "Nachname", phoneCodeFirstnameEditText.getText().toString(), isMitglied, null);
+                Person p = new Person(nameEditText.getText().toString(), nameEditText.getText().toString(), phoneCodeFirstnameEditText.getText().toString(), isMitglied, null);
 
                 p.loginUser();
                 LocalStorage.saveUser(p);
-                try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("user.csv",MODE_PRIVATE)))){
+                try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("user.csv", MODE_PRIVATE)))) {
                     bw.write(p.createCsvString());
-                }catch (Exception x){}
+                } catch (Exception x) {
+                }
 
             }
         });
     }
 
-    private void saveTestUser(){
+    private void saveTestUser() {
         System.err.println("DELETE THIS METHOD");
 
         db.collection("Mitglieder").document("list").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -206,7 +220,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 boolean isMitglied = false;
 
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     String mitglieder = (String) task.getResult().getData().get("list");
 
                     if (mitglieder.contains(phoneCodeFirstnameEditText.getText().toString())) {
@@ -218,14 +232,14 @@ public class LoginActivity extends AppCompatActivity {
 
                 p.loginUser();
                 LocalStorage.saveUser(p);
-                try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("user.csv",MODE_PRIVATE)))){
+                try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("user.csv", MODE_PRIVATE)))) {
                     bw.write(p.createCsvString());
-                }catch (Exception x){}
+                } catch (Exception x) {
+                }
 
             }
         });
     }
-
 
 
 }
