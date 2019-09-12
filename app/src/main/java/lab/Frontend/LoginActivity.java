@@ -6,6 +6,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -58,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //saveTestUser();
 
         //Hide TitleBar & StatusBar
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
@@ -83,17 +83,19 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (loginSteps == 0 && phoneCodeFirstnameEditText.getText().toString() != null) {
+                if (loginSteps == 0 && !phoneCodeFirstnameEditText.getText().toString().equals("")) {
                     phoneNumber = phoneCodeFirstnameEditText.getText().toString();
                     sendVerificationCode(phoneNumber);
-                    loginSteps++;
-                } else if (loginSteps == 1 && phoneCodeFirstnameEditText.getText().toString().equals(phoneVerificationId)) {
-                    loginSteps++;
-                } else if (phoneCodeFirstnameEditText != null && nameEditText != null) {
+                } else if (loginSteps == 1 /**&& phoneCodeFirstnameEditText.getText().toString().equals(phoneVerificationId)**/) {
+                    verifyCode(phoneCodeFirstnameEditText.getText().toString());
+                } else if (!phoneCodeFirstnameEditText.getText().toString().equals("") && !nameEditText.getText().toString().equals("")) {
                     saveUserLocal();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
+                }else{
+                    ToastMaker tm = new ToastMaker();
+                    tm.createToast(LoginActivity.this, "Das Feld darf nicht leer sein.");
                 }
             }
         });
@@ -124,11 +126,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onCodeSent(String verificationId, PhoneAuthProvider.ForceResendingToken resendingToken) {
                 super.onCodeSent(verificationId, resendingToken);
-
+                loginSteps++;
                 phoneVerificationId = verificationId;
                 phoneCodeFirstnameEditText.setText("");
                 phoneCodeFirstnameEditText.setHint("Code");
-                loginButton.setText("Verify Code");
+                loginButton.setText("Code Verifizieren");
 
                 token = resendingToken;
             }
@@ -144,11 +146,11 @@ public class LoginActivity extends AppCompatActivity {
         ToastMaker tm = new ToastMaker();
         tm.createToast(LoginActivity.this, "Send Verification Code");
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                phoneNumber,     // Phone number to verify
-                60,                                              // Timeout duration
+                phoneNumber,                                       // Phone number to verify
+                120,                                            // Timeout duration
                 TimeUnit.SECONDS,                                  // Unit of timeout
-                TaskExecutors.MAIN_THREAD,                       // Activity (for callback binding)
-                mCallbacks);                                     // OnVerificationStateChangedCallbacks
+                TaskExecutors.MAIN_THREAD,                         // Activity (for callback binding)
+                mCallbacks);                                       // OnVerificationStateChangedCallbacks
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
@@ -159,12 +161,13 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-
+                            loginSteps++;
                             FirebaseUser user = task.getResult().getUser();
                             phoneCodeFirstnameEditText.setText("");
                             phoneCodeFirstnameEditText.setHint("Vorname");
+                            phoneCodeFirstnameEditText.setInputType(InputType.TYPE_CLASS_TEXT);
                             nameEditText.setVisibility(View.VISIBLE);
-                            loginButton.setText("Name");
+                            loginButton.setText("Anmelden");
                             loginSteps++;
                             // ...
                         } else {
@@ -198,7 +201,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
 
-                Person p = new Person(nameEditText.getText().toString(), nameEditText.getText().toString(), phoneCodeFirstnameEditText.getText().toString(), isMitglied, null);
+                Person p = new Person(nameEditText.getText().toString(), phoneCodeFirstnameEditText.getText().toString(), phoneCodeFirstnameEditText.getText().toString(), isMitglied, null);
 
                 p.loginUser();
                 LocalStorage.saveUser(p);
