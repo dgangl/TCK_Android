@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/shadow_corner_listitem"
-    android:elevation="10dp">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/adapter_customDialogTextView"
+    <LinearLayout
+        android:id="@+id/dialog_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:textColor="@color/black"
-        android:textSize="20sp"/>
+        android:background="@drawable/shadow_corner_listitem"
+        android:elevation="5dp"
+        android:orientation="horizontal">
 
-    <CheckBox
-        android:id="@+id/adapter_customDialogCheckbox"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+        <TextView
+            android:id="@+id/adapter_customDialogTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <CheckBox
+            android:id="@+id/adapter_customDialogCheckbox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
 </LinearLayout>

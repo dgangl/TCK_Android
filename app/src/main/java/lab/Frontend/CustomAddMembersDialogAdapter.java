@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ public class CustomAddMembersDialogAdapter extends ArrayAdapter<Person> {
     public List<Person> choosenMembers = new ArrayList<>();
     private ChooseMembersAdapter adapter;
     private Context c;
+    private LinearLayout layout;
 
 
     public CustomAddMembersDialogAdapter(@NonNull Context context, int resource, @NonNull List<Person> members, @NonNull List<Person> choosenMembers) {
@@ -55,6 +57,11 @@ public class CustomAddMembersDialogAdapter extends ArrayAdapter<Person> {
         View listItem = inflater.inflate(R.layout.adapter_customaddmembersdialog, parent, false);
 
         View editormembers = inflater.inflate(R.layout.activity_editor_members, parent, false);
+
+        layout = (LinearLayout) listItem.findViewById(R.id.dialog_layout);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)layout.getLayoutParams();
+        params.setMargins(20, 10, 20, 10);
+        layout.setLayoutParams(params);
 
         listViewMembers = ((Activity) c).findViewById(R.id.detail_choosenMembers);
 
