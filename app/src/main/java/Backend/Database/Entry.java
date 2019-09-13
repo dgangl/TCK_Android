@@ -330,6 +330,7 @@ public class Entry {
         map.put("privat", privat );
         map.put("platz", platz);
         map.put("type", type);
+        map.put("admin", teilnemer.get(0).vorname);
 
         return map;
 

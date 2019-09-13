@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginSteps == 0 && !phoneCodeFirstnameEditText.getText().toString().equals("")) {
                     phoneNumber = phoneCodeFirstnameEditText.getText().toString();
                     sendVerificationCode(phoneNumber);
-                } else if (loginSteps == 1 /**&& phoneCodeFirstnameEditText.getText().toString().equals(phoneVerificationId)**/) {
+                } else if (loginSteps == 1) {
                     verifyCode(phoneCodeFirstnameEditText.getText().toString());
                 } else if (!phoneCodeFirstnameEditText.getText().toString().equals("") && !nameEditText.getText().toString().equals("")) {
                     saveUserLocal();
