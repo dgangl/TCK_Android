@@ -189,6 +189,10 @@ public class BackendFeedDatabase {
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isCanceled() || task.getException() != null ){
+                            completion.onCallback(null);
+                            return;
+                        }
                         DocumentSnapshot documentSnapshot = task.getResult();
                         if(documentSnapshot != null && documentSnapshot.getData() != null && documentSnapshot.getData().size() > 0){
                             Map<String,Object> dat = documentSnapshot.getData();
@@ -246,6 +250,11 @@ public class BackendFeedDatabase {
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isCanceled() || task.getException() != null ){
+                                completion.onCallback(new ArrayList<Integer>());
+                                return;
+                            }
+
                             DocumentSnapshot documentSnapshot = task.getResult();
                             if (documentSnapshot != null && documentSnapshot.getData() != null) {
                                 Map<String, List<Long>> reservations = (Map<String, List<Long>>) documentSnapshot.getData().get("Reserviert");

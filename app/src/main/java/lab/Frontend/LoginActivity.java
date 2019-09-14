@@ -90,10 +90,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 switch (loginCounter) {
                     case 0: //handle phoneNumber -> send Code
-                        /*saveTestUser();
+                        saveTestUser();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
-                        */
+                        if(true){
+                            return;
+                        }
                         phoneNumber = phoneCodeFirstnameEditText.getText().toString();
                         if (phoneNumber != "" || phoneNumber != null) {
                             sendCode();
@@ -270,7 +272,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
 
-                Person p = new Person("Paul", "Krenn", "+4367761043478", isMitglied, null);
+                Person p = new Person("Paulchen --", "Krenn", "+4367761043480", isMitglied, null);
 
                 p.loginUser();
                 LocalStorage.saveUser(p);

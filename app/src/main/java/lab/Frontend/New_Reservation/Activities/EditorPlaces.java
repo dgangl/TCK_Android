@@ -99,7 +99,8 @@ public class EditorPlaces extends AppCompatActivity {
                     });
 
                     TextView headline = findViewById(R.id.editor_textView);
-                    headline.setText("Um diese Zeit ist leider kein Platz mehr frei.");
+                    headline.setTextSize(20);
+                    headline.setText("Um diese Zeit ist leider kein Platz mehr frei. (Überprüfe gegebenfalls auch deine Internetverbindung.)");
                 }
                 else {
                     for (Integer i : intList) {

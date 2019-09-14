@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import Backend.TestInternetConnection;
 import lab.Frontend.MainView.Fragments.CalendarFragment;
 import lab.Frontend.MainView.Fragments.FeedFragment;
 import lab.Frontend.MainView.Fragments.UserFragment;
@@ -48,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         cont = this;
+
+        //This one is not working but will be implemented in the next update
+        /*Thread th = new Thread(new TestInternetConnection());
+        th.start();*/
 
         List<Long> temp = new ArrayList<>();
         temp.add(1l);
