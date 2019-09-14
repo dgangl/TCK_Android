@@ -44,7 +44,7 @@ public class ChoosesPlacesAdapter extends ArrayAdapter<Places> {
             }
         });
 
-        layout = (LinearLayout) listItem.findViewById(R.id.places_layout;
+        layout = (LinearLayout) listItem.findViewById(R.id.places_layout);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)layout.getLayoutParams();
         params.setMargins(20, 10, 20, 10);
         layout.setLayoutParams(params);
