@@ -1,6 +1,7 @@
 package Backend.Database;
 
 import android.support.annotation.NonNull;
+import android.util.ArrayMap;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -79,11 +80,14 @@ public class Person {
 
     public void loginUser(){
         this.reference = db.collection("Users").document(nummer);
+        final Map<String, Integer> particingEvents = new TreeMap<>();
+
 
         final Map<String, Object> map = new TreeMap<>();
         map.put("vorname", vorname);
         map.put("nachname", nachname);
         map.put("mitglied", mitglied);
+        map.put("particingEvents",  particingEvents);
         map.put("guthaben", 0); //TODO: guthaben einbauen !!!
 
         reference.update(map).addOnFailureListener(new OnFailureListener() {

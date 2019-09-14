@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                             return;
                         }
                         phoneNumber = phoneCodeFirstnameEditText.getText().toString();
-                        if (phoneNumber != "" || phoneNumber != null) {
+                        if (!phoneNumber.equals("")) {
                             sendCode();
                         } else {
                             ToastMaker tm = new ToastMaker();
