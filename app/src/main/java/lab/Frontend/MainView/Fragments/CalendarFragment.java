@@ -52,7 +52,8 @@ public class CalendarFragment extends Fragment {
         wv.setWebViewClient(new WebViewClient());
 
 
-        /*WebView wv = root.findViewById(R.id.webview);
+        /*
+        WebView wv = root.findViewById(R.id.webview);
         wv.getSettings().setDomStorageEnabled(true);
         wv.setHorizontalScrollBarEnabled(false);
         wv.getSettings().setJavaScriptEnabled(true);
@@ -90,7 +91,7 @@ public class CalendarFragment extends Fragment {
         neuEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.cont, EditorDateAndDurration.class); // TODO EditorDateAndDurration
+                Intent intent = new Intent(MainActivity.cont, EditorDateAndDurration.class);
                 startActivity(intent);
             }
         });

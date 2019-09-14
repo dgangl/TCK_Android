@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class ChoosesPlacesAdapter extends ArrayAdapter<Places> {
     private final LayoutInflater inflater;
     private int resource;
     private List<Places> places;
+    private LinearLayout layout;
 
     public ChoosesPlacesAdapter(@NonNull Context context, int resource, @NonNull List<Places> places) {
         super(context, resource, places);
@@ -41,6 +43,11 @@ public class ChoosesPlacesAdapter extends ArrayAdapter<Places> {
                 currentPlace.setTake(isChecked);
             }
         });
+
+        layout = (LinearLayout) listItem.findViewById(R.id.places_layout;
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)layout.getLayoutParams();
+        params.setMargins(20, 10, 20, 10);
+        layout.setLayoutParams(params);
 
 
         return listItem;

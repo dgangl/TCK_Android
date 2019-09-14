@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:elevation="10dp"
-    android:background="@drawable/shadow_corner_listitem"
-    android:padding="10dp">
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shadow_corner_listitem"
+        android:elevation="5dp"
+        android:id="@+id/places_layout"
+        android:orientation="horizontal">
 
     <TextView
         android:id="@+id/adapter_place"
@@ -22,4 +27,5 @@
         android:layout_height="match_parent"
         android:layout_weight="5"
         android:padding="10dp" />
+    </LinearLayout>
 </LinearLayout>

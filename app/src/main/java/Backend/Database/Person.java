@@ -84,6 +84,7 @@ public class Person {
         map.put("vorname", vorname);
         map.put("nachname", nachname);
         map.put("mitglied", mitglied);
+        map.put("guthaben", 0); //TODO: guthaben einbauen !!!
 
         reference.update(map).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -91,7 +92,6 @@ public class Person {
                 reference.set(map);
             }
         });
-
         LocalStorage.saveUser(this);
     }
 

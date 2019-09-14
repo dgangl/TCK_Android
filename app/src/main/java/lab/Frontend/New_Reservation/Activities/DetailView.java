@@ -47,10 +47,8 @@ public class DetailView extends AppCompatActivity {
         setFields();
 
         String caller = getIntent().getStringExtra("caller");
-        if(caller != null){
-            if(caller.equals("Ändern")) {
-                confirm.setText(caller);
-            }
+        if(caller != null){ // always null if detailview is for CreateEntry
+            confirm.setText(caller);
         }
 
         mainEntry = LocalStorage.creatingEntry;
@@ -75,6 +73,11 @@ public class DetailView extends AppCompatActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.parseColor("#021B79"));
         }
+
+        List<Long> l = new ArrayList<>();
+        l.add(3l);
+        l.add(4l);
+
 
         updateFields();
         setOnClickListeners();

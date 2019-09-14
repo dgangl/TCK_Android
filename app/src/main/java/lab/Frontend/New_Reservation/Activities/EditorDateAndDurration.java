@@ -18,6 +18,7 @@ import android.widget.TimePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import Backend.Database.Entry;
 import Backend.LocalStorage;
@@ -96,8 +97,13 @@ public class EditorDateAndDurration extends AppCompatActivity {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                                 c.set(year, month, day, hourOfDay, 0);
-                                LocalStorage.creatingEntry.setDatum(c.getTime());
-                                buttonDatePicker.setText(new SimpleDateFormat("dd.MM.yyyy hh.mm").format(c.getTime()));
+                                if(new Date().before(c.getTime())) {
+                                    LocalStorage.creatingEntry.setDatum(c.getTime());
+                                    buttonDatePicker.setText(new SimpleDateFormat("dd.MM.yyyy hh.mm").format(c.getTime()));
+                                }else{
+                                    ToastMaker tm = new ToastMaker();
+                                    tm.createToast(EditorDateAndDurration.this, "Du kannst nichts in der Vergangenheit reservieren.");
+                                }
                             }
                         }, mHour, 0, true);
 

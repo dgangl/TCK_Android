@@ -60,7 +60,7 @@ public class CustomAddMembersDialogAdapter extends ArrayAdapter<Person> {
 
         layout = (LinearLayout) listItem.findViewById(R.id.dialog_layout);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)layout.getLayoutParams();
-        params.setMargins(20, 10, 20, 10);
+        params.setMargins(20, 10, 20, 15);
         layout.setLayoutParams(params);
 
         listViewMembers = ((Activity) c).findViewById(R.id.detail_choosenMembers);
