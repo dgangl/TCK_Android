@@ -211,6 +211,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+
     }
 
     private void saveUserLocal() {
@@ -226,7 +227,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
 
-                        if (nameEditText.getText().toString() != "" || phoneCodeFirstnameEditText.getText().toString() != "") {
+                        if (nameEditText.getText().toString().length() > 0 && phoneCodeFirstnameEditText.getText().toString().length() > 0) {
 
                             ToastMaker tm = new ToastMaker();
                             tm.createToast(LoginActivity.this, " Authentifizierung wird ausgeführt");
@@ -246,7 +247,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         } else {
                             ToastMaker tm = new ToastMaker();
-                            tm.createToast(LoginActivity.this, "ERROR");
+                            tm.createToast(LoginActivity.this, "Ihr Vor und Nachname darf nicht leer sein");
                         }
                 } else {
                     ToastMaker tm = new ToastMaker();
