@@ -133,16 +133,16 @@ public class LoginActivity extends AppCompatActivity {
                 // for instance if the the phone number format is not valid.
 
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                    System.out.println("Point 1");
                     // Invalid request
                     // ...
+                   
                 } else if (e instanceof FirebaseTooManyRequestsException) {
-                    System.out.println("Point 2");
                     // The SMS quota for the project has been exceeded
                     // ...
                 }
                 ToastMaker tm = new ToastMaker();
                 tm.createToast(LoginActivity.this, "Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung.");
+
             }
 
             @Override
