@@ -90,7 +90,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 switch (loginCounter) {
                     case 0: //handle phoneNumber -> send Code
-                        saveTestUser();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         if(true){
@@ -103,7 +102,6 @@ public class LoginActivity extends AppCompatActivity {
                             ToastMaker tm = new ToastMaker();
                             tm.createToast(LoginActivity.this, "Bitte geben Sie eine korrekte Telefonnumer ein.");
                         }
-
                         break;
                     case 1:
                         String code = phoneCodeFirstnameEditText.getText().toString();
@@ -256,35 +254,4 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void saveTestUser() {
-        System.err.println("DELETE THIS METHOD");
-
-        db.collection("Mitglieder").document("list").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
-                boolean isMitglied = false;
-
-                if (task.isSuccessful()) {
-                    String mitglieder = (String) task.getResult().getData().get("list");
-                    if (mitglieder.contains(phoneCodeFirstnameEditText.getText().toString())) {
-                        isMitglied = true;
-                    }
-                }
-
-                Person p = new Person("Paulchen --", "Krenn", "+4367761043480", isMitglied, null);
-
-                p.loginUser();
-                LocalStorage.saveUser(p);
-                try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(openFileOutput("user.csv", MODE_PRIVATE)))) {
-                    bw.write(p.createCsvString());
-                } catch (Exception x) {
-                }
-
-            }
-        });
-    }
-
-
 }
