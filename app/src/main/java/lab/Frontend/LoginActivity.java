@@ -90,11 +90,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 switch (loginCounter) {
                     case 0: //handle phoneNumber -> send Code
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        if(true){
-                            return;
-                        }
                         phoneNumber = phoneCodeFirstnameEditText.getText().toString();
                         if (!phoneNumber.equals("")) {
                             sendCode();
