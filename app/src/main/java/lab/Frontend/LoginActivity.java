@@ -131,17 +131,17 @@ public class LoginActivity extends AppCompatActivity {
             public void onVerificationFailed(FirebaseException e) {
                 // This callback is invoked in an invalid request for verification is made,
                 // for instance if the the phone number format is not valid.
-
+                ToastMaker tm = new ToastMaker();
                 if (e instanceof FirebaseAuthInvalidCredentialsException) {
-                    // Invalid request
-                    // ...
+                    tm.createToast(LoginActivity.this, "Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung. FEHLER 333");
                    
                 } else if (e instanceof FirebaseTooManyRequestsException) {
-                    // The SMS quota for the project has been exceeded
-                    // ...
+                    tm.createToast(LoginActivity.this, "Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung. FEHLER 404");
+                }else{
+                    tm.createToast(LoginActivity.this, "Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung. FEHLER 154");
                 }
-                ToastMaker tm = new ToastMaker();
-                tm.createToast(LoginActivity.this, "Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung.");
+
+
 
             }
 
