@@ -41,7 +41,7 @@
         android:layout_marginTop="30dp"
         android:text="firstname"
         android:textColor="@android:color/white"
-        android:textSize="35sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/user_avatar"
         app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +54,7 @@
         android:layout_marginTop="10dp"
         android:text="lastname"
         android:textColor="@android:color/white"
-        android:textSize="40sp"
+        android:textSize="30sp"
         app:layout_constraintStart_toEndOf="@+id/user_avatar"
         app:layout_constraintTop_toBottomOf="@+id/user_firstname" />
 
@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:text="Team Club Krenglbach"
+        android:text="Tennis Club Krenglbach"
         android:textColor="@android:color/white"
         android:textSize="17sp"
         app:layout_constraintStart_toStartOf="parent"

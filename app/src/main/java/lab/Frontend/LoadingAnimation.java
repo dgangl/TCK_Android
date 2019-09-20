@@ -1,9 +1,14 @@
 package lab.Frontend;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextThemeWrapper;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
@@ -14,11 +19,8 @@ import lab.tck.R;
 
 public class LoadingAnimation extends AppCompatActivity {
     private  AlertDialog alertDialog;
-    private Context context;
 
     public void startLoadingAnimation(Context context){
-        this.context = context;
-
         ImageView mImageViewFilling =  new ImageView(context);
         mImageViewFilling.setBackground(Drawable.createFromPath("@drawable/round.xml"));
 
@@ -51,5 +53,12 @@ public class LoadingAnimation extends AppCompatActivity {
     public void closeLoadingAnimation(){
 
         alertDialog.dismiss();
+    }
+
+    @Override
+    public Resources.Theme getTheme() {
+        Resources.Theme theme = super.getTheme();
+        theme.applyStyle(R.style.Theme_AppCompat, true);
+        return theme;
     }
 }

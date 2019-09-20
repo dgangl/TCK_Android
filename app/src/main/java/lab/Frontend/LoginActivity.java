@@ -91,11 +91,11 @@ public class LoginActivity extends AppCompatActivity {
                 switch (loginCounter) {
                     case 0: //handle phoneNumber -> send Code
                         phoneNumber = phoneCodeFirstnameEditText.getText().toString();
-                        if (!phoneNumber.equals("")) {
+                        if (!phoneNumber.equals("") && phoneNumber.contains("+")) {
                             sendCode();
                         } else {
                             ToastMaker tm = new ToastMaker();
-                            tm.createToast(LoginActivity.this, "Bitte geben Sie eine korrekte Telefonnumer ein.");
+                            tm.createToast(LoginActivity.this, "Bitte geben Sie eine korrekte Telefonnumer mit Ländervorwahl ein.");
                         }
                         break;
                     case 1:
@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                         break;
                     default:
                         ToastMaker tm = new ToastMaker();
-                        tm.createToast(LoginActivity.this, "IDK");
+                        tm.createToast(LoginActivity.this, "Ein unbekannter Fehler ist aufgetreten. Bitte kontaktiere die Entwickler.");
                         break;
 
                 }
@@ -138,11 +138,8 @@ public class LoginActivity extends AppCompatActivity {
                 } else if (e instanceof FirebaseTooManyRequestsException) {
                     tm.createToast(LoginActivity.this, "Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung. FEHLER 404");
                 }else{
-                    tm.createToast(LoginActivity.this, "Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung. FEHLER 154");
+                    tm.createToast(LoginActivity.this, "Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung." + e.getLocalizedMessage());
                 }
-
-
-
             }
 
             @Override
@@ -156,8 +153,6 @@ public class LoginActivity extends AppCompatActivity {
                 mVerificationId = verificationId;
                 mResendToken = token;
                 loginCounter = 1;
-
-
 
                 phoneCodeFirstnameEditText.setText("");
                 phoneCodeFirstnameEditText.setHint("Code");
@@ -208,8 +203,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void saveUserLocal() {
-
-
         db.collection("Mitglieder").document("list").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

@@ -59,6 +59,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "149043099155-h8sr1iqs4vrtjj2n0kvpohd7isdt2qge.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "lab73.tck",
+            "certificate_hash": "9bead189278c6a660e79fd5bcc0d58b999af2499"
+          }
+        },
+        {
           "client_id": "149043099155-4a81rpndp5hn08koabhkh48df4aldo8b.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

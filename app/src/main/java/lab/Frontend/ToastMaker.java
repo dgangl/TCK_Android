@@ -25,7 +25,7 @@ public class ToastMaker extends AppCompatActivity {
 
 
     public void createToast(Context context, String inputString) {
-        Toast t = Toast.makeText(context, inputString, Snackbar.LENGTH_LONG);
+        Toast t = Toast.makeText(context, inputString, Toast.LENGTH_LONG);
 
         t.setGravity(Gravity.CENTER, 0, 0);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
