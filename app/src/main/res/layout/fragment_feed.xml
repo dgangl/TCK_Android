@@ -7,7 +7,7 @@
     android:background="@android:color/transparent">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/emptyImageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
@@ -23,6 +23,7 @@
         app:srcCompat="@drawable/empty" />
 
     <TextView
+        android:id="@+id/emptyTextView"
         android:layout_width="300dp"
         android:layout_height="100dp"
         android:layout_marginStart="25dp"
@@ -34,16 +35,12 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/emptyImageView" />
 
     <ListView
         android:id="@+id/feeds"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="350dp"
         android:dividerHeight="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
