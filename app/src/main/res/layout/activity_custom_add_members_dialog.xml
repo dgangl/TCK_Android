@@ -19,7 +19,7 @@
     <ListView
         android:id="@+id/custom_add_memebers_dialog_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="400dp"
         android:layout_weight="1"
         android:dividerHeight="20dp"
         android:divider="@android:color/transparent"
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="5"
-        android:text="Fertig."
+        android:text="Fertig"
         android:background="@drawable/gradient_corner_button"
         android:textColor="@color/white"
         android:textSize="20sp"

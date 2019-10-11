@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                     Fragment selectedFragemnt = null;
                     switch (item.getItemId()) {
                         case R.id.nav_feed:
-                            tx.setText("Meine Spiele");
+                            tx.setText("Deine Spiele");
                             selectedFragemnt = new FeedFragment();
                             break;
                         case R.id.nav_calendar:
