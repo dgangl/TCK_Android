@@ -148,6 +148,7 @@ public class Person {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        guthaben = guthaben-1;
                         Log.d("INFO", "guthaben updated sucessfully");
                     }
                 })
