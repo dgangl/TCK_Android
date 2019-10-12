@@ -168,6 +168,7 @@ public class DetailView extends AppCompatActivity {
                     mainEntry.uploadToDatabase(new MyBooleanCompletion() {
                         @Override
                         public void onCallback(boolean bool) {
+
                             System.out.println("Uploaded successfully");
 
                             loadingAnimation.closeLoadingAnimation();

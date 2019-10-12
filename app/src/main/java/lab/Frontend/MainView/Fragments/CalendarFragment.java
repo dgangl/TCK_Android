@@ -23,6 +23,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Toast;
 
+import Backend.LocalStorage;
 import lab.Frontend.MainView.MainActivity;
 import lab.Frontend.New_Reservation.Activities.EditorDateAndDurration;
 import lab.Frontend.LoadingAnimation;
@@ -91,12 +92,16 @@ public class CalendarFragment extends Fragment {
         neuEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.cont, EditorDateAndDurration.class);
-                startActivity(intent);
+                if(LocalStorage.loadUser().mitglied || LocalStorage.loadUser().guthaben > 0) {
+
+                    Intent intent = new Intent(MainActivity.cont, EditorDateAndDurration.class);
+                    startActivity(intent);
+                }else{
+                    ToastMaker tm = new ToastMaker();
+                    tm.createToast(getContext(), "Um ein einen Platz zu reservieren benötigst du ein Guthaben. Bitte wende dich an den Tennisverrein um mehr zu erfahren.");
+                }
             }
         });
-
-
         return root;
     }
 

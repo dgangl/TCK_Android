@@ -203,6 +203,7 @@ public class Entry {
     private void extendedUploadToDatabase(DocumentReference ref){
         Person currentUser = LocalStorage.loadUser();
 
+        currentUser.takeGuthaben();
         //Add the Admin
         Map<String, Object> teilnehmerMap = new TreeMap<>();
         teilnehmerMap.put("isIn", 1);

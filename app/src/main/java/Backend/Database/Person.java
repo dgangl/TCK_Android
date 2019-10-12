@@ -1,7 +1,6 @@
 package Backend.Database;
 
 import android.support.annotation.NonNull;
-import android.util.ArrayMap;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,12 +19,19 @@ import java.util.TreeMap;
 
 import Backend.LocalStorage;
 import Backend.CompletionTypes.MyPersonArrayCompletion;
+import io.opencensus.tags.Tag;
 
 public class Person {
+    //Personal Data
     public String vorname;
     public String nachname;
     public String nummer;
+
+    //Member Data
     public boolean mitglied;
+    public int guthaben;
+
+    //Database Variables
     public DocumentReference reference;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -70,9 +76,7 @@ public class Person {
                                     mitglieder.add(p);
                                 }
                             }
-
                             completion.onCallback(mitglieder);
-
                         }
                     }
                 });
@@ -87,17 +91,25 @@ public class Person {
         map.put("vorname", vorname);
         map.put("nachname", nachname);
         map.put("mitglied", mitglied);
-        map.put("guthaben", 0); //TODO: guthaben einbauen !!!
 
         db.collection("Users").document(nummer).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.getResult().get("particingEvents") != null) {
-                    Log.e("ERROR", "!!!");
-                } else {
+                if (task.getResult().get("particingEvents") == null) {
                     final Map<String, Integer> particingEvents = new TreeMap<>();
                     map.put("particingEvents", particingEvents);
-                    Log.e("ERROR", "Error getting documents.");
+                }
+
+
+                if(!mitglied) {
+                    Object guthabenObject = task.getResult().get("guthaben");
+                    if (guthabenObject == null) {
+                        guthaben = 0;
+                        map.put("guthaben", 0);
+                    } else {
+                        guthaben = ((Long) guthabenObject).intValue();
+                        map.put("guthaben", guthaben);
+                    }
                 }
 
                 reference.update(map).addOnFailureListener(new OnFailureListener() {
@@ -106,7 +118,7 @@ public class Person {
                         reference.set(map);
                     }
                 });
-                saveUserLocalAndOnDB();
+                saveUserLocal();
             }
 
 
@@ -118,9 +130,32 @@ public class Person {
         return vorname + ";" + nachname + ";" + nummer + ";" + mitglied;
     }
 
-    public void saveUserLocalAndOnDB() {
+    public void saveUserLocal() {
         LocalStorage.saveUser(this);
     }
 
 
+    public void takeGuthaben() {
+        if(mitglied){
+            return;
+        }
+
+        DocumentReference userRef = db.collection("Users").document(nummer);
+
+
+        userRef
+                .update("guthaben", guthaben-1)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("INFO", "guthaben updated sucessfully");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("INFO", "guthaben update-failure");
+                    }
+                });
+    }
 }

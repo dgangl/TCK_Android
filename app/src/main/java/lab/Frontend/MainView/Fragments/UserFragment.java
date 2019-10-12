@@ -63,7 +63,7 @@ public class UserFragment extends Fragment {
             if (user.mitglied == true) {
                 member.setText("Jahresmitglied");
             } else {
-                member.setText("Kein Mitglied");
+                member.setText("Kein Mitglied (" + user.guthaben + " Punkte)");
             }
         }
 
