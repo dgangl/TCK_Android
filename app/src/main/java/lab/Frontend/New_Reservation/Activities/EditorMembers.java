@@ -2,6 +2,7 @@ package lab.Frontend.New_Reservation.Activities;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -90,7 +91,10 @@ public class EditorMembers extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 CustomAddMembersDialog camd = new CustomAddMembersDialog(EditorMembers.this, members);
+                camd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 camd.show();
+
+
             }
         });
     }

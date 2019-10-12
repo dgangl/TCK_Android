@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -26,6 +28,8 @@ import lab.tck.R;
 
 public class FeedFragment extends Fragment {
 private ListView feedList;
+private ImageView emptyImage;
+private TextView emptyText;
 private FeedListAdapter feedListAdapter;
 private List<Entry> eventArrayList;
 private FirebaseFirestore db;
@@ -36,8 +40,12 @@ private FirebaseFirestore db;
         final ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_feed, null);
         feedList = root.findViewById(R.id.feeds);
 
+        emptyImage = root.findViewById(R.id.emptyImageView);
+        emptyText = root.findViewById(R.id.emptyTextView);
+
         System.out.println("Test2 Startet");
         eventArrayList = new ArrayList<>();
+
 
 
         final LoadingAnimation loadingAnimation = new LoadingAnimation();
@@ -58,7 +66,15 @@ private FirebaseFirestore db;
 
                 feedListAdapter = new FeedListAdapter(MainActivity.cont, android.R.layout.simple_list_item_1, entryList);
                 feedList.setAdapter(feedListAdapter);
+
+
                 loadingAnimation.closeLoadingAnimation();
+
+                if(entryList != null || !entryList.isEmpty()){
+                    emptyImage.setVisibility(emptyImage.INVISIBLE);
+                    emptyText.setVisibility(emptyText.INVISIBLE);
+                }
+
             }
         });
 

@@ -116,7 +116,7 @@ public class DetailView extends AppCompatActivity {
         timeText.setText(start_time + ":00 - " + end_time + ":00 Uhr");
 
         //Set Places
-        String plaetze = "Plätze: ";
+        String plaetze = "Platz: ";
         plaetze = plaetze + mainEntry.getPlatz().get(0);
 
         for (int i = 1; i < mainEntry.getPlatz().size(); i++) {
