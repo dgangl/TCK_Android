@@ -92,7 +92,7 @@ public class CalendarFragment extends Fragment {
         neuEntry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(LocalStorage.loadUser().mitglied || LocalStorage.loadUser().guthaben > 0) {
+                if(!LocalStorage.loadUser().mitglied || LocalStorage.loadUser().guthaben > 0) {
 
                     Intent intent = new Intent(MainActivity.cont, EditorDateAndDurration.class);
                     startActivity(intent);

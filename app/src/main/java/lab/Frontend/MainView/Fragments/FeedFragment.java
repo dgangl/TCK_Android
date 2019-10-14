@@ -70,7 +70,7 @@ private FirebaseFirestore db;
 
                 loadingAnimation.closeLoadingAnimation();
 
-                if(entryList != null || !entryList.isEmpty()){
+                if(!entryList.isEmpty()){
                     emptyImage.setVisibility(emptyImage.INVISIBLE);
                     emptyText.setVisibility(emptyText.INVISIBLE);
                 }
