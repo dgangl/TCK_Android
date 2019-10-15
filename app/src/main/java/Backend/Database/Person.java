@@ -90,7 +90,7 @@ public class Person {
         final Map<String, Object> map = new TreeMap<>();
         map.put("vorname", vorname);
         map.put("nachname", nachname);
-        map.put("mitglied", mitglied);
+
 
         db.collection("Users").document(nummer).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -101,7 +101,15 @@ public class Person {
                 }
 
 
-                if(!mitglied) {
+                boolean member = false;
+                if(task.getResult().get("mitglied") != null){
+                    //noinspection ConstantConditions
+                    member = (Boolean) task.getResult().get("mitglied");
+                }
+                mitglied = member;
+                map.put("mitglied", member);
+
+                if(!member) {
                     Object guthabenObject = task.getResult().get("guthaben");
                     if (guthabenObject == null) {
                         guthaben = 0;

@@ -173,12 +173,13 @@ public class DetailView extends AppCompatActivity {
 
                             loadingAnimation.closeLoadingAnimation();
                             LocalStorage.creatingEntry = null;
+                            startActivity(new Intent(DetailView.this, MainActivity.class));
                         }
                     });
                 }
 
 
-                startActivity(new Intent(DetailView.this, MainActivity.class));
+
             }
         });
 
