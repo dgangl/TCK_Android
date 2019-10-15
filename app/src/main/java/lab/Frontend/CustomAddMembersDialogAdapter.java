@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Backend.Database.Person;
+import lab.Frontend.New_Reservation.Activities.EditorMembers;
 import lab.Frontend.New_Reservation.Adapter.ChooseMembersAdapter;
 import lab.tck.R;
 
@@ -79,9 +80,15 @@ public class CustomAddMembersDialogAdapter extends ArrayAdapter<Person> {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     choosenMembers.add(currentPerson);
+
                 } else {
-                    choosenMembers.remove(currentPerson);
+                    for(int i = 0; i < choosenMembers.size(); i++){
+                        if(choosenMembers.get(i).nummer.equals(currentPerson.nummer)){
+                            choosenMembers.remove(i);
+                        }
+                    }
                 }
+
                 adapter = new ChooseMembersAdapter(c, android.R.layout.simple_list_item_1, choosenMembers);
                 listViewMembers.setAdapter(adapter);
 

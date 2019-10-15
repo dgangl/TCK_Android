@@ -23,7 +23,7 @@ public class CustomAddMembersDialog extends Dialog implements android.view.View.
     public Button cancel;
     public ListView listView;
     public List<Person> members = new ArrayList<>();
-    public List<Person> choosenMembers = new ArrayList<>();
+    public List<Person> choosenMembers;
     public CustomAddMembersDialogAdapter adapter;
     public SearchView search;
 
@@ -59,6 +59,7 @@ public class CustomAddMembersDialog extends Dialog implements android.view.View.
                 for (Person p:members) {
                     if((p.vorname + " " + p.nachname).contains(newText)){
                         filtered.add(p);
+
                     }
                 }
                 adapter = new CustomAddMembersDialogAdapter(c, android.R.layout.simple_list_item_1, filtered, choosenMembers);
