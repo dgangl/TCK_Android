@@ -76,7 +76,7 @@ public class FeedListAdapter extends ArrayAdapter<Entry> {
 
         ((TextView) listItem.findViewById(R.id.feed_duration)).setText(start_time + ":00 - "+end_time + ":00 Uhr");
 
-        String plaetze = "Plätze: " + "\n";
+        String plaetze = "Platz: " + "\n";
         plaetze = plaetze + currentEntry.getPlatz().get(0);
 
         for (int i = 1; i < currentEntry.getPlatz().size(); i++) {

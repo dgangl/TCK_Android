@@ -3,10 +3,12 @@ package lab.Frontend.MainView.Fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,12 +30,15 @@ import lab.Frontend.LoadingAnimation;
 import lab.tck.R;
 
 public class FeedFragment extends Fragment {
-private ListView feedList;
-private ImageView emptyImage;
-private TextView emptyText;
-private FeedListAdapter feedListAdapter;
-private List<Entry> eventArrayList;
-private FirebaseFirestore db;
+
+    private FloatingActionButton reload;
+
+    private ListView feedList;
+    private ImageView emptyImage;
+    private TextView emptyText;
+    private FeedListAdapter feedListAdapter;
+    private List<Entry> eventArrayList;
+    private FirebaseFirestore db;
 
     @Nullable
     @Override
@@ -43,33 +48,26 @@ private FirebaseFirestore db;
 
         emptyImage = root.findViewById(R.id.emptyImageView);
         emptyText = root.findViewById(R.id.emptyTextView);
+        reload = root.findViewById(R.id.reloadButton);
 
         System.out.println("Test2 Startet");
         eventArrayList = new ArrayList<>();
 
-
-
-        final LoadingAnimation loadingAnimation = new LoadingAnimation();
-        loadingAnimation.startLoadingAnimation(MainActivity.cont);
-        BackendFeedDatabase be = new BackendFeedDatabase();
-        be.loadAllEvents(new MyEntryArrayCompletion() {
-            @Override
-            public void onCallback(List<Entry> entryList) {
-                System.out.println("AAC" +entryList.size());
+        reload.setOnClickListener(view -> {
+            final LoadingAnimation loadingAnimation = new LoadingAnimation();
+            loadingAnimation.startLoadingAnimation(MainActivity.cont);
+            BackendFeedDatabase be = new BackendFeedDatabase();
+            be.loadAllEvents(entryList -> {
+                System.out.println("AAC" + entryList.size());
                 List<Entry> newList = new ArrayList<>();
 
-                for (int i = 0; i <  entryList.size(); i++) {
-                    if(entryList.get(i).getDatum().after(new Date())){
+                for (int i = 0; i < entryList.size(); i++) {
+                    if (entryList.get(i).getDatum().after(new Date())) {
                         newList.add(entryList.get(i));
                     }
                 }
 
-                Collections.sort(newList, new Comparator<Entry>() {
-                    @Override
-                    public int compare(Entry o1, Entry o2) {
-                        return o1.getDatum().compareTo(o2.getDatum());
-                    }
-                });
+                Collections.sort(newList, (o1, o2) -> o1.getDatum().compareTo(o2.getDatum()));
 
 
                 feedListAdapter = new FeedListAdapter(MainActivity.cont, android.R.layout.simple_list_item_1, newList);
@@ -78,18 +76,46 @@ private FirebaseFirestore db;
 
                 loadingAnimation.closeLoadingAnimation();
 
-                if(!entryList.isEmpty()){
+                if (!newList.isEmpty()) {
                     emptyImage.setVisibility(emptyImage.INVISIBLE);
                     emptyText.setVisibility(emptyText.INVISIBLE);
                 }
 
+            });
+        });
+
+
+        final LoadingAnimation loadingAnimation = new LoadingAnimation();
+        loadingAnimation.startLoadingAnimation(MainActivity.cont);
+        BackendFeedDatabase be = new BackendFeedDatabase();
+        be.loadAllEvents(entryList -> {
+            System.out.println("AAC" + entryList.size());
+            List<Entry> newList = new ArrayList<>();
+
+            for (int i = 0; i < entryList.size(); i++) {
+                if (entryList.get(i).getDatum().after(new Date())) {
+                    newList.add(entryList.get(i));
+                }
             }
+
+            Collections.sort(newList, (o1, o2) -> o1.getDatum().compareTo(o2.getDatum()));
+
+
+            feedListAdapter = new FeedListAdapter(MainActivity.cont, android.R.layout.simple_list_item_1, newList);
+            feedList.setAdapter(feedListAdapter);
+
+
+            loadingAnimation.closeLoadingAnimation();
+
+            if (!newList.isEmpty()) {
+                emptyImage.setVisibility(emptyImage.INVISIBLE);
+                emptyText.setVisibility(emptyText.INVISIBLE);
+            }
+
         });
 
         return root;
     }
-
-
 
 
 }

@@ -8,62 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:149043099155:android:94321660d4df7fe4",
-        "android_client_info": {
-          "package_name": "lab.tck"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "149043099155-fhftlf4c8tcmhrc9v4p15g5g313i2kb3.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "lab.tck",
-            "certificate_hash": "12e7a8f875dd7eca218dcda53828464623895794"
-          }
-        },
-        {
-          "client_id": "149043099155-cth6hh00kvm036cn6tkkkkag4vf5pugm.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAyD1ssnR0KKRiG10GjhvVJwZPvJVVZXcI"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "149043099155-cth6hh00kvm036cn6tkkkkag4vf5pugm.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "149043099155-e6ij2sk7ubtu6cilgapom39q1uk80e9n.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "lab73.TCK"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:149043099155:android:eaedb94740e4eb12",
+        "mobilesdk_app_id": "1:149043099155:android:0f68f7e423c755d01671e6",
         "android_client_info": {
           "package_name": "lab73.tck"
         }
       },
       "oauth_client": [
         {
-          "client_id": "149043099155-h8sr1iqs4vrtjj2n0kvpohd7isdt2qge.apps.googleusercontent.com",
+          "client_id": "149043099155-60gi3f8l442hegmt247ose6qgvjubump.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "lab73.tck",
-            "certificate_hash": "9bead189278c6a660e79fd5bcc0d58b999af2499"
+            "certificate_hash": "f58f67bbe38241f2478d753724487887110df951"
           }
         },
         {
@@ -72,14 +28,6 @@
           "android_info": {
             "package_name": "lab73.tck",
             "certificate_hash": "de310091726eb161506164fbbcca5651f87eb16e"
-          }
-        },
-        {
-          "client_id": "149043099155-b6ekflilimr4v6s3h3hb5vrbbch89ril.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "lab73.tck",
-            "certificate_hash": "12e7a8f875dd7eca218dcda53828464623895794"
           }
         },
         {

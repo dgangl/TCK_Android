@@ -3,6 +3,9 @@ package lab.Frontend.New_Reservation.Activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,10 +16,15 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import Backend.Database.BackendFeedDatabase;
 import Backend.Database.Entry;
 import Backend.Database.Person;
 import Backend.LocalStorage;
@@ -28,6 +36,7 @@ import lab.Frontend.New_Reservation.Adapter.ChooseMembersAdapter;
 import lab.tck.R;
 
 public class DetailView extends AppCompatActivity {
+    FloatingActionButton delete;
     TextView typeText;
     TextView dateText;
     TextView timeText;
@@ -49,6 +58,9 @@ public class DetailView extends AppCompatActivity {
         String caller = getIntent().getStringExtra("caller");
         if(caller != null){ // always null if detailview is for CreateEntry
             confirm.setText(caller);
+        }else{
+            delete.setEnabled(false);
+            delete.hide();
         }
 
         mainEntry = LocalStorage.creatingEntry;
@@ -93,7 +105,7 @@ public class DetailView extends AppCompatActivity {
         confirm = findViewById(R.id.detail_button);
         addMember = findViewById(R.id.detail_addMembers);
         listViewMembers = findViewById(R.id.detail_choosenMembers);
-
+        delete = findViewById(R.id.delete);
     }
 
     private void updateFields() {
@@ -127,6 +139,21 @@ public class DetailView extends AppCompatActivity {
     }
 
     private void setOnClickListeners() {
+        delete.setOnClickListener(view -> {
+            LoadingAnimation l = new LoadingAnimation();
+            l.startLoadingAnimation(view.getContext());
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("Entrys").document(mainEntry.getId())
+                    .delete()
+                    .addOnSuccessListener(aVoid -> {
+                        Log.d("WORKED", "DocumentSnapshot successfully deleted!");
+                        l.closeLoadingAnimation();
+                        finish();
+                    })
+                    .addOnFailureListener(e -> Log.w("ERROR", "Error deleting document", e));
+
+        });
+
         typeText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,6 +191,9 @@ public class DetailView extends AppCompatActivity {
                 if(confirm.getText().equals("Ändern")){
                     //Todo: Edit current Entry
 
+                    startActivity(new Intent(DetailView.this, MainActivity.class));
+                    loadingAnimation.closeLoadingAnimation();
+
                 }else {
                     mainEntry.uploadToDatabase(new MyBooleanCompletion() {
                         @Override
@@ -171,9 +201,9 @@ public class DetailView extends AppCompatActivity {
 
                             System.out.println("Uploaded successfully");
 
-                            loadingAnimation.closeLoadingAnimation();
                             LocalStorage.creatingEntry = null;
                             startActivity(new Intent(DetailView.this, MainActivity.class));
+                            loadingAnimation.closeLoadingAnimation();
                         }
                     });
                 }

@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     android:background="@android:color/transparent">
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/reloadButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_reload"
+        android:backgroundTint= "@android:color/transparent"
+        app:borderWidth="0dp"
+        android:background="@android:color/transparent"
+        android:focusable="true" />
+
     <ImageView
         android:id="@+id/emptyImageView"
         android:layout_width="0dp"
@@ -20,7 +33,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/empty" />
+        app:srcCompat="@drawable/empty"
+        android:contentDescription="TODO" />
 
     <TextView
         android:id="@+id/emptyTextView"
@@ -40,12 +54,16 @@
     <ListView
         android:id="@+id/feeds"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
         android:dividerHeight="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/reloadButton">
 
     </ListView>
+
+
 </android.support.constraint.ConstraintLayout>

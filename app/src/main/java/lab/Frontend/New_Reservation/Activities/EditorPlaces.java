@@ -3,6 +3,7 @@ package lab.Frontend.New_Reservation.Activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -16,11 +17,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import Backend.Database.BackendFeedDatabase;
 import Backend.LocalStorage;
 import Backend.Places;
 import Backend.CompletionTypes.MyIntArrayCompletion;
+import lab.Frontend.CustomAddMembersDialog;
 import lab.Frontend.New_Reservation.Adapter.ChoosesPlacesAdapter;
 import lab.Frontend.ToastMaker;
 import lab.tck.R;
@@ -47,7 +50,7 @@ public class EditorPlaces extends AppCompatActivity {
         }
 
         //Toolbar
-        Toolbar mToolbar =  findViewById(R.id.toolbar2);
+        Toolbar mToolbar = findViewById(R.id.toolbar2);
 
         mToolbar.setNavigationIcon(R.drawable.ic_back_arrow);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -61,21 +64,30 @@ public class EditorPlaces extends AppCompatActivity {
         //Button
         buttonAddMembers = findViewById(R.id.editor_addMembers);
         buttonAddMembers.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                addPlatzToEntry();
-                Log.e("??????", LocalStorage.creatingEntry.getPlatz().toString());
-                if (LocalStorage.creatingEntry.getPlatz() != null && LocalStorage.creatingEntry.getPlatz().size() > 0) {
-                    Intent intent = new Intent(EditorPlaces.this, EditorMembers.class);
-                    startActivity(intent);
+                int takenPlaces = (int) places
+                        .stream()
+                        .filter(x -> x.isTake() == true)
+                        .count();
+                if (takenPlaces > 1) {
+                    ToastMaker t = new ToastMaker();
+                    t.createToast(v.getContext(), "Du kannst leider nur einen Platz reservieren.");
                 } else {
-                    ToastMaker tm = new ToastMaker();
+                    addPlatzToEntry();
+                    Log.e("??????", LocalStorage.creatingEntry.getPlatz().toString());
+                    if (LocalStorage.creatingEntry.getPlatz() != null && LocalStorage.creatingEntry.getPlatz().size() > 0) {
+                        Intent intent = new Intent(EditorPlaces.this, EditorMembers.class);
+                        startActivity(intent);
+                    } else {
+                        ToastMaker tm = new ToastMaker();
 
-                    tm.createToast(EditorPlaces.this, "Bitte wählen Sie einen Platz/Plätze auf welchen Sie spielen möchten!");
+                        tm.createToast(EditorPlaces.this, "Bitte wählen Sie einen Platz/Plätze auf welchen Sie spielen möchten!");
+                    }
                 }
             }
         });
-
 
 
         BackendFeedDatabase bfd = new BackendFeedDatabase();
@@ -87,7 +99,7 @@ public class EditorPlaces extends AppCompatActivity {
                 //Listview
                 listViewPlaces = findViewById(R.id.editor_placeListview);
 
-                if(intList.size() == 0){
+                if (intList.size() == 0) {
                     buttonAddMembers.setText("Datum/Uhrzeit ändern");
 
                     buttonAddMembers.setOnClickListener(new View.OnClickListener() {
@@ -101,8 +113,7 @@ public class EditorPlaces extends AppCompatActivity {
                     TextView headline = findViewById(R.id.editor_textView);
                     headline.setTextSize(20);
                     headline.setText("Um diese Zeit ist leider kein Platz mehr frei. (Überprüfe gegebenfalls auch deine Internetverbindung.)");
-                }
-                else {
+                } else {
                     for (Integer i : intList) {
                         places.add(new Places("Platz " + i, false));
                     }
@@ -110,23 +121,17 @@ public class EditorPlaces extends AppCompatActivity {
                 adapter = new ChoosesPlacesAdapter(EditorPlaces.this, android.R.layout.simple_list_item_1, places);
                 listViewPlaces.setAdapter(adapter);
 
-
             }
         });
 
 
-
-
-
-
     }
 
-    private void addPlatzToEntry(){
+    private void addPlatzToEntry() {
 
         List<Integer> intList = new ArrayList<>();
-
-        for (Places p : places){
-            if(p.isTake()){
+        for (Places p : places) {
+            if (p.isTake()) {
                 Integer a = Integer.parseInt(p.getPlace().split(" ")[1]);
                 intList.add(a);
                 Log.e("!!!!!!!!!!", a.toString());
@@ -136,4 +141,6 @@ public class EditorPlaces extends AppCompatActivity {
 
         LocalStorage.creatingEntry.setPlatz(intList);
     }
+
+
 }

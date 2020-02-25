@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="lab.Frontend.CustomAddMembersDialog"></activity>
+        <activity android:name="lab.Frontend.CustomAddMembersDialog" />
         <activity
             android:name="lab.Frontend.New_Reservation.Activities.EditorDateAndDurration"
             android:screenOrientation="portrait" />
