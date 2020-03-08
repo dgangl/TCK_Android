@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,13 +16,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import Backend.Database.BackendFeedDatabase;
-import Backend.Database.Entry;
-import Backend.CompletionTypes.MyEntryArrayCompletion;
+import backend.Database.BackendFeedDatabase;
+import backend.Database.Entry;
 import lab.Frontend.MainView.MainActivity;
 import lab.Frontend.MainView.FeedListAdapter;
 import lab.Frontend.LoadingAnimation;

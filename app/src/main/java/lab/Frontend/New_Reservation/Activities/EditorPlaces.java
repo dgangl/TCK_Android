@@ -3,7 +3,6 @@ package lab.Frontend.New_Reservation.Activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -17,13 +16,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import Backend.Database.BackendFeedDatabase;
-import Backend.LocalStorage;
-import Backend.Places;
-import Backend.CompletionTypes.MyIntArrayCompletion;
-import lab.Frontend.CustomAddMembersDialog;
+import backend.Database.BackendFeedDatabase;
+import backend.LocalStorage;
+import backend.Places;
+import backend.CompletionTypes.MyIntArrayCompletion;
 import lab.Frontend.New_Reservation.Adapter.ChoosesPlacesAdapter;
 import lab.Frontend.ToastMaker;
 import lab.tck.R;
@@ -64,13 +61,13 @@ public class EditorPlaces extends AppCompatActivity {
         //Button
         buttonAddMembers = findViewById(R.id.editor_addMembers);
         buttonAddMembers.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                int takenPlaces = (int) places
-                        .stream()
-                        .filter(x -> x.isTake() == true)
-                        .count();
+                int takenPlaces = 0;
+                for (Places p:places) {
+                    if(p.isTake()) takenPlaces++;
+                }
+
                 if (takenPlaces > 1) {
                     ToastMaker t = new ToastMaker();
                     t.createToast(v.getContext(), "Du kannst leider nur einen Platz reservieren.");

@@ -5,24 +5,32 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import Backend.TestInternetConnection;
+import backend.LocalStorage;
+import backend.notifications.MyFirebaseMessagingService;
 import lab.Frontend.MainView.Fragments.CalendarFragment;
 import lab.Frontend.MainView.Fragments.FeedFragment;
 import lab.Frontend.MainView.Fragments.UserFragment;
@@ -38,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
 
 
         super.onCreate(savedInstanceState);
@@ -70,9 +76,6 @@ public class MainActivity extends AppCompatActivity {
         });*/
 
 
-
-
-
         try {
             InputStream tempi = getAssets().open("questionmarkimage.jpeg");
             image = Drawable.createFromStream(tempi, null);
@@ -84,6 +87,11 @@ public class MainActivity extends AppCompatActivity {
         //Hide TitleBar & StatusBar
         //getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         getSupportActionBar().hide();
+
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -98,7 +106,33 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.main_container, new FeedFragment())
                 .commit();
 
+        /*
+        The registration token may change when:
 
+        The app deletes Instance ID
+        The app is restored on a new device
+        The user uninstalls/reinstall the app
+        The user clears app data.
+         */
+        if(LocalStorage.loadUser() != null){
+            FirebaseInstanceId.getInstance().getInstanceId()
+                    .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                            if (!task.isSuccessful()) {
+                                Log.w("FAILED NOTIFICATION", "getInstanceId failed", task.getException());
+                                return;
+                            }
+
+                            // Get new Instance ID token
+
+                            String token = task.getResult().getToken();
+                            MyFirebaseMessagingService mfms = new MyFirebaseMessagingService();
+                            mfms.onNewToken(token);
+                            Log.e("newToken", token);
+                        }
+                    });
+        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -127,6 +161,8 @@ public class MainActivity extends AppCompatActivity {
 
                     return true;
                 }
+
+
             };
 
     @Override
@@ -141,8 +177,6 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }*/
     }
-
-
 
 
 }

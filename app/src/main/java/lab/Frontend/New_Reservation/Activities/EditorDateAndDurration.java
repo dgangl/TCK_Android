@@ -20,8 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import Backend.Database.Entry;
-import Backend.LocalStorage;
+import backend.Database.Entry;
+import backend.LocalStorage;
 import lab.Frontend.ToastMaker;
 import lab.tck.R;
 

@@ -1,4 +1,4 @@
-package Backend.CompletionTypes;
+package backend.CompletionTypes;
 
 import java.util.List;
 

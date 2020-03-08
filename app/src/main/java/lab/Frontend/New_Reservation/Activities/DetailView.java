@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,19 +15,33 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 
+import org.json.JSONObject;
+
+import java.io.DataOutputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import Backend.Database.BackendFeedDatabase;
-import Backend.Database.Entry;
-import Backend.Database.Person;
-import Backend.LocalStorage;
-import Backend.CompletionTypes.MyBooleanCompletion;
+import backend.Database.Entry;
+import backend.Database.Person;
+import backend.LocalStorage;
+import backend.CompletionTypes.MyBooleanCompletion;
 import lab.Frontend.CustomAddMembersDialog;
 import lab.Frontend.MainView.MainActivity;
 import lab.Frontend.LoadingAnimation;
@@ -56,9 +69,9 @@ public class DetailView extends AppCompatActivity {
         setFields();
 
         String caller = getIntent().getStringExtra("caller");
-        if(caller != null){ // always null if detailview is for CreateEntry
+        if (caller != null) { // always null if detailview is for CreateEntry
             confirm.setText(caller);
-        }else{
+        } else {
             delete.setEnabled(false);
             delete.hide();
         }
@@ -89,7 +102,6 @@ public class DetailView extends AppCompatActivity {
         List<Long> l = new ArrayList<>();
         l.add(3l);
         l.add(4l);
-
 
         updateFields();
         setOnClickListeners();
@@ -149,6 +161,7 @@ public class DetailView extends AppCompatActivity {
                         Log.d("WORKED", "DocumentSnapshot successfully deleted!");
                         l.closeLoadingAnimation();
                         finish();
+                        sendNotificationsToParticipants(false);
                     })
                     .addOnFailureListener(e -> Log.w("ERROR", "Error deleting document", e));
 
@@ -188,26 +201,25 @@ public class DetailView extends AppCompatActivity {
                 final LoadingAnimation loadingAnimation = new LoadingAnimation();
                 loadingAnimation.startLoadingAnimation(DetailView.this);
 
-                if(confirm.getText().equals("Ändern")){
+                if (confirm.getText().equals("Ändern")) {
                     //Todo: Edit current Entry
 
                     startActivity(new Intent(DetailView.this, MainActivity.class));
                     loadingAnimation.closeLoadingAnimation();
 
-                }else {
+                } else {
                     mainEntry.uploadToDatabase(new MyBooleanCompletion() {
                         @Override
                         public void onCallback(boolean bool) {
 
                             System.out.println("Uploaded successfully");
-
+                            sendNotificationsToParticipants(true);
                             LocalStorage.creatingEntry = null;
                             startActivity(new Intent(DetailView.this, MainActivity.class));
                             loadingAnimation.closeLoadingAnimation();
                         }
                     });
                 }
-
 
 
             }
@@ -221,4 +233,63 @@ public class DetailView extends AppCompatActivity {
             }
         });
     }
+
+    private void sendNotificationsToParticipants(boolean createEntry) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        for (Person p : members) {
+            DocumentReference docRef = db.collection("Users").document(p.nummer);
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful() && LocalStorage.loadUser().nummer != p.nummer) {
+                        // Document found in the offline cache
+                        DocumentSnapshot document = task.getResult();
+
+                        String token = document.get("apnToken").toString();
+                        String title;
+                        String bodyStr;
+                        if(createEntry){
+                            title = typeText.getText().toString();
+                            bodyStr = LocalStorage.loadUser().nachname + " " + LocalStorage.loadUser().vorname + " lädt sie ein beim Event: " + typeText.getText() + " teilzunehmen.";;
+                        }else{
+                            title= typeText.getText().toString();
+                            bodyStr = "Das Event " + typeText.getText() + " wurde gelöscht.";;
+                        }
+
+
+                        try {
+
+                            JSONObject jsonParam = new JSONObject();
+                            jsonParam.put("to", token);
+                            JSONObject notification = new JSONObject();
+                            notification.put("title", title);
+                            notification.put("body", bodyStr);
+                            jsonParam.put("notification", notification);
+
+                            OkHttpClient client = new OkHttpClient();
+                            MediaType mediaType = MediaType.parse("application/json");
+                            RequestBody body = RequestBody.create(mediaType, jsonParam.toString());
+                            Request request = new Request.Builder()
+                                    .url("https://fcm.googleapis.com/fcm/send")
+                                    .method("POST", body)
+                                    .addHeader("Authorization", "key=AAAAIrOpNhM:APA91bE8XG74UZnQ5cVLYesQSCPbtxkD-PmxeLmsmG5n3bsXUmTyMCYntDetW8pp7oG0moobtAx5FVK7jGuKEHEOPg9gYylCYv2LMbXsvuTwqBuwqJbZ3Pv2TwuPvqngzGnaC6z9_IJq")
+                                    .addHeader("Content-Type", "application/json")
+                                    .build();
+                            Response r = client.newCall(request).execute();
+                            Log.e("Response!!!", r.toString());
+                        } catch (Exception e) {
+                            Log.e("ERROR!!!",  e.toString());
+                        }
+
+                        Log.e("NUMMER", p.nummer + " : " +  document.get("apnToken").toString());
+                    } else {
+                        Log.d("FAILED", "OR not sendung to own person!!! || DELETE NOTIFICATION: ", task.getException());
+                    }
+                }
+            });
+        }
+
+    }
+
 }

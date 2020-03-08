@@ -8,12 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
 
-import Backend.Database.Person;
+import backend.Database.Person;
 import lab.tck.R;
 
 public class ChooseMembersAdapter extends ArrayAdapter<Person> {
@@ -36,11 +35,6 @@ public class ChooseMembersAdapter extends ArrayAdapter<Person> {
         View listItem = inflater.inflate(R.layout.adapter_choosemembers, parent, false);
 
         ((TextView) listItem.findViewById(R.id.adapter_name)).setText(currentPerson.vorname + " " + currentPerson.nachname);
-
-        layout = (LinearLayout) listItem.findViewById(R.id.members_layout);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)layout.getLayoutParams();
-        params.setMargins(20, 10, 20, 10);
-        layout.setLayoutParams(params);
 
         return listItem;
 

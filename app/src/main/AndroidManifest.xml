@@ -12,10 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
+        <service
+            android:name="backend.notifications.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
         <activity android:name="lab.Frontend.CustomAddMembersDialog" />
         <activity
             android:name="lab.Frontend.New_Reservation.Activities.EditorDateAndDurration"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name="lab.Frontend.New_Reservation.Activities.EditorMembers"
             android:windowSoftInputMode="adjustPan" />
@@ -23,10 +31,10 @@
         <activity
             android:name="lab.Frontend.MainView.MainActivity"
             android:label="@string/title_activity_main"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name="lab.Frontend.Start_Activity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,10 +43,13 @@
         </activity>
         <activity
             android:name="lab.Frontend.LoginActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name="lab.Frontend.New_Reservation.Activities.DetailView"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
+
     </application>
+
+
 
 </manifest>

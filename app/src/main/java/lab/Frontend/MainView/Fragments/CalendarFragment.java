@@ -1,33 +1,22 @@
 package lab.Frontend.MainView.Fragments;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Intent;
-import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.GeolocationPermissions;
-import android.webkit.SslErrorHandler;
-import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.Toast;
 
-import Backend.LocalStorage;
+import backend.LocalStorage;
 import lab.Frontend.MainView.MainActivity;
 import lab.Frontend.New_Reservation.Activities.EditorDateAndDurration;
 import lab.Frontend.LoadingAnimation;
-import lab.Frontend.New_Reservation.Activities.EditorMembers;
 import lab.Frontend.ToastMaker;
 import lab.tck.R;
 

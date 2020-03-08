@@ -17,8 +17,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import Backend.LocalStorage;
-import Backend.Database.Person;
+import backend.LocalStorage;
+import backend.Database.Person;
 import lab.Frontend.CustomAddMembersDialog;
 import lab.Frontend.New_Reservation.Adapter.ChooseMembersAdapter;
 import lab.tck.R;

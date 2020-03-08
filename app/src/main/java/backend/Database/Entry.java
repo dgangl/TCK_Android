@@ -1,4 +1,4 @@
-package Backend.Database;
+package backend.Database;
 
 import android.support.annotation.NonNull;
 
@@ -23,8 +23,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 
-import Backend.LocalStorage;
-import Backend.CompletionTypes.MyBooleanCompletion;
+import backend.LocalStorage;
+import backend.CompletionTypes.MyBooleanCompletion;
 
 public class Entry {
     private Date datum;

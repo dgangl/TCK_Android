@@ -1,6 +1,6 @@
-package Backend.CompletionTypes;
+package backend.CompletionTypes;
 
-import Backend.Database.Entry;
+import backend.Database.Entry;
 
 public interface MyEntryCompletion {
     void onCallback(Entry entry);

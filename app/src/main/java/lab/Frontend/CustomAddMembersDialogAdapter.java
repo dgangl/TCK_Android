@@ -18,8 +18,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import Backend.Database.Person;
-import lab.Frontend.New_Reservation.Activities.EditorMembers;
+import backend.Database.Person;
 import lab.Frontend.New_Reservation.Adapter.ChooseMembersAdapter;
 import lab.tck.R;
 

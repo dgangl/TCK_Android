@@ -12,9 +12,9 @@ import android.widget.SearchView;
 import java.util.ArrayList;
 import java.util.List;
 
-import Backend.CompletionTypes.MyPersonArrayCompletion;
-import Backend.Database.Person;
-import Backend.LocalStorage;
+import backend.CompletionTypes.MyPersonArrayCompletion;
+import backend.Database.Person;
+import backend.LocalStorage;
 import lab.tck.R;
 
 public class CustomAddMembersDialog extends Dialog implements android.view.View.OnClickListener {

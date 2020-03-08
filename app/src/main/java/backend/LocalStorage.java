@@ -1,7 +1,7 @@
-package Backend;
+package backend;
 
-import Backend.Database.Entry;
-import Backend.Database.Person;
+import backend.Database.Entry;
+import backend.Database.Person;
 
 public class LocalStorage {
     private static Person currentUser;

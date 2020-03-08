@@ -1,4 +1,4 @@
-package Backend.Database;
+package backend.Database;
 
 import android.support.annotation.NonNull;
 
@@ -19,10 +19,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import Backend.LocalStorage;
-import Backend.CompletionTypes.MyEntryArrayCompletion;
-import Backend.CompletionTypes.MyEntryCompletion;
-import Backend.CompletionTypes.MyIntArrayCompletion;
+import backend.LocalStorage;
+import backend.CompletionTypes.MyEntryArrayCompletion;
+import backend.CompletionTypes.MyEntryCompletion;
+import backend.CompletionTypes.MyIntArrayCompletion;
 
 public class BackendFeedDatabase {
     FirebaseFirestore db = FirebaseFirestore.getInstance();

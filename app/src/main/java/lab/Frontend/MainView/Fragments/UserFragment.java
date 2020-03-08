@@ -22,8 +22,8 @@ import android.widget.TextView;
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 
-import Backend.LocalStorage;
-import Backend.Database.Person;
+import backend.LocalStorage;
+import backend.Database.Person;
 import lab.Frontend.MainView.MainActivity;
 import lab.Frontend.Start_Activity;
 import lab.tck.R;

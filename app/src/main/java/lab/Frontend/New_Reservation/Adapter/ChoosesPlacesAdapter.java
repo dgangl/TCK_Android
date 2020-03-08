@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import Backend.Places;
+import backend.Places;
 import lab.tck.R;
 
 public class ChoosesPlacesAdapter extends ArrayAdapter<Places> {

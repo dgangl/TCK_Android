@@ -1,4 +1,4 @@
-package Backend.CompletionTypes;
+package backend.CompletionTypes;
 
 public interface MyIntegerCompletion {
     void onCallback(int bool);

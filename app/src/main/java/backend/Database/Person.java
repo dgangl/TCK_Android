@@ -1,4 +1,4 @@
-package Backend.Database;
+package backend.Database;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -17,9 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import Backend.LocalStorage;
-import Backend.CompletionTypes.MyPersonArrayCompletion;
-import io.opencensus.tags.Tag;
+import backend.LocalStorage;
+import backend.CompletionTypes.MyPersonArrayCompletion;
 
 public class Person {
     //Personal Data

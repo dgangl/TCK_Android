@@ -1,7 +1,6 @@
-package Backend;
+package backend;
 
 import android.app.AlertDialog;
-import android.os.Looper;
 
 import java.io.IOException;
 

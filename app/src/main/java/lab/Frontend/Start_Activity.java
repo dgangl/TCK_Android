@@ -7,8 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import Backend.LocalStorage;
-import Backend.Database.Person;
+import backend.LocalStorage;
+import backend.Database.Person;
 import lab.Frontend.MainView.MainActivity;
 import lab.tck.R;
 

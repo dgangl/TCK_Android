@@ -14,19 +14,17 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Space;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
-import Backend.Database.Entry;
-import Backend.LocalStorage;
-import Backend.CompletionTypes.MyBooleanCompletion;
+import backend.Database.Entry;
+import backend.LocalStorage;
+import backend.CompletionTypes.MyBooleanCompletion;
 import lab.Frontend.LoadingAnimation;
 import lab.Frontend.New_Reservation.Activities.DetailView;
 import lab.tck.R;
