@@ -234,11 +234,42 @@ public class BackendFeedDatabase {
     }
 
     public void freePlace(Date datum, int duration, final MyIntArrayCompletion completion){
-        final Map<Integer, Boolean> freePlaces = new TreeMap<>();
-        freePlaces.put(1, true);
-        freePlaces.put(2, true);
-        freePlaces.put(3, true);
-        freePlaces.put(4, true);
+        try{
+            db.collection("Places").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if(task.isSuccessful()){
+                        if(task.isCanceled() || task.getException() != null ){
+                            completion.onCallback(new ArrayList<Integer>());
+                            return;
+                        }
+
+                        Map<Integer, Boolean> freePlaces = new TreeMap<>();
+                        QuerySnapshot qs = task.getResult();
+                        for (DocumentSnapshot documentSnapshot : qs.getDocuments()) {
+                            long temp = (long) documentSnapshot.getData().get("placenumber");
+                            Long l = temp;
+                            int placenumber = l.intValue();
+                            boolean available = (boolean) documentSnapshot.getData().get("available");
+
+                            freePlaces.put(placenumber, available);
+                        }
+
+                        freePlaceWithReservation(LocalStorage.creatingEntry.getDatum(), (int) LocalStorage.creatingEntry.getDauer(), freePlaces, new MyIntArrayCompletion() {
+                            @Override
+                            public void onCallback(List<Integer> intList) {
+                                completion.onCallback(intList);
+                            }
+                        });
+
+                    }
+                }
+            });
+        }catch (Exception e){
+            completion.onCallback(new ArrayList<Integer>());
+        }
+    }
+    public void freePlaceWithReservation(Date datum, int duration, Map<Integer, Boolean> freePlaces, final MyIntArrayCompletion completion){
 
         ReservationReturn values = createValuesForReservation(datum, duration);
 
