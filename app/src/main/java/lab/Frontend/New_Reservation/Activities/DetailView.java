@@ -201,7 +201,7 @@ public class DetailView extends AppCompatActivity {
                 final LoadingAnimation loadingAnimation = new LoadingAnimation();
                 loadingAnimation.startLoadingAnimation(DetailView.this);
 
-                if (confirm.getText().equals("Ändern")) {
+                if (confirm.getText().equals("Verlassen")) {
                     //Todo: Edit current Entry
 
                     startActivity(new Intent(DetailView.this, MainActivity.class));

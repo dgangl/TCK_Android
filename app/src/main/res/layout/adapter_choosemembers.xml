@@ -15,18 +15,16 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:orientation="horizontal">
-
         <ImageView
-            android:id="@+id/adapter_avatar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:background="@drawable/round"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/avatar"
+            android:src="@drawable/user"
+            />
 
         <TextView
             android:id="@+id/adapter_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textColor="@android:color/black"
@@ -35,15 +33,6 @@
 
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/adapter_participate"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
-        android:textColor="@color/shadow"
-        android:textSize="15sp"
-        android:layout_below="@id/members_layout" />
 
 
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package lab.Frontend.MainView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -7,6 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +17,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         temp.add(2l);
 
         tx = findViewById(R.id.headerTextView);
-
 
         /*Entry entry = new Entry(new Date(), "Erstes Entry", null, 2, true, temp, null, "PRIVATSPIEL");
         entry.uploadToDatabase(new MyBooleanCompletion() {
@@ -137,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @SuppressLint("WrongViewCast")
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     Fragment selectedFragemnt = null;
@@ -146,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                             selectedFragemnt = new FeedFragment();
                             break;
                         case R.id.nav_calendar:
-                            tx.setText("Platzkalender");
+                            tx.setText("");
                             selectedFragemnt = new CalendarFragment();
                             break;
                         case R.id.nav_user:
